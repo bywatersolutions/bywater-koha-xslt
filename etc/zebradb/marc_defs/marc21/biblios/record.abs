@@ -72,7 +72,9 @@ melm 028        Identifier-publisher-for-music,Identifier-standard
 melm 030        CODEN,Identifier-standard
 #melm 033       Date
 melm 034        Map-scale
-#melm 035       Local-number,Identifier-standard
+melm 035$a      Other-control-number
+melm 035$z      Other-control-number
+melm 035        Other-control-number
 melm 037        Identifier-standard,Stock-number
 melm 040        Code-institution,Record-source
 melm 041$a      ln,ln-audio:w
@@ -157,14 +159,20 @@ melm 502        Material-type
 melm 505$r      Author
 melm 505$t      Title
 melm 505        Note:w,Note:p
+melm 510$a      Reference:w,Reference:p
+melm 510$c      Reference:w,Reference:p
 melm 510        Indexed-by
+melm 518$a      Date-conference:w,Date-conference:p
+melm 518        Date-conference:w,Date-conference:p
 melm 520        Abstract:w,Abstract:p
 melm 521$a      lex:w,lex:p,lex:n
 melm 526$c      arl,arl:n
 melm 526$d      arp,arp:n
 #melm 533$d     pubdate,pubdate:s
 #melm 541$d     Date-of-acquisition,Date-of-acquisition:s
+melm 586$a      Awards:w,Awards:p
 melm 590        Note:w,Note:p
+melm 599        Author-name-personal:w,Author-name-personal;p
 
 melm 600$a      Name-and-title,Name,Personal-name,Subject-name-personal,Subject,Subject:p
 melm 600$t      Name-and-title,Title,Subject,Subject:p
@@ -238,6 +246,9 @@ melm 751        Name-geographic
 melm 770$w      Record-control-number
 melm 772$w      Record-control-number
 melm 773$a      Host-item
+melm 773$k      Title:w,Title:p
+melm 773$x      ISSN:w,Identifier-standard:w
+melm 773$z      ISBN:w,Identifier-standard:w
 melm 773$9	Host-Item-Number
 melm 773$t      Host-item
 melm 773$w      Record-control-number
