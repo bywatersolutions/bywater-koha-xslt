@@ -1226,6 +1226,12 @@ sub AddIssue {
 			$datedue,
 			$issuedate, # here interpreted as the renewal date
 			);
+        $issue = Koha::Database->new()->schema()->resultset('Issue')->single(
+            {
+                borrowernumber => $borrower->{'borrowernumber'},
+                itemnumber     => $item->{'itemnumber'},
+            }
+        );
 		}
 		else {
         # it's NOT a renewal
