@@ -13,8 +13,10 @@
     browser.show();
 //]]>
 </script>
+[% INCLUDE 'doc-head-angular.inc' %]
+<script type="text/javascript" src="[% interface %]/prog/en/js/item-messages.js"></script>
 </head>
-<body id="catalog_moredetail" class="catalog">
+<body id="catalog_moredetail" class="catalog" ng-app="Koha">
 [% USE KohaDates %]
 [% INCLUDE 'header.inc' %]
 [% INCLUDE 'cat-search.inc' %]
@@ -181,6 +183,11 @@
             </li>
             [% IF ITEM_DAT.withdrawn_on %]<li><span class="label">Withdrawn on:</span>[% ITEM_DAT.withdrawn_on | $KohaDates %] &nbsp;</li>[% END %]
             </ol></div>
+
+            <div class="listgroup">
+                <item-messages itemnumber="[% ITEM_DAT.itemnumber %]"></item-messages>
+            </div>
+
             <div class="listgroup"><h4>History</h4>
             <ol class="bibliodetails">
 

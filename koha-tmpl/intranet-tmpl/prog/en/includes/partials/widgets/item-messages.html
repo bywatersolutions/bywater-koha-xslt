@@ -1,0 +1,34 @@
+<h4>
+    Messages
+    <a href="" ng-click="showNewMessageEditor()">
+        <i class="icon-plus-sign"></i>
+    </a>
+</h4>
+<ol class="bibliodetails">
+    <li ng-repeat="m in messages">
+        <span class="label">
+            {{m.authorised_value}}
+            &nbsp;
+        </span>
+
+        {{m.message}}
+
+        <a href="" ng-click="remove(m)">
+            <i class="icon-remove-sign"></i>
+        </a>
+    </li>
+
+    <li ng-show="showAddNewMessage">
+        <span class="label">
+            <select ng-model="itemMessage.type">
+                <option value="{{t.authorised_value}}" ng-repeat="t in types">{{t.lib}}</option>
+            </select>
+        </span>
+
+        <textarea ng-model="itemMessage.message"/>
+
+        <input type="submit" class="submit" value="Save" ng-click="create()">
+
+        <a href="" ng-click="hideNewMessageEditor()">Cancel</a>
+    </li>
+</ol>
