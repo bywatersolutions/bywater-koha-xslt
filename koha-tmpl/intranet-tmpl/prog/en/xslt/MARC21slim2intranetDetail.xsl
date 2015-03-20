@@ -155,6 +155,28 @@
             <xsl:with-param name="UseAuthoritiesForTracings" select="$UseAuthoritiesForTracings"/>
         </xsl:call-template>
 
+        <!-- Bug #25306 Added Call Number -->    
+        <xsl:if test="marc:datafield[@tag=090] or marc:datafield[@tag=050]">
+            <span class="results_summary call_no"><span class="label">Call number: </span>
+                <xsl:choose>
+                    <xsl:when test="marc:datafield[@tag=090]">
+                        <xsl:for-each select="marc:datafield[@tag='090']">
+                            <xsl:call-template name="subfieldSelect">
+                                <xsl:with-param name="codes">ab</xsl:with-param>
+                            </xsl:call-template>                            
+                        </xsl:for-each>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:for-each select="marc:datafield[@tag='050']">
+                            <xsl:call-template name="subfieldSelect">
+                                <xsl:with-param name="codes">ab</xsl:with-param>
+                            </xsl:call-template>                            
+                        </xsl:for-each>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </span>
+        </xsl:if>
+
     <xsl:if test="$DisplayIconsXSLT!='0' and $materialTypeCode!=''">
         <span class="results_summary type"><span class="label">Material type: </span>
         <xsl:element name="img"><xsl:attribute name="src">/intranet-tmpl/prog/img/famfamfam/<xsl:value-of select="$materialTypeCode"/>.png</xsl:attribute><xsl:attribute name="alt"></xsl:attribute></xsl:element>
