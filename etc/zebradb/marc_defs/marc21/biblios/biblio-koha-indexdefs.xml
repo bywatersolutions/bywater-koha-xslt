@@ -368,6 +368,7 @@
     <target_index>Title:w</target_index>
     <target_index>Title:p</target_index>
     <target_index>Title-key:w</target_index>
+    <target_index>Title-key:p</target_index>
   </index_data_field>
   <!--record.abs line 107: melm 240$r      Music-key-->
   <index_subfields tag="240" subfields="r">

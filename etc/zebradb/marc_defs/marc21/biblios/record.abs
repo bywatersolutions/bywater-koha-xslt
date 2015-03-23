@@ -114,7 +114,7 @@ melm 210        Title,Title:p,Title-abbreviated
 melm 211        Title,Title:p,Title-abbreviated
 melm 212        Title,Title:p,Title-other-variant
 melm 214        Title,Title:p,Title-expanded
-melm 222        Title,Title:p,Title-key
+melm 222        Title,Title:p,Title-key,Title-key:p
 melm 240$r      Music-key
 melm 240$n      Thematic-number
 melm 240        Title:w,Title:p,Title-uniform
