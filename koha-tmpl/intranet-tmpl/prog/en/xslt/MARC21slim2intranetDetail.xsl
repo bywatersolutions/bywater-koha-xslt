@@ -428,6 +428,27 @@
           </span>
         </xsl:if>
 
+        <!-- Bug #24680 add 546 -->
+        <xsl:if test="marc:datafield[@tag=546]">
+            <span class="results_summary lang_note"><span class="label">Language note: </span>
+                <xsl:for-each select="marc:datafield[@tag=546]">
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">a</xsl:with-param>
+                    </xsl:call-template>
+                </xsl:for-each>
+            </span>
+        </xsl:if> 
+        <!-- Bug #24680 add 590-->
+        <xsl:if test="marc:datafield[@tag=590]">
+            <span class="results_summary title_note"><span class="label">Title notes: </span>
+                <xsl:for-each select="marc:datafield[@tag=590]">
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">a</xsl:with-param>
+                    </xsl:call-template>
+                </xsl:for-each>
+            </span>
+        </xsl:if>
+        
         <xsl:if test="marc:datafield[@tag=013]">
             <span class="results_summary patent_info">
                 <span class="label">Patent information: </span>
