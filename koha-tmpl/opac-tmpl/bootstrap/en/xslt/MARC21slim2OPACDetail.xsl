@@ -428,7 +428,28 @@
             </xsl:for-each>
         </span>
        </xsl:if>
-
+       
+            <!-- #26138 WS: Added 773 $g $t -->
+            <xsl:if test="marc:datafield[@tag=773]">
+                <xsl:if test="marc:datafield[@tag=773]/marc:subfield[@code='g']">
+                    <span class="results_summary citation_info"><span class="label">Citation information: </span>
+                        <xsl:for-each select="marc:datafield[@tag=773]/marc:subfield[@code='g']">
+                                <xsl:apply-templates/>
+                            <xsl:choose>
+                                <xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                        </xsl:for-each>
+                    </span>                    
+                </xsl:if>
+                <xsl:if test="marc:datafield[@tag=773]/marc:subfield[@code='t']">
+                    <span class="results_summary journal_title"><span class="label">Journal title: </span>
+                        <xsl:for-each select="marc:datafield[@tag=773]/marc:subfield[@code='t']">
+                            <xsl:apply-templates/>
+                            <xsl:choose>
+                                <xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                        </xsl:for-each>
+                    </span>                    
+                </xsl:if>
+            </xsl:if>
         <xsl:if test="marc:datafield[@tag=020]/marc:subfield[@code='a']">
           <span class="results_summary isbn"><span class="label">ISBN: </span>
             <xsl:for-each select="marc:datafield[@tag=020]/marc:subfield[@code='a']">
