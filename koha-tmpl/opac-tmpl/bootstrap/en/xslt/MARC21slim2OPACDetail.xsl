@@ -572,6 +572,37 @@
         </span>
         </xsl:if>
 
+            <!-- added 740 anp added EV per ticket 20459-->
+            <xsl:if test="marc:datafield[@tag=740]">
+                <span class="results_summary description"><span class="label">Related/Analytical: </span>
+                    <xsl:for-each select="marc:datafield[@tag=740]">
+                        <xsl:call-template name="chopPunctuation">
+                            <xsl:with-param name="chopString">
+                                <xsl:call-template name="subfieldSelect">
+                                    <xsl:with-param name="codes">anp</xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:with-param>
+                        </xsl:call-template>
+                        <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                    </xsl:for-each>
+                </span>
+            </xsl:if>
+            
+            <!-- added 787  added WS per ticket 20459-->
+            <xsl:if test="marc:datafield[@tag=787][@ind1 != 1]">
+                <span class="results_summary description"><span class="label">Other Relationship: </span>
+                    <xsl:for-each select="marc:datafield[@tag=787]">
+                        <xsl:call-template name="chopPunctuation">
+                            <xsl:with-param name="chopString">
+                                <xsl:call-template name="subfieldSelect">
+                                    <xsl:with-param name="codes">natd</xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:with-param>
+                        </xsl:call-template>
+                        <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                    </xsl:for-each>
+                </span>
+            </xsl:if>  
         <xsl:if test="marc:datafield[substring(@tag, 1, 1) = '6']">
             <span class="results_summary subjects"><span class="label">Subject(s): </span>
             <xsl:for-each select="marc:datafield[substring(@tag, 1, 1) = '6']">
