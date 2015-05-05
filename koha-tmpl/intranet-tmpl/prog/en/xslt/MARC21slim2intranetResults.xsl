@@ -484,6 +484,24 @@
     </xsl:when>
     </xsl:choose>
 
+        <!-- intranet results -->
+        <!-- #25591 Add 599 as FHCRC Author(s) -->
+        <xsl:if test="marc:datafield[@tag=599]">
+            <p class="author">
+                <xsl:choose>
+                    <xsl:when test="marc:datafield[@tag=599]/marc:subfield[@code='a']">
+                        <strong><xsl:value-of select="marc:datafield[@tag=599][1]/marc:subfield[@code='a']"/><xsl:text> </xsl:text></strong>
+                    </xsl:when>
+                    <xsl:otherwise><strong>Fred Hutchinson author(s): </strong></xsl:otherwise>
+                </xsl:choose>
+                <xsl:for-each select="marc:datafield[@tag=599]">
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">b</xsl:with-param>
+                    </xsl:call-template>
+                </xsl:for-each>
+            </p>
+        </xsl:if>
+
 <xsl:if test="$DisplayIconsXSLT!='0'">
     <span class="results_summary">
     <xsl:if test="$typeOf008!=''">
