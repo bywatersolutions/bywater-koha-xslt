@@ -159,6 +159,7 @@
                 </xsl:call-template>
             </h5>
         </xsl:if>
+
         <xsl:choose>
             <xsl:when test="marc:datafield[@tag=100] or marc:datafield[@tag=110] or marc:datafield[@tag=111] or marc:datafield[@tag=700] or marc:datafield[@tag=710] or marc:datafield[@tag=711]">
                 <h5 class="author">by
@@ -171,6 +172,23 @@
                 </h5>
             </xsl:when>
         </xsl:choose>
+
+            <!-- #25591 Add 599 as FHCRC Author(s) -->
+            <xsl:if test="marc:datafield[@tag=599]">
+                <h5 class="author">
+                    <xsl:choose>
+                        <xsl:when test="marc:datafield[@tag=599]/marc:subfield[@code='a']">
+                            <xsl:value-of select="marc:datafield[@tag=599][1]/marc:subfield[@code='a']"/><xsl:text> </xsl:text>
+                        </xsl:when>
+                        <xsl:otherwise>Fred Hutchinson author(s): </xsl:otherwise>
+                    </xsl:choose>
+                    <xsl:for-each select="marc:datafield[@tag=599]">
+                        <xsl:call-template name="subfieldSelect">
+                            <xsl:with-param name="codes">b</xsl:with-param>
+                        </xsl:call-template>
+                    </xsl:for-each>
+                </h5>
+            </xsl:if>
 
    <xsl:if test="$DisplayOPACiconsXSLT!='0'">
         <xsl:if test="$materialTypeCode!=''">
