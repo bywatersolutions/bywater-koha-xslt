@@ -602,7 +602,8 @@
                         <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
                     </xsl:for-each>
                 </span>
-            </xsl:if>  
+            </xsl:if>    
+            
         <xsl:if test="marc:datafield[substring(@tag, 1, 1) = '6']">
             <span class="results_summary subjects"><span class="label">Subject(s): </span>
             <xsl:for-each select="marc:datafield[substring(@tag, 1, 1) = '6']">
