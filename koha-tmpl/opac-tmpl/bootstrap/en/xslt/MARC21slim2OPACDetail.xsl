@@ -777,7 +777,8 @@
         </xsl:for-each>
         </xsl:if>
 
-        <!-- 773 -->
+        <!-- #26138 WS: commented out default 773 to reduce duplication 
+            
         <xsl:if test="marc:datafield[@tag=773]">
         <xsl:for-each select="marc:datafield[@tag=773]">
         <xsl:if test="@ind1=0">
@@ -826,7 +827,7 @@
         </xsl:if>
         </xsl:for-each>
         </xsl:if>
-
+        -->
         <xsl:for-each select="marc:datafield[@tag=511]">
             <span class="results_summary perf_note">
                 <span class="label">
