@@ -378,7 +378,24 @@
              </span>
             </xsl:when>
         </xsl:choose>
-
+            
+            <!-- #21761 added 752$d -->    
+            <xsl:if test="marc:datafield[@tag=752][marc:subfield[@code='d']]">
+                <span class="results_summary publisher"><span class="label">Place: </span>
+                    <xsl:for-each select="marc:datafield[@tag=752]">
+                        <span property="location">
+                            <xsl:call-template name="chopPunctuation">
+                                <xsl:with-param name="chopString">
+                                    <xsl:call-template name="subfieldSelect">
+                                        <xsl:with-param name="codes">d</xsl:with-param>
+                                    </xsl:call-template>
+                                </xsl:with-param>
+                            </xsl:call-template>
+                        </span>
+                    </xsl:for-each>    
+                </span>
+            </xsl:if>
+            
         <!-- Edition Statement: Alternate Graphic Representation (MARC 880) -->
         <xsl:if test="$display880">
             <xsl:call-template name="m880Select">
@@ -433,7 +450,6 @@
         </span>
        </xsl:if>
 
-
             <!-- Content Type -->
             <xsl:if test="marc:datafield[@tag=336] or marc:datafield[@tag=337] or marc:datafield[@tag=338]">
                 <span class="results_summary" id="content_type">
@@ -474,7 +490,22 @@
                 </span>
             </xsl:if>
 
-
+            <!-- 900a Library has: data added by EV per ticket 19957 -->
+            <xsl:if test="marc:datafield[@tag=900]">
+                <span class="results_summary series"><span class="label">Library has: </span>
+                    <xsl:for-each select="marc:datafield[@tag=900]">
+                        <xsl:call-template name="chopPunctuation">
+                            <xsl:with-param name="chopString">
+                                <xsl:call-template name="subfieldSelect">
+                                    <xsl:with-param name="codes">ab</xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:with-param>
+                        </xsl:call-template>
+                        <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                    </xsl:for-each>
+                </span>
+            </xsl:if>
+            <!-- End 900a data -->
 
         <xsl:if test="marc:datafield[@tag=020]/marc:subfield[@code='a']">
           <span class="results_summary isbn"><span class="label">ISBN: </span>
@@ -1445,6 +1476,17 @@
                         </xsl:if>
 
                     </xsl:when>
+
+                    <xsl:when test="@tag=100 or @tag=700">
+                        <!-- #21761 Added date to Author display -->
+                        <xsl:call-template name="subfieldSelect">
+                            <xsl:with-param name="codes">abcdq</xsl:with-param>
+                            <xsl:with-param name="delimeter"><xsl:text> </xsl:text></xsl:with-param>
+                        </xsl:call-template>
+                        <!--<xsl:call-template name="nameABCQ"/>-->
+                    </xsl:when>
+                    <xsl:when test="@tag=110 or @tag=710"><xsl:call-template name="nameABCDN"/></xsl:when>
+                    <xsl:when test="@tag=111 or @tag=711"><xsl:call-template name="nameACDEQ"/></xsl:when>
                 </xsl:choose>
                 </span></span></span>
 
