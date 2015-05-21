@@ -821,6 +821,55 @@
     </span>
    </xsl:if>
 
+        <!-- #7254 Adding 310, 321, 351 362 -->    
+        <span  class="results_summary">
+            <xsl:if test="marc:datafield[@tag=310]">
+                <span class="rda"><span class="label">Current frequency: </span>
+                    <xsl:for-each select="marc:datafield[@tag=310]">
+                        <xsl:call-template name="chopPunctuation">
+                            <xsl:with-param name="chopString">
+                                <xsl:call-template name="subfieldSelect">
+                                    <xsl:with-param name="codes">ab</xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:with-param>
+                        </xsl:call-template>
+                    </xsl:for-each>
+                </span>
+            </xsl:if>
+            
+            <xsl:if test="marc:datafield[@tag=321]">
+                <span class="rda"><span class="label">Former frequency: </span>
+                    <xsl:for-each select="marc:datafield[@tag=321]">
+                        <xsl:call-template name="chopPunctuation">
+                            <xsl:with-param name="chopString">
+                                <xsl:call-template name="subfieldSelect">
+                                    <xsl:with-param name="codes">ab</xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:with-param>
+                        </xsl:call-template>
+                    </xsl:for-each>
+                </span>
+            </xsl:if>
+            
+            <xsl:if test="marc:datafield[@tag=351]">
+                <span class="rda"><span class="label">Arrangement: </span>
+                    <xsl:for-each select="marc:datafield[@tag=351]">
+                        <xsl:value-of select="marc:subfield[@code='a']"/>
+                    </xsl:for-each>
+                </span>
+                
+            </xsl:if>
+            
+            <xsl:if test="marc:datafield[@tag=362]">
+                <span class="rda"><span class="label">Date designations: </span>
+                    <xsl:for-each select="marc:datafield[@tag=362]">
+                        <xsl:value-of select="marc:subfield[@code='a']"/>
+                    </xsl:for-each>
+                </span>
+            </xsl:if>	
+            
+        </span>	
+        
     <xsl:if test="marc:datafield[@tag=020]">
     <span class="results_summary isbn"><span class="label">ISBN: </span>
     <xsl:for-each select="marc:datafield[@tag=020]">
