@@ -182,7 +182,8 @@
         </xsl:for-each>
 
         <!-- 490 Series not traced, Ind1 = 0 -->
-        <xsl:for-each select="marc:datafield[@tag=490][@ind1!=1]">
+        <!-- RE: #18193 490 Series data updated to always display WS -->   
+        <xsl:for-each select="marc:datafield[@tag=490]">
             <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=se,phr:"<xsl:value-of select="marc:subfield[@code='a']"/>"</xsl:attribute>
                         <xsl:call-template name="chopPunctuation">
                             <xsl:with-param name="chopString">
@@ -195,7 +196,9 @@
                     <xsl:call-template name="part"/>
         <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
         </xsl:for-each>
+        <!-- RE: #18193 Suppresses 880 traced fields to remove duplication -->  
         <!-- 490 Series traced, Ind1 = 1 -->
+        <!-- 
         <xsl:if test="marc:datafield[@tag=490][@ind1=1]">
             <xsl:for-each select="marc:datafield[@tag=800 or @tag=810 or @tag=811 or @tag=830]">
                 <xsl:choose>
@@ -228,6 +231,7 @@
             <xsl:choose><xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
             </xsl:for-each>
         </xsl:if>
+        -->
 
         </span>
         </xsl:if>

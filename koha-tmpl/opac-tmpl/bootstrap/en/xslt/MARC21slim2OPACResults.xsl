@@ -952,6 +952,22 @@
         </xsl:when>
     </xsl:choose>
 
+        <!-- RE: #18193 490 Series data added WS -->
+        <xsl:if test="marc:datafield[@tag=490]">
+            <span class="results_summary series"><span class="label">Series: </span>
+                <xsl:for-each select="marc:datafield[@tag=490]">
+                    <xsl:call-template name="chopPunctuation">
+                        <xsl:with-param name="chopString">
+                            <xsl:call-template name="subfieldSelect">
+                                <xsl:with-param name="codes">av</xsl:with-param>
+                            </xsl:call-template>
+                        </xsl:with-param>
+                    </xsl:call-template>
+                    <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                </xsl:for-each>
+            </span>
+        </xsl:if>
+        
     <!-- Dissertation note -->
     <xsl:if test="marc:datafield[@tag=502]">
         <span class="results_summary diss_note">
