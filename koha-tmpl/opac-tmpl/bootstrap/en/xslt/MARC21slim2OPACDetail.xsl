@@ -429,7 +429,7 @@
         </span>
        </xsl:if>
        
-            <!-- #26138 WS: Added 773 $g $t -->
+            <!-- #26138 WS: Added 773 $g $t $d -->
             <xsl:if test="marc:datafield[@tag=773]">
                 <xsl:if test="marc:datafield[@tag=773]/marc:subfield[@code='g']">
                     <span class="results_summary citation_info"><span class="label">Citation information: </span>
@@ -443,6 +443,15 @@
                 <xsl:if test="marc:datafield[@tag=773]/marc:subfield[@code='t']">
                     <span class="results_summary journal_title"><span class="label">Journal title: </span>
                         <xsl:for-each select="marc:datafield[@tag=773]/marc:subfield[@code='t']">
+                            <xsl:apply-templates/>
+                            <xsl:choose>
+                                <xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                        </xsl:for-each>
+                    </span>                    
+                </xsl:if>
+                <xsl:if test="marc:datafield[@tag=773]/marc:subfield[@code='d']">
+                    <span class="results_summary journal_title"><span class="label">Publication information: </span>
+                        <xsl:for-each select="marc:datafield[@tag=773]/marc:subfield[@code='d']">
                             <xsl:apply-templates/>
                             <xsl:choose>
                                 <xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
