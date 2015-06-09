@@ -1175,7 +1175,21 @@
         </xsl:for-each>
         </xsl:if>
 
+            <!-- #27180 -->
+            <xsl:if test="marc:datafield[@tag=521]">
+                <span class="results_summary rating">
+                    <xsl:if test="marc:datafield[@tag=521][1][not(contains(.,': '))]">
+                        <span class="label">Rating: </span>
+                    </xsl:if>
+                    <xsl:for-each select="marc:datafield[@tag=521]">
+                        <xsl:call-template name="subfieldSelect">
+                            <xsl:with-param name="codes">a</xsl:with-param>
+                        </xsl:call-template>
+                    </xsl:for-each>
+                </span>
+            </xsl:if>
     </xsl:element>
+        
     </xsl:template>
 
     <xsl:template name="showAuthor">
