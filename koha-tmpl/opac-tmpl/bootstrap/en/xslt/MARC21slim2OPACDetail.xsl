@@ -180,7 +180,7 @@
 
    <xsl:if test="$DisplayOPACiconsXSLT!='0'">
         <xsl:if test="$materialTypeCode!=''">
-        <span class="results_summary type"><span class="label">Material type: </span>
+        <span class="results_summary type"><span class="label">Material type(s): </span>
         <xsl:element name="img"><xsl:attribute name="src">/opac-tmpl/lib/famfamfam/<xsl:value-of select="$materialTypeCode"/>.png</xsl:attribute><xsl:attribute name="alt">materialTypeLabel</xsl:attribute><xsl:attribute name="class">materialtype</xsl:attribute></xsl:element>
         <xsl:value-of select="$materialTypeLabel"/>
         </span>
@@ -1177,10 +1177,7 @@
 
             <!-- #27180 -->
             <xsl:if test="marc:datafield[@tag=521]">
-                <span class="results_summary rating">
-                    <xsl:if test="marc:datafield[@tag=521][1][not(contains(.,': '))]">
-                        <span class="label">Rating: </span>
-                    </xsl:if>
+                <span class="results_summary rating"><span class="label">Target Audience: </span>
                     <xsl:for-each select="marc:datafield[@tag=521]">
                         <xsl:call-template name="subfieldSelect">
                             <xsl:with-param name="codes">a</xsl:with-param>
