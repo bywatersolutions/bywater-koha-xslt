@@ -662,6 +662,11 @@ our $PERL_DEPS = {
         'required' => '0',
         'min_ver'  => '3.9',
     },
+    'Cwd' => {
+        'usage'    => 'Plugins',
+        'required' => '0',
+        'min_ver'  => '3.47',
+    },
     'File::Slurp' => {
         'usage'    => 'Command line scripts',
         'required' => '0',
