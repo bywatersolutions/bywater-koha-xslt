@@ -915,8 +915,21 @@
                                     <xsl:otherwise> | </xsl:otherwise>
                                     </xsl:choose>
                             </xsl:for-each>
-                            </span>
-                        </xsl:if>
+                            </span>                        
+    </xsl:if>
+    
+        <!--#27716 Add note to staff results page  -->
+        <xsl:if test="marc:datafield[@tag=500]">
+            <span class="results_summary">
+                <span class="label">General Note: </span>
+                <xsl:for-each select="marc:datafield[@tag=500]">
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">a</xsl:with-param>
+                    </xsl:call-template>
+                    <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose> 
+                </xsl:for-each>
+            </span>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template name="nameABCQ">
