@@ -529,6 +529,18 @@
 	</span>
     </xsl:if>
 
+        <!-- Ticket #27943 Added 592 to search results page -->
+        <xsl:if test="marc:datafield[@tag=592]">
+            <xsl:for-each select="marc:datafield[@tag=592]">
+                <span class="results_summary results_note">
+                    <span class="label">Note: </span>
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">a</xsl:with-param>
+                    </xsl:call-template>
+                </span>
+            </xsl:for-each>
+        </xsl:if>
+        
     <xsl:if test="marc:datafield[@tag=773]">
         <xsl:for-each select="marc:datafield[@tag=773]">
             <xsl:if test="marc:subfield[@code='t']">
@@ -996,19 +1008,7 @@
                     <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
             </xsl:for-each>
 	</span>
-    </xsl:if>
-        
-        <!-- Ticket #27943 Added 592 to search results page -->
-        <xsl:if test="marc:datafield[@tag=592]">
-            <xsl:for-each select="marc:datafield[@tag=592]">
-                <span class="results_summary results_note">
-                    <span class="label">Note: </span>
-                    <xsl:call-template name="subfieldSelect">
-                        <xsl:with-param name="codes">a</xsl:with-param>
-                    </xsl:call-template>
-                </span>
-            </xsl:for-each>
-        </xsl:if>
+    </xsl:if>        
         
     <xsl:if test="marc:datafield[@tag=856]">
          <span class="results_summary online_resources">

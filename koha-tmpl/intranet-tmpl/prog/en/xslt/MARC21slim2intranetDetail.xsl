@@ -364,7 +364,19 @@
             </xsl:for-each>
         </span>
         </xsl:if>
-
+        
+        <!-- Ticket #27943 Added 592 to search results page -->
+        <xsl:if test="marc:datafield[@tag=592]">
+            <xsl:for-each select="marc:datafield[@tag=592]">
+                <span class="results_summary results_note">
+                    <span class="label">Note: </span>
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">a</xsl:with-param>
+                    </xsl:call-template>
+                </span>
+            </xsl:for-each>
+        </xsl:if>
+        
         <!-- Description: Alternate Graphic Representation (MARC 880) -->
         <xsl:if test="$display880">
             <xsl:call-template name="m880Select">
