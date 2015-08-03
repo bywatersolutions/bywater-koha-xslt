@@ -1104,6 +1104,29 @@
         </span>
         </xsl:if>
 
+            <!-- Ticket #20704 Added 770 -->
+            <xsl:if test="marc:datafield[@tag=770][not(@ind1=1)]">
+                <span class="results_summary special_issue"><span class="label">Supplement/Special Issue: </span>
+                    <xsl:for-each select="marc:datafield[@tag=770]">
+                        <xsl:call-template name="subfieldSelect">
+                            <xsl:with-param name="codes">twa</xsl:with-param>
+                        </xsl:call-template>
+                        <xsl:choose><xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                    </xsl:for-each>
+                </span>
+            </xsl:if>
+            <!-- Ticket #20704 Added 772 -->
+            <xsl:if test="marc:datafield[@tag=772][not(@ind1=1)]">
+                <span class="results_summary parent_entry"><span class="label">Supplement Parent Entry: </span>
+                    <xsl:for-each select="marc:datafield[@tag=772]">
+                        <xsl:call-template name="subfieldSelect">
+                            <xsl:with-param name="codes">twa</xsl:with-param>
+                        </xsl:call-template>
+                        <xsl:choose><xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                    </xsl:for-each>
+                </span>
+            </xsl:if>
+            
         <!-- 780 -->
         <xsl:if test="marc:datafield[@tag=780]">
         <xsl:for-each select="marc:datafield[@tag=780]">
