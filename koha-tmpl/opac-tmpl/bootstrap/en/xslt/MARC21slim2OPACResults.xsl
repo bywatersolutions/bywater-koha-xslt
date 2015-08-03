@@ -540,6 +540,28 @@
         </xsl:for-each>
     </xsl:if>
 
+        <!-- Ticket 27882 add 363 and 111 -->
+        <xsl:if test="marc:datafield[@tag=363]">
+            <span class="results_summary content_type">
+                <span class="label">Content Type: </span>
+                <xsl:for-each select="marc:datafield[@tag=363]">
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">abc</xsl:with-param>
+                    </xsl:call-template>
+                </xsl:for-each>
+            </span>
+        </xsl:if>
+        <xsl:if test="marc:datafield[@tag=111]">
+            <span class="results_summary meeting_name">
+                <span class="label">Meeting Name: </span>
+                <xsl:for-each select="marc:datafield[@tag=111]">
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">d</xsl:with-param>
+                    </xsl:call-template>
+                </xsl:for-each>
+            </span>
+        </xsl:if>
+        
 <xsl:if test="$DisplayOPACiconsXSLT!='0'">
     <span class="results_summary type">
     <xsl:if test="$typeOf008!=''">

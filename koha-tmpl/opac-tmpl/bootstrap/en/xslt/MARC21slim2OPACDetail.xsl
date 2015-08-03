@@ -276,6 +276,7 @@
         </span>
         </xsl:if>
 
+            
         <!-- Volumes of sets and traced series -->
         <xsl:if test="$materialTypeCode='ST' or substring($controlField008,22,1)='m'">
         <span class="results_summary volumes"><span class="label">Volumes: </span>
@@ -806,6 +807,29 @@
         </xsl:for-each>
         </xsl:if>
 
+
+            <!-- Ticket #27882 add 363 and 111 -->
+            <xsl:if test="marc:datafield[@tag=363]">
+                <span class="results_summary content_type">
+                    <span class="label">Content Type: </span>
+                    <xsl:for-each select="marc:datafield[@tag=363]">
+                        <xsl:call-template name="subfieldSelect">
+                            <xsl:with-param name="codes">abc</xsl:with-param>
+                        </xsl:call-template>
+                    </xsl:for-each>
+                </span>
+            </xsl:if>
+            <xsl:if test="marc:datafield[@tag=111]">
+                <span class="results_summary meeting_name">
+                    <span class="label">Meeting Name: </span>
+                    <xsl:for-each select="marc:datafield[@tag=111]">
+                        <xsl:call-template name="subfieldSelect">
+                            <xsl:with-param name="codes">d</xsl:with-param>
+                        </xsl:call-template>
+                    </xsl:for-each>
+                </span>
+            </xsl:if>
+            
         <xsl:for-each select="marc:datafield[@tag=511]">
             <span class="results_summary perf_note">
                 <span class="label">
