@@ -1002,12 +1002,14 @@
             <xsl:choose>
                 <xsl:when test="$UseControlNumber = '1' and marc:subfield[@code='w']">
                     <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=Control-number:<xsl:call-template name="extractControlNumber"><xsl:with-param name="subfieldW" select="marc:subfield[@code='w']"/></xsl:call-template></xsl:attribute>
-                        <xsl:value-of select="translate($f780, '()', '')"/>
+                        <!-- Ticket #20372 removed translate function which was stripping () -->
+                        <xsl:value-of select="$f780"/>
                     </a>
                 </xsl:when>
                 <xsl:otherwise>
                     <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=ti,phr:<xsl:value-of select="translate($f780, '()', '')"/></xsl:attribute>
-                        <xsl:value-of select="translate($f780, '()', '')"/>
+                        <!-- Ticket #20372 removed translate function which was stripping () -->
+                        <xsl:value-of select="$f780"/>
                     </a>
                 </xsl:otherwise>
             </xsl:choose>
@@ -1064,12 +1066,14 @@
             <xsl:choose>
                 <xsl:when test="$UseControlNumber = '1' and marc:subfield[@code='w']">
                     <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=Control-number:<xsl:call-template name="extractControlNumber"><xsl:with-param name="subfieldW" select="marc:subfield[@code='w']"/></xsl:call-template></xsl:attribute>
-                        <xsl:value-of select="translate($f785, '()', '')"/>
+                        <!-- Ticket #20372 removed translate function which was stripping () -->
+                        <xsl:value-of select="$f785"/>
                     </a>
                 </xsl:when>
                 <xsl:otherwise>
                     <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=ti,phr:<xsl:value-of select="translate($f785, '()', '')"/></xsl:attribute>
-                        <xsl:value-of select="translate($f785, '()', '')"/>
+                        <!-- Ticket #20372 removed translate function which was stripping () -->
+                        <xsl:value-of select="$f785"/>
                     </a>
                 </xsl:otherwise>
             </xsl:choose>
