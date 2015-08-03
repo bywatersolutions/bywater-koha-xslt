@@ -1014,6 +1014,23 @@
         </xsl:when>
     </xsl:choose>
 
+        <!-- 362 Dates of publication and/or sequential designation data added by EV 20140327-->
+        <xsl:if test="marc:datafield[@tag=362]">
+            <span class="results_summary series"><span class="label">Dates of publication and/or sequential designation: </span>
+                <xsl:for-each select="marc:datafield[@tag=362]">
+                    <xsl:call-template name="chopPunctuation">
+                        <xsl:with-param name="chopString">
+                            <xsl:call-template name="subfieldSelect">
+                                <xsl:with-param name="codes">a</xsl:with-param>
+                            </xsl:call-template>
+                        </xsl:with-param>
+                    </xsl:call-template>
+                    <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                </xsl:for-each>
+            </span>
+        </xsl:if>
+        <!-- Close of 362 -->
+        
     <!-- Dissertation note -->
     <xsl:if test="marc:datafield[@tag=502]">
         <span class="results_summary diss_note">

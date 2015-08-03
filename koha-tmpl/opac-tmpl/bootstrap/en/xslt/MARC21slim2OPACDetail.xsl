@@ -190,6 +190,23 @@
         </xsl:if>
    </xsl:if>
 
+            <!-- Adding the 351b tag per ticket #6266 -->
+            <xsl:if test="marc:datafield[@tag=351]">
+                <span class="results_summary description"><span class="label">Organization and Arrangement of Materials: </span>
+                    <xsl:for-each select="marc:datafield[@tag=351]">
+                        <xsl:call-template name="chopPunctuation">
+                            <xsl:with-param name="chopString">
+                                <xsl:call-template name="subfieldSelect">
+                                    <xsl:with-param name="codes">b</xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:with-param>
+                        </xsl:call-template>
+                        <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                    </xsl:for-each>
+                </span>
+            </xsl:if>
+            <!-- Closing 351b -->
+            
         <!--Series: Alternate Graphic Representation (MARC 880) -->
         <xsl:if test="$display880">
             <xsl:call-template name="m880Select">
@@ -405,7 +422,24 @@
             </xsl:for-each>
         </span>
         </xsl:if>
-
+            
+            <!-- 362 Dates of publication and/or sequential designation data added by EV 20140327-->
+            <xsl:if test="marc:datafield[@tag=362]">
+                <span class="results_summary series"><span class="label">Dates of publication and/or sequential designation: </span>
+                    <xsl:for-each select="marc:datafield[@tag=362]">
+                        <xsl:call-template name="chopPunctuation">
+                            <xsl:with-param name="chopString">
+                                <xsl:call-template name="subfieldSelect">
+                                    <xsl:with-param name="codes">a</xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:with-param>
+                        </xsl:call-template>
+                        <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                    </xsl:for-each>
+                </span>
+            </xsl:if>
+            <!-- Close of 362 -->
+            
         <!-- Description: Alternate Graphic Representation (MARC 880) -->
         <xsl:if test="$display880">
             <xsl:call-template name="m880Select">
@@ -866,6 +900,24 @@
         </span>
         </xsl:if>
 
+            <!-- 787$tw added EV without biblio # -->
+            <xsl:if test="marc:datafield[@tag=787]">
+                <span class="results_summary related_material"><span class="label">Related Material: </span>
+                    <xsl:for-each select="marc:datafield[@tag=787]">
+                        <a><xsl:attribute name="href">/cgi-bin/koha/opac-detail.pl?biblionumber=<xsl:value-of select="marc:subfield[@code='w']"/></xsl:attribute>
+                            <xsl:call-template name="chopPunctuation">
+                                <xsl:with-param name="chopString">
+                                    <xsl:call-template name="subfieldSelect">
+                                        <xsl:with-param name="codes">t</xsl:with-param>
+                                    </xsl:call-template>
+                                </xsl:with-param>
+                            </xsl:call-template>
+                        </a>
+                        <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                    </xsl:for-each>
+                </span>
+            </xsl:if>
+            
         <!-- 530 -->
         <xsl:if test="marc:datafield[@tag=530]">
         <xsl:for-each select="marc:datafield[@tag=530]">
