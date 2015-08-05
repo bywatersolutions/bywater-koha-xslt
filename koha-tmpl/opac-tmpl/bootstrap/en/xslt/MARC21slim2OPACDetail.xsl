@@ -618,17 +618,14 @@
             <span property="alternateName">
             <xsl:variable name="str">
                 <!-- Updated RE #20929 included relevant all subfields -->  
-                <xsl:variable name="str">
                     <xsl:call-template name="subfieldSelect">
                         <xsl:with-param name="codes">abcdfghjklmnopqrstu</xsl:with-param>
                         <xsl:with-param name="delimeter"><xsl:text> </xsl:text></xsl:with-param>
                     </xsl:call-template>
-                </xsl:variable>
             </xsl:variable>
             <xsl:call-template name="chopPunctuation">
                 <xsl:with-param name="chopString">
                     <xsl:value-of select="substring($str,1,string-length($str)-1)"/>
-
                 </xsl:with-param>
             </xsl:call-template>
             </span>
