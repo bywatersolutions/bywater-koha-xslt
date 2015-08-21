@@ -810,14 +810,32 @@
 
             <!-- Ticket #27882 add 363 and 111 -->
             <xsl:if test="marc:datafield[@tag=363]">
-                <span class="results_summary content_type">
-                    <span class="label">Content Type: </span>
                     <xsl:for-each select="marc:datafield[@tag=363]">
-                        <xsl:call-template name="subfieldSelect">
-                            <xsl:with-param name="codes">abc</xsl:with-param>
-                        </xsl:call-template>
+                        <xsl:if test="marc:subfield[@code='a']">
+                            <span class="results_summary volume">
+                                <span class="label">Volume: </span>
+                                <xsl:call-template name="subfieldSelect">
+                                    <xsl:with-param name="codes">a</xsl:with-param>
+                                </xsl:call-template>
+                            </span>                            
+                        </xsl:if>
+                        <xsl:if test="marc:subfield[@code='b']">
+                            <span class="results_summary issue">
+                                <span class="label">Issue: </span>
+                                <xsl:call-template name="subfieldSelect">
+                                    <xsl:with-param name="codes">b</xsl:with-param>
+                                </xsl:call-template>
+                            </span>                            
+                        </xsl:if>
+                        <xsl:if test="marc:subfield[@code='c']">
+                            <span class="results_summary pages">
+                                <span class="label">Pages: </span>
+                                <xsl:call-template name="subfieldSelect">
+                                    <xsl:with-param name="codes">c</xsl:with-param>
+                                </xsl:call-template>
+                            </span>                            
+                        </xsl:if>
                     </xsl:for-each>
-                </span>
             </xsl:if>
             <xsl:if test="marc:datafield[@tag=111]">
                 <span class="results_summary meeting_name">
