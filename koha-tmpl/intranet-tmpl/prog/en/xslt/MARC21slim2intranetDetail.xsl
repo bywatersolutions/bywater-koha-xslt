@@ -966,20 +966,47 @@
         <xsl:if test="marc:datafield[@tag=770][not(@ind1=1)]">
             <span class="results_summary special_issue"><span class="label">Supplement/Special Issue: </span>
                 <xsl:for-each select="marc:datafield[@tag=770]">
-                    <xsl:call-template name="subfieldSelect">
-                        <xsl:with-param name="codes">twa</xsl:with-param>
-                    </xsl:call-template>
+                    <xsl:variable name="f770">
+                        <xsl:call-template name="subfieldSelect">
+                            <xsl:with-param name="codes">ta</xsl:with-param>
+                        </xsl:call-template>
+                    </xsl:variable>
+                    <a>
+                        <xsl:choose>
+                            <xsl:when test="marc:subfield[@code='w']">
+                                <xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=Control-number:<xsl:call-template name="extractControlNumber"><xsl:with-param name="subfieldW" select="marc:subfield[@code='w']"/></xsl:call-template></xsl:attribute>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=ti,phr:<xsl:value-of select="translate($f770, '()', '')"/></xsl:attribute>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                        <xsl:value-of select="$f770"/>
+                    </a>
                     <xsl:choose><xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
                 </xsl:for-each>
             </span>
         </xsl:if>
+        
         <!-- Ticket #20704 Added 772 -->
         <xsl:if test="marc:datafield[@tag=772][not(@ind1=1)]">
             <span class="results_summary parent_entry"><span class="label">Supplement Parent Entry: </span>
                 <xsl:for-each select="marc:datafield[@tag=772]">
-                    <xsl:call-template name="subfieldSelect">
-                        <xsl:with-param name="codes">twa</xsl:with-param>
-                    </xsl:call-template>
+                    <xsl:variable name="f772">
+                        <xsl:call-template name="subfieldSelect">
+                            <xsl:with-param name="codes">ta</xsl:with-param>
+                        </xsl:call-template>
+                    </xsl:variable>
+                    <a>
+                        <xsl:choose>
+                            <xsl:when test="marc:subfield[@code='w']">
+                                <xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=Control-number:<xsl:call-template name="extractControlNumber"><xsl:with-param name="subfieldW" select="marc:subfield[@code='w']"/></xsl:call-template></xsl:attribute>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=ti,phr:<xsl:value-of select="translate($f772, '()', '')"/></xsl:attribute>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                        <xsl:value-of select="$f772"/>
+                    </a>
                     <xsl:choose><xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
                 </xsl:for-each>
             </span>
