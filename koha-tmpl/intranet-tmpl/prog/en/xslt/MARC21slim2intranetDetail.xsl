@@ -301,6 +301,11 @@
 
         <!-- Publisher info and RDA related info from tags 260, 264 -->
         <xsl:choose>
+            <xsl:when test="marc:datafield[@tag=264]">
+                <span class="results_summary">
+                    <xsl:call-template name="showRDAtag264"/>
+                </span>
+            </xsl:when>
         <xsl:when test="marc:datafield[@tag=260]">
         <span class="results_summary publisher"><span class="label">Publisher: </span>
             <xsl:for-each select="marc:datafield[@tag=260]">
@@ -332,11 +337,6 @@
                 <xsl:call-template name="showRDAtag264"/>
             </xsl:if>
         </span>
-        </xsl:when>
-        <xsl:when test="marc:datafield[@tag=264]">
-            <span class="results_summary">
-                <xsl:call-template name="showRDAtag264"/>
-            </span>
         </xsl:when>
         </xsl:choose>
 
