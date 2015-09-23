@@ -43,6 +43,7 @@ use C4::Dates qw/format_date/;
 use C4::Members;
 use C4::Search;		# enabled_staff_search_views
 use Koha::DateUtils;
+use Koha::Borrower::Debarments qw(IsDebarred);
 
 my $dbh = C4::Context->dbh;
 my $sth;
@@ -189,6 +190,7 @@ if ($borrowernumber_hold && !$action) {
                 diffbranch          => $diffbranch,
                 messages            => $messages,
                 warnings            => $warnings,
+                restricted          => IsDebarred($borrowerinfo->{'borrowernumber'}),
                 amount_outstanding  => GetMemberAccountRecords($borrowerinfo->{borrowernumber}),
     );
 }
