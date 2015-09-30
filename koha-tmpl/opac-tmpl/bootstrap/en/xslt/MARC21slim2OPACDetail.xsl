@@ -210,7 +210,8 @@
         </xsl:for-each>
 
         <!-- 490 Series not traced, Ind1 = 0 -->
-        <xsl:for-each select="marc:datafield[@tag=490][@ind1!=1]">
+            <!-- #27222 Show 490 as default -->
+        <xsl:for-each select="marc:datafield[@tag=490]">
             <a><xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=se,phr:"<xsl:value-of select="marc:subfield[@code='a']"/>"</xsl:attribute>
                         <xsl:call-template name="chopPunctuation">
                             <xsl:with-param name="chopString">
@@ -224,6 +225,8 @@
         <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
         </xsl:for-each>
         <!-- 490 Series traced, Ind1 = 1 -->
+            <!-- #27222 Show 490 as default, suppress 830 -->
+            <!--
         <xsl:if test="marc:datafield[@tag=490][@ind1=1]">
             <xsl:for-each select="marc:datafield[@tag=800 or @tag=810 or @tag=811 or @tag=830]">
                 <xsl:choose>
@@ -256,6 +259,7 @@
             <xsl:choose><xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
             </xsl:for-each>
         </xsl:if>
+            -->
         </span>
         </xsl:if>
 
