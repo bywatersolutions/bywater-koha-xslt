@@ -657,7 +657,7 @@ sub itemissues {
 =head2 CanBookBeIssued
 
   ( $issuingimpossible, $needsconfirmation ) =  CanBookBeIssued( $borrower, 
-                      $barcode, $duedate, $inprocess, $ignore_reserves );
+                      $barcode, $duedate, $inprocess, $ignore_reserves, $params );
 
 Check if a book can be issued.
 
@@ -673,6 +673,12 @@ C<$issuingimpossible> and C<$needsconfirmation> are some hashref.
 
 =item C<$inprocess> boolean switch
 =item C<$ignore_reserves> boolean switch
+
+=item C<$params> Hashref of additional parameters
+
+Available keys:
+    override_high_holds - Ignore high holds
+    onsite_checkout     - Checkout is an onsite checkout that will not leave the library
 
 =back
 
@@ -754,7 +760,8 @@ sub CanBookBeIssued {
     my %issuingimpossible;    # filled with problems that causes the issue to be IMPOSSIBLE
     my %alerts;               # filled with messages that shouldn't stop issuing, but the librarian should be aware of.
 
-    my $onsite_checkout = $params->{onsite_checkout} || 0;
+    my $onsite_checkout     = $params->{onsite_checkout}     || 0;
+    my $override_high_holds = $params->{override_high_holds} || 0;
 
     my $item = GetItem(GetItemnumberFromBarcode( $barcode ));
     my $issue = GetItemIssue($item->{itemnumber});
@@ -1068,11 +1075,20 @@ sub CanBookBeIssued {
         my $check = checkHighHolds( $item, $borrower );
 
         if ( $check->{exceeded} ) {
-            $needsconfirmation{HIGHHOLDS} = {
-                num_holds  => $check->{outstanding},
-                duration   => $check->{duration},
-                returndate => output_pref( $check->{due_date} ),
-            };
+            if ($override_high_holds) {
+                $alerts{HIGHHOLDS} = {
+                    num_holds  => $check->{outstanding},
+                    duration   => $check->{duration},
+                    returndate => output_pref( $check->{due_date} ),
+                };
+            }
+            else {
+                $needsconfirmation{HIGHHOLDS} = {
+                    num_holds  => $check->{outstanding},
+                    duration   => $check->{duration},
+                    returndate => output_pref( $check->{due_date} ),
+                };
+            }
         }
     }
 
