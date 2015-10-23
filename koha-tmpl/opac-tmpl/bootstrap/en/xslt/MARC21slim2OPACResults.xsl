@@ -532,7 +532,7 @@
     <xsl:if test="marc:datafield[@tag=773]">
         
         <xsl:for-each select="marc:datafield[@tag=773]">
-            <xsl:if test="@ind1=0">
+            <!-- Ticket #27882 always display 773 -->
                 <span class="results_summary in">
                     <span class="label">
                         <xsl:choose>
@@ -564,7 +564,7 @@
                     <span class="results_summary"><xsl:value-of select="marc:subfield[@code='n']"/></span>
                 </xsl:if>
                 
-            </xsl:if>
+            
         </xsl:for-each>
     </xsl:if>
 
