@@ -197,9 +197,13 @@
                     <xsl:otherwise>Fred Hutchinson author(s): </xsl:otherwise>
                 </xsl:choose>
                 <xsl:for-each select="marc:datafield[@tag=599]">
-                    <xsl:call-template name="subfieldSelect">
-                        <xsl:with-param name="codes">b</xsl:with-param>
-                    </xsl:call-template>
+                    <!-- #25591 Add link to 599  -->
+                    <xsl:variable name="search-string599" select="translate(marc:subfield[@code='b'],':','')"/>
+                    <a href="/cgi-bin/koha/opac-search.pl?idx=Author-name-personal,phr&amp;q={$search-string599}">
+                        <xsl:call-template name="subfieldSelect">
+                            <xsl:with-param name="codes">b</xsl:with-param>
+                        </xsl:call-template>
+                    </a>
                 </xsl:for-each>
             </h5>
         </xsl:if>
