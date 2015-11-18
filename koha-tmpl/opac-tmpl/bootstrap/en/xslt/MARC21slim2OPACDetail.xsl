@@ -1017,6 +1017,26 @@
         </xsl:for-each>
         </xsl:if>
 
+            <!-- #30602 Add 050 and 092 to display -->
+            <xsl:if test="marc:datafield[@tag=050]">
+                <span class="results_summary"><span class="label">LC Classification: </span>
+                    <xsl:for-each select="marc:datafield[@tag=050]">
+                        <xsl:call-template name="subfieldSelect">
+                            <xsl:with-param name="codes">ab</xsl:with-param>
+                        </xsl:call-template>                    
+                    </xsl:for-each>        
+                </span>
+            </xsl:if>  
+            <xsl:if test="marc:datafield[@tag=092]">
+                <span class="results_summary"><span class="label">Dewey Classification: </span>
+                    <xsl:for-each select="marc:datafield[@tag=092]">
+                        <xsl:call-template name="subfieldSelect">
+                            <xsl:with-param name="codes">ab</xsl:with-param>
+                        </xsl:call-template>                    
+                    </xsl:for-each>
+                </span>
+            </xsl:if>
+            
     </xsl:element>
     </xsl:template>
 

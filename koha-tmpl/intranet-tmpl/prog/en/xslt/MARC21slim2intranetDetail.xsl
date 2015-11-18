@@ -857,6 +857,26 @@
         </xsl:for-each>
         </xsl:if>
 
+        <!-- #30602 Add 050 and 092 to display -->
+        <xsl:if test="marc:datafield[@tag=050]">
+            <span class="results_summary"><span class="label">LC Classification: </span>
+                <xsl:for-each select="marc:datafield[@tag=050]">
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">ab</xsl:with-param>
+                    </xsl:call-template>                    
+                </xsl:for-each>        
+            </span>
+        </xsl:if>  
+        <xsl:if test="marc:datafield[@tag=092]">
+            <span class="results_summary"><span class="label">Dewey Classification: </span>
+                <xsl:for-each select="marc:datafield[@tag=092]">
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">ab</xsl:with-param>
+                    </xsl:call-template>                    
+                </xsl:for-each>
+            </span>
+        </xsl:if>
+        
         <xsl:if test="$OPACBaseURL!=''">
         <span class="results_summary"><span class="label">OPAC view: </span>
             <a><xsl:attribute name="href">http://<xsl:value-of select="$OPACBaseURL"/>/cgi-bin/koha/opac-detail.pl?biblionumber=<xsl:value-of select="marc:datafield[@tag=999]/marc:subfield[@code='c']"/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute>Open in new window</a>.
