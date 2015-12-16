@@ -51,20 +51,20 @@ sub shib_ok {
 
 # Logout from Shibboleth
 sub logout_shib {
-    my ($query) = @_;
-    my $uri = _get_uri($query);
+    my ($query, $type) = @_;
+    my $uri = _get_uri($query, $type);
     print $query->redirect( $uri . "/Shibboleth.sso/Logout?return=$uri" );
 }
 
 # Returns Shibboleth login URL with callback to the requesting URL
 sub login_shib_url {
-    my ($query) = @_;
+    my ($query, $type) = @_;
 
-    my $param = _get_uri($query) . $query->script_name();
+    my $param = _get_uri($query, $type) . $query->script_name();
     if ( $query->query_string() ) {
         $param = $param . '%3F' . $query->query_string();
     }
-    my $uri = _get_uri($query) . "/Shibboleth.sso/Login?target=$param";
+    my $uri = _get_uri($query, $type) . "/Shibboleth.sso/Login?target=$param";
     return $uri;
 }
 
@@ -131,20 +131,22 @@ sub checkpw_shib {
 }
 
 sub _get_uri {
-    my ( $query ) = @_;
+    my ( $query, $type ) = @_;
 
     my $protocol = "https://";
 
-    my $uri = C4::Context->preference('OPACBaseURL') // '';
-    if ($uri eq '') {
-        $debug and warn 'OPACBaseURL not set!';
+    my $preference = ($type eq 'opac') ? 'OPACBaseURL' : 'staffClientBaseURL';
+    my $uri = C4::Context->preference($preference) // '';
+
+    if ( !C4::Context->preference($preference) ) {
+        $debug and warn "$preference not set!";
     }
     if ($uri =~ /(.*):\/\/(.*)/) {
         my $oldprotocol = $1;
         if ($oldprotocol ne 'https') {
             $debug
                 and warn
-                  'Shibboleth requires OPACBaseURL to use the https protocol!';
+                  "Shibboleth requires $preference to use the https protocol!";
         }
         $uri = $2;
     }
