@@ -9981,6 +9981,7 @@ if ( CheckVersion($DBversion) ) {
     print "Upgrade to $DBversion done\n";
     SetVersion ($DBversion);
     print "Done (3.18.13 release)\n";
+}
 
 # DEVELOPER PROCESS, search for anything to execute in the db_update directory
 # SEE bug 13068
