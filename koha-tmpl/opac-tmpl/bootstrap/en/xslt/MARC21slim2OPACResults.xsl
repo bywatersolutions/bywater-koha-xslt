@@ -518,6 +518,66 @@
     </xsl:choose>
     </p>
 
+
+        <!-- #31314 Add series information  -->
+        <!--Series: Alternate Graphic Representation (MARC 880) -->
+        <xsl:if test="$display880">
+            <xsl:call-template name="m880Select">
+                <xsl:with-param name="basetags">440,490</xsl:with-param>
+                <xsl:with-param name="codes">av</xsl:with-param>
+                <xsl:with-param name="class">results_summary series</xsl:with-param>
+                <xsl:with-param name="label">Series: </xsl:with-param>
+                <xsl:with-param name="index">se</xsl:with-param>
+            </xsl:call-template>
+        </xsl:if>
+        
+        <!-- Series -->
+        <xsl:if test="marc:datafield[@tag=440 or @tag=490]">
+            <span class="results_summary series"><span class="label">Series: </span>
+                <!-- 440 -->
+                <xsl:for-each select="marc:datafield[@tag=440]">
+                    <xsl:call-template name="chopPunctuation">
+                        <xsl:with-param name="chopString">
+                            <xsl:call-template name="subfieldSelect">
+                                <xsl:with-param name="codes">av</xsl:with-param>
+                            </xsl:call-template>
+                        </xsl:with-param>
+                    </xsl:call-template>
+                    <xsl:call-template name="part"/>
+                    <xsl:choose><xsl:when test="position()=last()"><xsl:text>. </xsl:text></xsl:when><xsl:otherwise><xsl:text> ; </xsl:text></xsl:otherwise></xsl:choose>
+                </xsl:for-each>
+                
+                <!-- 490 Series not traced, Ind1 = 0 -->
+                <xsl:for-each select="marc:datafield[@tag=490][@ind1!=1]">
+                    <xsl:call-template name="chopPunctuation">
+                        <xsl:with-param name="chopString">
+                            <xsl:call-template name="subfieldSelect">
+                                <xsl:with-param name="codes">av</xsl:with-param>
+                            </xsl:call-template>
+                        </xsl:with-param>
+                    </xsl:call-template>
+                    <xsl:call-template name="part"/>
+                    <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                </xsl:for-each>
+                <!-- 490 Series traced, Ind1 = 1 -->
+                <xsl:if test="marc:datafield[@tag=490][@ind1=1]">
+                    <xsl:for-each select="marc:datafield[@tag=800 or @tag=810 or @tag=811 or @tag=830]">
+                        <xsl:call-template name="chopPunctuation">
+                            <xsl:with-param name="chopString">
+                                <xsl:call-template name="subfieldSelect">
+                                    <xsl:with-param name="codes">a_t</xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:with-param>
+                        </xsl:call-template>
+                        <xsl:call-template name="part"/>
+                        <xsl:text>: </xsl:text>
+                        <xsl:value-of  select="marc:subfield[@code='v']" />
+                        <xsl:choose><xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                    </xsl:for-each>
+                </xsl:if>
+            </span>
+        </xsl:if>
+        
     <xsl:if test="marc:datafield[@tag=250]">
     <span class="results_summary edition">
     <span class="label">Edition: </span>
@@ -903,6 +963,24 @@
 	</span>
 </xsl:if>
 
+        <!-- #31314 Add description  -->
+        <xsl:if test="marc:datafield[@tag=300]">
+            <span class="results_summary description"><span class="label">Description: </span>
+                <xsl:for-each select="marc:datafield[@tag=300]">
+                    <span property="description">
+                        <xsl:call-template name="chopPunctuation">
+                            <xsl:with-param name="chopString">
+                                <xsl:call-template name="subfieldSelect">
+                                    <xsl:with-param name="codes">abceg</xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:with-param>
+                        </xsl:call-template>
+                    </span>
+                    <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                </xsl:for-each>
+            </span>
+        </xsl:if>
+        
     <!-- Publisher Statement: Alternate Graphic Representation (MARC 880) -->
     <xsl:if test="$display880">
       <xsl:call-template name="m880Select">
@@ -1325,6 +1403,33 @@
         </xsl:if>
         <xsl:if test="substring($string, 1,1)!='['">
             <xsl:value-of select="$string"></xsl:value-of>
+        </xsl:if>
+    </xsl:template>
+    
+    <xsl:template name="part">
+        <xsl:variable name="partNumber">
+            <xsl:call-template name="specialSubfieldSelect">
+                <xsl:with-param name="axis">n</xsl:with-param>
+                <xsl:with-param name="anyCodes">n</xsl:with-param>
+                <xsl:with-param name="afterCodes">fghkdlmor</xsl:with-param>
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:variable name="partName">
+            <xsl:call-template name="specialSubfieldSelect">
+                <xsl:with-param name="axis">p</xsl:with-param>
+                <xsl:with-param name="anyCodes">p</xsl:with-param>
+                <xsl:with-param name="afterCodes">fghkdlmor</xsl:with-param>
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:if test="string-length(normalize-space($partNumber))">
+            <xsl:call-template name="chopPunctuation">
+                <xsl:with-param name="chopString" select="$partNumber"/>
+            </xsl:call-template>
+        </xsl:if>
+        <xsl:if test="string-length(normalize-space($partName))">
+            <xsl:call-template name="chopPunctuation">
+                <xsl:with-param name="chopString" select="$partName"/>
+            </xsl:call-template>
         </xsl:if>
     </xsl:template>
 
