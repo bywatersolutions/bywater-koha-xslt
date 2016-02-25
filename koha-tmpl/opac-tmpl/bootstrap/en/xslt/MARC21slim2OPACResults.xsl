@@ -601,7 +601,7 @@
     </xsl:if>
 
 <xsl:if test="$DisplayOPACiconsXSLT!='0'">
-    <span class="results_summary type">
+    <span class="results_summary type inline">
     <xsl:if test="$typeOf008!=''">
     <span class="results_material_type">
         <span class="label">Material type: </span>
@@ -965,13 +965,13 @@
 
         <!-- #31314 Add description  -->
         <xsl:if test="marc:datafield[@tag=300]">
-            <span class="results_summary description"><span class="label">Description: </span>
+            <span class="results_summary description inline"><span class="label">Description: </span>
                 <xsl:for-each select="marc:datafield[@tag=300]">
                     <span property="description">
                         <xsl:call-template name="chopPunctuation">
                             <xsl:with-param name="chopString">
                                 <xsl:call-template name="subfieldSelect">
-                                    <xsl:with-param name="codes">abceg</xsl:with-param>
+                                    <xsl:with-param name="codes">a</xsl:with-param>
                                 </xsl:call-template>
                             </xsl:with-param>
                         </xsl:call-template>
