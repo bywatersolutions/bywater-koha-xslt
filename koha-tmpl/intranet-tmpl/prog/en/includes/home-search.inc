@@ -17,6 +17,7 @@
     <form action="/cgi-bin/koha/members/member.pl" method="post">
         <input name="searchmember" class="head-searchbox" id="searchmember" size="40" type="text"/>
         <input type="hidden" name="quicksearch" value="1" />
+        <input type="hidden" name="searchtype" value="contain" />
         <input value="Submit" class="submit" type="submit" />
     </form>
 </div>[% END %]
