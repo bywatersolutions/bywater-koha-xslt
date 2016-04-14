@@ -857,6 +857,27 @@
         </xsl:for-each>
         </xsl:if>
 
+        <!-- 526 Added RE: #33470 -->
+        <xsl:if test="marc:datafield[@tag=526]">
+            <xsl:for-each select="marc:datafield[@tag=526]">
+                <span class="results_summary note">
+                    <span class="results_summary note">
+                        <span class="label">Program name: </span>
+                        <xsl:apply-templates select="marc:subfield[@code='a']"/>
+                        <br/>
+                        <span class="label">Interest level: </span>
+                        <xsl:apply-templates select="marc:subfield[@code='b']"/>
+                        <br/>
+                        <span class="label">Reading level: </span>
+                        <xsl:apply-templates select="marc:subfield[@code='c']"/>
+                        <br/>
+                        <span class="label">Title point value: </span>
+                        <xsl:apply-templates select="marc:subfield[@code='d']"/>
+                    </span>
+                </span>
+            </xsl:for-each>
+        </xsl:if>
+
         <xsl:if test="$OPACBaseURL!=''">
         <span class="results_summary"><span class="label">OPAC view: </span>
             <a><xsl:attribute name="href">http://<xsl:value-of select="$OPACBaseURL"/>/cgi-bin/koha/opac-detail.pl?biblionumber=<xsl:value-of select="marc:datafield[@tag=999]/marc:subfield[@code='c']"/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute>Open in new window</a>.
