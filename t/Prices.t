@@ -1,10 +1,18 @@
 use Modern::Perl;
-use Test::More tests => 17;
+use Test::More;
 use Test::MockModule;
+
+use Module::Load::Conditional qw/check_install/;
 
 use t::lib::Mocks;
 
 BEGIN {
+    if ( check_install( module => 'Test::DBIx::Class' ) ) {
+        plan tests => 17;
+    } else {
+        plan skip_all => "Need Test::DBIx::Class"
+    }
+
     use_ok('C4::Acquisition');
     use_ok('C4::Bookseller');
     use_ok('C4::Context');
