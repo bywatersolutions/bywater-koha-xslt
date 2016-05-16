@@ -66,6 +66,9 @@ my $branch =
 my $pendingcomments    = numberofreviews(0);
 my $pendingtags        = get_count_by_tag_status(0);
 my $pendingsuggestions = CountSuggestion("ASKED");
+my $pending_borrower_modifications =
+  Koha::Borrower::Modifications->GetPendingModificationsCount( $branch );
+my $pending_discharge_requests = Koha::Borrower::Discharge::count({ pending => 1 });
 my $pending_article_requests = Koha::ArticleRequests->count(
     {
         status => Koha::ArticleRequest::Status::Pending,

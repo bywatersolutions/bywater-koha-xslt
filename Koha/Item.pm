@@ -25,8 +25,8 @@ use Koha::Database;
 
 use C4::Context;
 use C4::Circulation qw(GetIssuingRule);
-use Koha::Patrons;
-use Koha::Patrons;
+use Koha::Borrowers;
+use Koha::Borrowers;
 use Koha::Branches;
 
 use base qw(Koha::Object);
@@ -84,7 +84,7 @@ my $bool = $item->can_article_request( $borrower )
 
 Returns true if item can be specifically requested
 
-$borrower must be a Koha::Patron object
+$borrower must be a Koha::Borrower object
 
 =cut
 
@@ -103,7 +103,7 @@ my $type = $item->article_request_type( $borrower )
 
 returns 'yes', 'no', 'bib_only', or 'item_only'
 
-$borrower must be a Koha::Patron object
+$borrower must be a Koha::Borrower object
 
 =cut
 

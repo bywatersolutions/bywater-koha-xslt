@@ -22,10 +22,10 @@ use Modern::Perl;
 use Carp;
 
 use Koha::Database;
-use Koha::Patrons;
+use Koha::Borrowers;
 use Koha::Biblios;
 use Koha::Items;
-use Koha::Libraries;
+use Koha::Branches;
 use Koha::ArticleRequest::Status;
 use Koha::DateUtils qw(dt_from_string);
 
@@ -158,14 +158,14 @@ sub item {
 
 =head3 borrower
 
-Returns the Koha::Patron object for this article request
+Returns the Koha::Borrower object for this article request
 
 =cut
 
 sub borrower {
     my ($self) = @_;
 
-    $self->{_borrower} ||= Koha::Patrons->find( $self->borrowernumber() );
+    $self->{_borrower} ||= Koha::Borrowers->find( $self->borrowernumber() );
 
     return $self->{_borrower};
 }
@@ -179,7 +179,7 @@ Returns the Koha::Library object for this article request
 sub branch {
     my ($self) = @_;
 
-    $self->{_branch} ||= Koha::Libraries->find( $self->branchcode() );
+    $self->{_branch} ||= Koha::Branches->find( $self->branchcode() );
 
     return $self->{_branch};
 }

@@ -27,7 +27,7 @@ use Koha::Borrower;
 
 use Koha::ArticleRequests;
 use Koha::ArticleRequest::Status;
-use Koha::Patron;
+use Koha::Borrower;
 
 use base qw(Koha::Objects);
 
@@ -43,14 +43,14 @@ Koha::Borrower - Koha Borrower Object class
 
 =head3 guarantor
 
-Returns a Koha::Patron object for this borrower's guarantor
+Returns a Koha::Borrower object for this borrower's guarantor
 
 =cut
 
 sub guarantor {
     my ( $self ) = @_;
 
-    return Koha::Patrons->find( $self->guarantorid() );
+    return Koha::Borrowers->find( $self->guarantorid() );
 }
 
 =head3 article_requests

@@ -22,6 +22,7 @@ use Modern::Perl;
 use Carp;
 
 use Koha::Database;
+use Koha::ArticleRequest::Status;
 
 use base qw(Koha::Object);
 

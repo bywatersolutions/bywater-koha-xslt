@@ -264,6 +264,12 @@ sub _biblioitem {
     return $self->{_biblioitem};
 }
 
+sub biblioitem {
+    my ($self) = @_;
+
+    return $self->_biblioitem();
+}
+
 =head3 type
 
 =cut

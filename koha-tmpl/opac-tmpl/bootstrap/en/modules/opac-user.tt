@@ -677,9 +677,6 @@
                                 </div>
                             [% END %]
                         </div> <!-- / #opac-user-holds -->
-<<<<<<< HEAD
-                        [% END # / #reserves_count %]
-=======
                         [% END # / #RESERVES.count %]
 
                         [% IF Koha.Preference('ArticleRequests') && borrower.article_requests_current.count %]
@@ -775,7 +772,6 @@
                         </div> <!-- / #opac-user-article-requests -->
                     [% END %]
 
->>>>>>> 735d9b1... Bug 14610 - Add and update scripts
                     </div> <!-- /#opac-user-views -->
                 </div> <!-- /#userdetails -->
             </div> <!-- /.span10 -->

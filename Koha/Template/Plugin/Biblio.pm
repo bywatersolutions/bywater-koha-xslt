@@ -24,7 +24,7 @@ use base qw( Template::Plugin );
 
 use Koha::Holds;
 use Koha::Biblios;
-use Koha::Patrons;
+use Koha::Borrowers;
 use Koha::ArticleRequests;
 use Koha::ArticleRequest::Status;
 
@@ -58,7 +58,7 @@ sub CanArticleRequest {
     my ( $self, $biblionumber, $borrowernumber ) = @_;
 
     my $biblio = Koha::Biblios->find( $biblionumber );
-    my $borrower = Koha::Patrons->find( $borrowernumber );
+    my $borrower = Koha::Borrowers->find( $borrowernumber );
 
     return $biblio ? $biblio->can_article_request( $borrower ) : 0;
 }
