@@ -1,5 +1,6 @@
 [% USE KohaDates %]
 [% USE Branches %]
+[% USE ItemTypes %]
 [% SET article_requests_view = 1 %]
 [% SET biblionumber = biblio.biblionumber %]
 [% INCLUDE 'doc-head-open.inc' %]
@@ -206,6 +207,11 @@ $(document).ready(function() {
                                         </li>
 
                                         <li>
+                                            <label for="patron_notes">Patron notes:</label>
+                                            <input type="text" name="patron_notes" id="patron_notes" size="50"/>
+                                        </li>
+
+                                        <li>
                                             <label for="branchcode">Pickup library:</label>
                                             <select name="branchcode" id="branchcode">
                                                 [% FOREACH b IN Branches.all %]
@@ -248,13 +254,13 @@ $(document).ready(function() {
                                                             [% END %]
                                                         </td>
                                                         <td>
-                                                            [% item.itype %]
+                                                            [% ItemTypes.GetDescription( item.itype ) %]
                                                         </td>
                                                         <td>
                                                             [% item.barcode %]
                                                         </td>
                                                         <td>
-                                                            [% item.homebranch %]
+                                                            [% Branches.GetName( item.homebranch ) %]
                                                         </td>
                                                         <td>
                                                             [% item.itemcallnumber %]
@@ -305,6 +311,7 @@ $(document).ready(function() {
                                     <th>Date</th>
                                     <th>Pages</th>
                                     <th>Chapters</th>
+                                    <th>Patron notes</th>
                                     <th>Item</th>
                                     <th>Status</th>
                                     <th>Pickup library</th>
@@ -322,6 +329,7 @@ $(document).ready(function() {
                                         <td>[% ar.date %]</td>
                                         <td>[% ar.pages %]</td>
                                         <td>[% ar.chapters %]</td>
+                                        <td>[% ar.patron_notes %]</td>
                                         <td>
                                             [% IF ar.item %]
                                                 <a href="/cgi-bin/koha/catalogue/moredetail.pl?itemnumber=[% ar.itemnumber %]&biblionumber=[% ar.biblionumber %]">[% ar.item.barcode %]</a>

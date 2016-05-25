@@ -1,5 +1,6 @@
 [% USE Koha %]
 [% USE Branches %]
+[% USE ItemTypes %]
 [% INCLUDE 'doc-head-open.inc' %]
 <title>[% IF ( LibraryNameTitle ) %][% LibraryNameTitle %][% ELSE %]Koha online[% END %] catalog &rsaquo; Request article</title>
 [% INCLUDE 'doc-head-close.inc' %]
@@ -95,6 +96,11 @@
                         </li>
 
                         <li>
+                            <label for="patron_notes">Notes:</label>
+                            <input type="text" name="patron_notes" id="patron_notes" size="50"/>
+                        </li>
+
+                        <li>
                             <label for="branchcode">Pickup library:</label>
                             <select name="branchcode" id="branchcode">
                                 [% FOREACH b IN Branches.all %]
@@ -135,13 +141,13 @@
                                             [% END %]
                                         </td>
                                         <td>
-                                            [% item.itype %]
+                                            [% ItemTypes.GetDescription( item.itype ) %]
                                         </td>
                                         <td>
                                             [% item.barcode %]
                                         </td>
                                         <td>
-                                            [% item.homebranch %]
+                                            [% Branches.GetName( item.homebranch ) %]
                                         </td>
                                         <td>
                                             [% item.itemcallnumber %]

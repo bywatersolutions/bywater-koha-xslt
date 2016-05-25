@@ -89,6 +89,11 @@ __PACKAGE__->table("article_requests");
   data_type: 'text'
   is_nullable: 1
 
+=head2 patron_notes
+
+  data_type: 'text'
+  is_nullable: 1
+
 =head2 status
 
   data_type: 'enum'
@@ -140,6 +145,8 @@ __PACKAGE__->add_columns(
   "pages",
   { data_type => "text", is_nullable => 1 },
   "chapters",
+  { data_type => "text", is_nullable => 1 },
+  "patron_notes",
   { data_type => "text", is_nullable => 1 },
   "status",
   {
@@ -250,8 +257,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-05-16 14:14:44
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:RqfAdyUumzD49Zoh2boR2w
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-05-25 13:08:54
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:UcnwdgEHzMcmRY6vP9B61A
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

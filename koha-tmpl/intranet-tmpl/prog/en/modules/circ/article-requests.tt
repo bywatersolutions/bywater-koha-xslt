@@ -212,13 +212,14 @@
                                             </p>
                                         </td>
                                         <td class="ar-request">
-                                            [% IF ar.title %]    <p><strong>Title:</strong>    [% ar.title %]    </p> [% END %]
-                                            [% IF ar.author %]   <p><strong>Author:</strong>   [% ar.author %]   </p> [% END %]
-                                            [% IF ar.volume %]   <p><strong>Volume:</strong>   [% ar.volume %]   </p> [% END %]
-                                            [% IF ar.issue %]    <p><strong>Issue:</strong>    [% ar.issue %]    </p> [% END %]
-                                            [% IF ar.date %]     <p><strong>Date:</strong>     [% ar.date %]     </p> [% END %]
-                                            [% IF ar.pages %]    <p><strong>Pages:</strong>    [% ar.pages %]    </p> [% END %]
-                                            [% IF ar.chapters %] <p><strong>Chapters:</strong> [% ar.chapters %] </p> [% END %]
+                                            [% IF ar.title %]        <p><strong>Title:</strong>        [% ar.title %]        </p> [% END %]
+                                            [% IF ar.author %]       <p><strong>Author:</strong>       [% ar.author %]       </p> [% END %]
+                                            [% IF ar.volume %]       <p><strong>Volume:</strong>       [% ar.volume %]       </p> [% END %]
+                                            [% IF ar.issue %]        <p><strong>Issue:</strong>        [% ar.issue %]        </p> [% END %]
+                                            [% IF ar.date %]         <p><strong>Date:</strong>         [% ar.date %]         </p> [% END %]
+                                            [% IF ar.pages %]        <p><strong>Pages:</strong>        [% ar.pages %]        </p> [% END %]
+                                            [% IF ar.chapters %]     <p><strong>Chapters:</strong>     [% ar.chapters %]     </p> [% END %]
+                                            [% IF ar.patron_notes %] <p><strong>Patron notes:</strong> [% ar.patron_notes %] </p> [% END %]
                                         </td>
                                         <td class="ar-collection">[% AuthorisedValues.GetByCode( 'CCODE', ar.item.ccode ) %]</td>
                                         <td class="ar-itemtype">[% ItemTypes.GetDescription( ar.item.effective_itemtype ) %]</td>
@@ -339,13 +340,14 @@
                                             </p>
                                         </td>
                                         <td class="ar-request">
-                                            [% IF ar.title %]    <p><strong>Title:</strong>    [% ar.title %]    </p> [% END %]
-                                            [% IF ar.author %]   <p><strong>Author:</strong>   [% ar.author %]   </p> [% END %]
-                                            [% IF ar.volume %]   <p><strong>Volume:</strong>   [% ar.volume %]   </p> [% END %]
-                                            [% IF ar.issue %]    <p><strong>Issue:</strong>    [% ar.issue %]    </p> [% END %]
-                                            [% IF ar.date %]     <p><strong>Date:</strong>     [% ar.date %]     </p> [% END %]
-                                            [% IF ar.pages %]    <p><strong>Pages:</strong>    [% ar.pages %]    </p> [% END %]
-                                            [% IF ar.chapters %] <p><strong>Chapters:</strong> [% ar.chapters %] </p> [% END %]
+                                            [% IF ar.title %]        <p><strong>Title:</strong>        [% ar.title %]        </p> [% END %]
+                                            [% IF ar.author %]       <p><strong>Author:</strong>       [% ar.author %]       </p> [% END %]
+                                            [% IF ar.volume %]       <p><strong>Volume:</strong>       [% ar.volume %]       </p> [% END %]
+                                            [% IF ar.issue %]        <p><strong>Issue:</strong>        [% ar.issue %]        </p> [% END %]
+                                            [% IF ar.date %]         <p><strong>Date:</strong>         [% ar.date %]         </p> [% END %]
+                                            [% IF ar.pages %]        <p><strong>Pages:</strong>        [% ar.pages %]        </p> [% END %]
+                                            [% IF ar.chapters %]     <p><strong>Chapters:</strong>     [% ar.chapters %]     </p> [% END %]
+                                            [% IF ar.patron_notes %] <p><strong>Patron notes:</strong> [% ar.patron_notes %] </p> [% END %]
                                         </td>
                                         <td class="ar-collection">[% AuthorisedValues.GetByCode( 'CCODE', ar.item.ccode ) %]</td>
                                         <td class="ar-itemtype">[% ItemTypes.GetDescription( ar.item.effective_itemtype ) %]</td>

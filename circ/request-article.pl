@@ -51,14 +51,15 @@ if ( $action eq 'create' ) {
     my $borrowernumber = $cgi->param('borrowernumber');
     my $branchcode     = $cgi->param('branchcode');
 
-    my $itemnumber = $cgi->param('itemnumber') || undef;
-    my $title      = $cgi->param('title')      || undef;
-    my $author     = $cgi->param('author')     || undef;
-    my $volume     = $cgi->param('volume')     || undef;
-    my $issue      = $cgi->param('issue')      || undef;
-    my $date       = $cgi->param('date')       || undef;
-    my $pages      = $cgi->param('pages')      || undef;
-    my $chapters   = $cgi->param('chapters')   || undef;
+    my $itemnumber   = $cgi->param('itemnumber')   || undef;
+    my $title        = $cgi->param('title')        || undef;
+    my $author       = $cgi->param('author')       || undef;
+    my $volume       = $cgi->param('volume')       || undef;
+    my $issue        = $cgi->param('issue')        || undef;
+    my $date         = $cgi->param('date')         || undef;
+    my $pages        = $cgi->param('pages')        || undef;
+    my $chapters     = $cgi->param('chapters')     || undef;
+    my $patron_notes = $cgi->param('patron_notes') || undef;
 
     my $ar = Koha::ArticleRequest->new(
         {
@@ -73,6 +74,7 @@ if ( $action eq 'create' ) {
             date           => $date,
             pages          => $pages,
             chapters       => $chapters,
+            patron_notes   => $patron_notes,
         }
     )->store();
 
