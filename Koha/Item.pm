@@ -110,6 +110,8 @@ $borrower must be a Koha::Borrower object
 sub article_request_type {
     my ( $self, $borrower ) = @_;
 
+    return q{} unless $borrower;
+
     my $branch_control = C4::Context->preference('HomeOrHoldingBranch');
     my $branchcode =
         $branch_control eq 'homebranch'    ? $self->homebranch
