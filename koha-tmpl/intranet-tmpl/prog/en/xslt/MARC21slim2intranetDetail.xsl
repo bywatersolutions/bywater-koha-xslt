@@ -92,51 +92,95 @@
         </xsl:variable>
 
         <!-- Indicate if record is suppressed in OPAC -->
-        <xsl:if test="$OpacSuppression = 1">
-            <xsl:if test="marc:datafield[@tag=942][marc:subfield[@code='n'] = '1']">
-                <span class="results_summary suppressed_opac">Suppressed in OPAC</span>
+        <!-- #27193 Add bibl number and OCLC # -->
+        <span class="results_summary" style="float:right;">
+            <xsl:choose>
+                <xsl:when test="$OpacSuppression = 1">
+                    <xsl:if test="marc:datafield[@tag=942][marc:subfield[@code='n'] = '1']">
+                        <!-- #27193 Add bibl number and chnage text -->
+                        <span class="results_summary suppressed_opac"> <span class="label">Bib No: </span><xsl:value-of select="concat('#',marc:datafield[@tag=999]/marc:subfield[@code='c'])"/> Suppress</span>
+                    </xsl:if>
+                </xsl:when>
+                <xsl:otherwise>
+                    <span class="results_summary">
+                        <span class="label">Bib No: </span>
+                        <xsl:value-of select="concat('#',marc:datafield[@tag=999]/marc:subfield[@code='c'])"/>
+                    </span>
+                </xsl:otherwise>
+            </xsl:choose>
+            <xsl:if test="marc:controlfield[@tag=001]">
+                <span class="results_summary">
+                    <span class="label">OCLC: </span>
+                    <xsl:for-each select="marc:controlfield[@tag=001]">
+                        <xsl:value-of select="."/> 
+                        <xsl:text> </xsl:text>
+                    </xsl:for-each> 
+                </span>
             </xsl:if>
-        </xsl:if>
+        </span>
 
         <!-- Title Statement -->
         <!-- Alternate Graphic Representation (MARC 880) -->
+        <!-- #27193 Add 240 -->
         <xsl:if test="$display880">
             <h1 class="title">
                 <xsl:call-template name="m880Select">
-                    <xsl:with-param name="basetags">245</xsl:with-param>
+                    <xsl:with-param name="basetags">245, 240</xsl:with-param>
                     <xsl:with-param name="codes">abhfgknps</xsl:with-param>
                 </xsl:call-template>
             </h1>
         </xsl:if>
 
         <!--Bug 13381 -->
-        <xsl:if test="marc:datafield[@tag=245]">
-            <h1 class="title" property="name">
-                <xsl:for-each select="marc:datafield[@tag=245]">
-                    <xsl:call-template name="subfieldSelect">
-                        <xsl:with-param name="codes">a</xsl:with-param>
-                    </xsl:call-template>
-                    <xsl:text> </xsl:text>
-                    <!-- 13381 add additional subfields-->
-                    <xsl:for-each select="marc:subfield[contains('bchknps', @code)]">
-                        <xsl:choose>
-                            <xsl:when test="@code='h'">
-                                <!--  13381 Span class around subfield h so it can be suppressed via css -->
-                                <span class="title_medium"><xsl:apply-templates/> </span>
-                            </xsl:when>
-                            <xsl:when test="@code='c'">
-                                <!--  13381 Span class around subfield c so it can be suppressed via css -->
-                                <span class="title_resp_stmt"><xsl:apply-templates/> </span>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:apply-templates/>
-                                <xsl:text> </xsl:text>
-                            </xsl:otherwise>
-                        </xsl:choose>
+        <!-- #27193 Add 240 and add additional subfields, remove any pre-defined order.-->
+        <xsl:choose>
+            <xsl:when test="marc:datafield[@tag=245]">
+                <h1 class="title" property="name">
+                    <xsl:for-each select="marc:datafield[@tag=245]">
+                        <!-- 13381 add additional subfields-->
+                        <xsl:for-each select="marc:subfield[contains('abcfghknps', @code)]">
+                            <xsl:choose>
+                                <xsl:when test="@code='h'">
+                                    <!--  13381 Span class around subfield h so it can be suppressed via css -->
+                                    <span class="title_medium"><xsl:apply-templates/> </span>
+                                </xsl:when>
+                                <xsl:when test="@code='c'">
+                                    <!--  13381 Span class around subfield c so it can be suppressed via css -->
+                                    <span class="title_resp_stmt"><xsl:apply-templates/> </span>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:apply-templates/>
+                                    <xsl:text> </xsl:text>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:for-each>
                     </xsl:for-each>
-                </xsl:for-each>
-            </h1>
-        </xsl:if>
+                </h1>
+            </xsl:when>
+            <xsl:when test="marc:datafield[@tag=240]">
+                <h1 class="title" property="name">
+                    <xsl:for-each select="marc:datafield[@tag=240]">
+                        <!-- #27193 add additional subfields-->
+                        <xsl:for-each select="marc:subfield[contains('adfghklmnoprs', @code)]">
+                            <xsl:choose>
+                                <xsl:when test="@code='h'">
+                                    <!--  13381 Span class around subfield h so it can be suppressed via css -->
+                                    <span class="title_medium"><xsl:apply-templates/> </span>
+                                </xsl:when>
+                                <xsl:when test="@code='c'">
+                                    <!--  13381 Span class around subfield c so it can be suppressed via css -->
+                                    <span class="title_resp_stmt"><xsl:apply-templates/> </span>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:apply-templates/>
+                                    <xsl:text> </xsl:text>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:for-each>
+                    </xsl:for-each>
+                </h1>
+            </xsl:when>
+        </xsl:choose>
 
         <!-- Author Statement: Alternate Graphic Representation (MARC 880) -->
         <xsl:if test="$display880">
@@ -752,6 +796,8 @@
         </xsl:if>
 
 <!-- DDC classification -->
+        <!-- #27193 Hide 082 -->
+        <!-- 
     <xsl:if test="marc:datafield[@tag=082]">
         <span class="results_summary ddc">
             <span class="label">DDC classification: </span>
@@ -767,7 +813,7 @@
             </xsl:for-each>
         </span>
     </xsl:if>
-
+-->
         <xsl:if test="marc:datafield[@tag=856]">
         <span class="results_summary online_resources"><span class="label">Online resources: </span>
         <xsl:for-each select="marc:datafield[@tag=856]">
@@ -971,6 +1017,7 @@
         </xsl:if>
 
         <!-- 780 -->
+        <!-- #27193 additional subfields -->
         <xsl:if test="marc:datafield[@tag=780]">
         <xsl:for-each select="marc:datafield[@tag=780]">
         <xsl:if test="@ind1=0">
@@ -1010,12 +1057,16 @@
             <xsl:choose>
                 <xsl:when test="$UseControlNumber = '1' and marc:subfield[@code='w']">
                     <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=Control-number:<xsl:call-template name="extractControlNumber"><xsl:with-param name="subfieldW" select="marc:subfield[@code='w']"/></xsl:call-template></xsl:attribute>
-                        <xsl:value-of select="translate($f780, '()', '')"/>
+                        <xsl:call-template name="subfieldSelect">
+                            <xsl:with-param name="codes">a_x</xsl:with-param>
+                        </xsl:call-template>
                     </a>
                 </xsl:when>
                 <xsl:otherwise>
                     <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=ti,phr:<xsl:value-of select="translate($f780, '()', '')"/></xsl:attribute>
-                        <xsl:value-of select="translate($f780, '()', '')"/>
+                        <xsl:call-template name="subfieldSelect">
+                            <xsl:with-param name="codes">a_x</xsl:with-param>
+                        </xsl:call-template>
                     </a>
                 </xsl:otherwise>
             </xsl:choose>
@@ -1030,6 +1081,7 @@
         </xsl:if>
 
         <!-- 785 -->
+        <!-- #27193 additional subfields -->
         <xsl:if test="marc:datafield[@tag=785]">
         <xsl:for-each select="marc:datafield[@tag=785]">
         <span class="results_summary succeeding_entry">
@@ -1072,12 +1124,16 @@
             <xsl:choose>
                 <xsl:when test="$UseControlNumber = '1' and marc:subfield[@code='w']">
                     <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=Control-number:<xsl:call-template name="extractControlNumber"><xsl:with-param name="subfieldW" select="marc:subfield[@code='w']"/></xsl:call-template></xsl:attribute>
-                        <xsl:value-of select="translate($f785, '()', '')"/>
+                        <xsl:call-template name="subfieldSelect">
+                            <xsl:with-param name="codes">a_x</xsl:with-param>
+                        </xsl:call-template>
                     </a>
                 </xsl:when>
                 <xsl:otherwise>
                     <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=ti,phr:<xsl:value-of select="translate($f785, '()', '')"/></xsl:attribute>
-                        <xsl:value-of select="translate($f785, '()', '')"/>
+                        <xsl:call-template name="subfieldSelect">
+                            <xsl:with-param name="codes">a_x</xsl:with-param>
+                        </xsl:call-template>
                     </a>
                 </xsl:otherwise>
             </xsl:choose>
@@ -1191,61 +1247,94 @@
             <xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=au:"<xsl:value-of select="marc:subfield[@code='a']"/>"</xsl:attribute>
             </xsl:otherwise>
         </xsl:choose>
-	<xsl:choose>
-	    <xsl:when test="@tag=100 or @tag=110 or @tag=111">
-	        <!-- #13383 -->
-	        <xsl:call-template name="chopPunctuation">
-	            <xsl:with-param name="chopString">
-	                <xsl:call-template name="subfieldSelect">
-	                    <xsl:with-param name="codes">
-	                        <xsl:choose>
-	                            <!-- #13383 include subfield e for field 111  -->
-	                            <xsl:when test="@tag=111">abceqt</xsl:when>
-	                            <xsl:otherwise>abcjqt</xsl:otherwise>
-	                        </xsl:choose>
-	                    </xsl:with-param>
-	                </xsl:call-template>
-	            </xsl:with-param>
-	            <xsl:with-param name="punctuation">
-	                <xsl:text>:,;/ </xsl:text>
-	            </xsl:with-param>
-	        </xsl:call-template>
-	    </xsl:when>
-	    <!-- #13382 excludes 700$i and ind2=2, displayed as Related Works -->
-	    <!--#13382 Added all relevant subfields 4, e, and d are handled separately -->
-	    <xsl:when test="@tag=700 or @tag=710 or @tag=711">
-	        <xsl:variable name="str">
-	            <xsl:call-template name="subfieldSelect">
-	                <xsl:with-param name="codes">abcfghiklmnoprstux</xsl:with-param>
-	            </xsl:call-template>
-	        </xsl:variable>
-	        <xsl:call-template name="chopPunctuation">
-	            <xsl:with-param name="chopString">
-	                <xsl:value-of select="$str"/>
-	            </xsl:with-param>
-	            <xsl:with-param name="punctuation">
-	                <xsl:text>:,;/. </xsl:text>
-	            </xsl:with-param>
-	        </xsl:call-template>
-	    </xsl:when>
-	</xsl:choose>
-    <xsl:if test="marc:subfield[@code='d']">
-        <span class="authordates">
-            <xsl:text> </xsl:text>
-            <xsl:value-of select="marc:subfield[@code='d']"/>
-        </span>
-    </xsl:if>
+    	<xsl:choose>
+    	    <xsl:when test="@tag=100 or @tag=110 or @tag=111">
+    	        <!-- #13383 -->
+    	        <xsl:call-template name="chopPunctuation">
+    	            <xsl:with-param name="chopString">
+    	                <xsl:call-template name="subfieldSelect">
+    	                    <xsl:with-param name="codes">
+    	                        <xsl:choose>
+    	                            <!-- #13383 include subfield e for field 111  -->
+    	                            <xsl:when test="@tag=111">abceqtd</xsl:when>
+    	                            <!-- #27193 removed special order for 100/700 -->
+    	                            <xsl:when test="@tag=100">abcdefgjklnpqtu</xsl:when>
+    	                            <xsl:otherwise>abcjqtd</xsl:otherwise>
+    	                        </xsl:choose>
+    	                    </xsl:with-param>
+    	                </xsl:call-template>
+    	            </xsl:with-param>
+    	            <xsl:with-param name="punctuation">
+    	                <xsl:text>:,;/ </xsl:text>
+    	            </xsl:with-param>
+    	        </xsl:call-template>
+    	    </xsl:when>
+    	    <!-- #13382 excludes 700$i and ind2=2, displayed as Related Works -->
+    	    <!--#13382 Added all relevant subfields 4, e, and d are handled separately -->
+    	    <xsl:when test="@tag=700 or @tag=710 or @tag=711">
+    	        <xsl:variable name="str">
+    	            <xsl:call-template name="subfieldSelect">    	                
+    	                <xsl:with-param name="codes">
+    	                    <xsl:choose>
+    	                        <!-- #27193 removed special order for 100/700 -->
+    	                        <xsl:when test="@tag=700">abcfghiklmnoprstuxde</xsl:when>
+    	                        <xsl:otherwise>abcfghiklmnoprstuxd</xsl:otherwise>
+    	                    </xsl:choose>
+    	                </xsl:with-param>
+    	            </xsl:call-template>
+    	        </xsl:variable>
+    	        <xsl:call-template name="chopPunctuation">
+    	            <xsl:with-param name="chopString">
+    	                <xsl:value-of select="$str"/>
+    	            </xsl:with-param>
+    	            <xsl:with-param name="punctuation">
+    	                <xsl:text>:,;/. </xsl:text>
+    	            </xsl:with-param>
+    	        </xsl:call-template>
+    	    </xsl:when>
+    	</xsl:choose>
+            <!-- #27193 removed special order for 100/700 -->
+            <xsl:if test="marc:subfield[@code='d']">
+                <xsl:choose>
+                    <xsl:when test="@tag=700 or @tag=100"/>
+                    <xsl:otherwise>
+                        <span class="authordates">
+                            <xsl:text> </xsl:text>
+                            <xsl:value-of select="marc:subfield[@code='d']"/>
+                        </span>
+                    </xsl:otherwise>
+                </xsl:choose>
+        </xsl:if>
 	<!-- add relator code too between brackets-->
     <!-- #13383 include relator code j for field 111 -->
+            <!-- #27193 removed special order for 100/700 -->
             <xsl:if test="marc:subfield[@code='4' or @code='e'][not(parent::*[@tag=111])] or (self::*[@tag=111] and marc:subfield[@code='4' or @code='j'][. != ''])">
-                <span class="relatorcode">
-                    <xsl:text> [</xsl:text>
-                    <xsl:choose>
-                        <xsl:when test="@tag=111">
+                <xsl:choose>
+                    <xsl:when test="@tag=700 or @tag=100"/>
+                    <xsl:otherwise>
+                        <span class="relatorcode">
+                            <xsl:text> [</xsl:text>
                             <xsl:choose>
-                                <!-- Prefer j over 4 -->
-                                <xsl:when test="marc:subfield[@code='j']">
-                                    <xsl:for-each select="marc:subfield[@code='j']">
+                                <xsl:when test="@tag=111">
+                                    <xsl:choose>
+                                        <!-- Prefer j over 4 -->
+                                        <xsl:when test="marc:subfield[@code='j']">
+                                            <xsl:for-each select="marc:subfield[@code='j']">
+                                                <xsl:value-of select="."/>
+                                                <xsl:if test="position() != last()">, </xsl:if>
+                                            </xsl:for-each>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <xsl:for-each select="marc:subfield[@code=4]">
+                                                <xsl:value-of select="."/>
+                                                <xsl:if test="position() != last()">, </xsl:if>
+                                            </xsl:for-each>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </xsl:when>
+                                <!-- Prefer e over 4 -->
+                                <xsl:when test="marc:subfield[@code='e']">
+                                    <xsl:for-each select="marc:subfield[@code='e']">
                                         <xsl:value-of select="."/>
                                         <xsl:if test="position() != last()">, </xsl:if>
                                     </xsl:for-each>
@@ -1257,24 +1346,11 @@
                                     </xsl:for-each>
                                 </xsl:otherwise>
                             </xsl:choose>
-                        </xsl:when>
-                        <!-- Prefer e over 4 -->
-                        <xsl:when test="marc:subfield[@code='e']">
-                            <xsl:for-each select="marc:subfield[@code='e']">
-                                <xsl:value-of select="."/>
-                                <xsl:if test="position() != last()">, </xsl:if>
-                            </xsl:for-each>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:for-each select="marc:subfield[@code=4]">
-                                <xsl:value-of select="."/>
-                                <xsl:if test="position() != last()">, </xsl:if>
-                            </xsl:for-each>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                    <xsl:text>]</xsl:text>
-                </span>
-            </xsl:if>
+                            <xsl:text>]</xsl:text>
+                        </span>
+                    </xsl:otherwise>
+                </xsl:choose>
+           </xsl:if>
 	</a>
         <xsl:choose>
             <xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><span class="separator"><xsl:text> | </xsl:text></span></xsl:otherwise>
