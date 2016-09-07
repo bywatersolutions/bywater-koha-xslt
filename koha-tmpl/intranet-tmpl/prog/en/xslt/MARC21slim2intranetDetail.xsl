@@ -93,13 +93,20 @@
 
         <!-- Indicate if record is suppressed in OPAC -->
         <!-- #27193 Add bibl number and OCLC # -->
-        <span class="results_summary" style="float:right;">
+        <span class="results_summary" style="float:right; clear:both;">
             <xsl:choose>
                 <xsl:when test="$OpacSuppression = 1">
-                    <xsl:if test="marc:datafield[@tag=942][marc:subfield[@code='n'] = '1']">
-                        <!-- #27193 Add bibl number and chnage text -->
-                        <span class="results_summary suppressed_opac"> <span class="label">Bib No: </span><xsl:value-of select="concat('#',marc:datafield[@tag=999]/marc:subfield[@code='c'])"/> Suppress</span>
-                    </xsl:if>
+                    <xsl:choose>
+                        <xsl:when test="marc:datafield[@tag=942][marc:subfield[@code='n'] = '1']">
+                            <span class="results_summary" style="color:red;"> <span class="label">Bib No: </span><xsl:value-of select="concat('#',marc:datafield[@tag=999]/marc:subfield[@code='c'])"/> Suppress</span>    
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <span class="results_summary">
+                                <span class="label">Bib No: </span>
+                                <xsl:value-of select="concat('#',marc:datafield[@tag=999]/marc:subfield[@code='c'])"/>
+                            </span> 
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </xsl:when>
                 <xsl:otherwise>
                     <span class="results_summary">
@@ -1248,109 +1255,87 @@
             </xsl:otherwise>
         </xsl:choose>
     	<xsl:choose>
-    	    <xsl:when test="@tag=100 or @tag=110 or @tag=111">
-    	        <!-- #13383 -->
+    	    <xsl:when test="@tag=100 or @tag=110 or @tag=111 or @tag=700 or @tag=710 or @tag=711">
+    	        <!-- #27193 removed special order for 100/700 -->
+    	        <xsl:variable name="subfields">
+    	            <xsl:choose>
+    	                <xsl:when test="@tag=111">abceqtd4j</xsl:when>
+    	                <xsl:when test="@tag=100">abcdefgjklnpqtu4</xsl:when>
+    	                <xsl:when test="@tag=700">abcfghiklmnoprstuxde</xsl:when>
+    	                <xsl:when test="@tag=710 or @tag=711">abcfghiklmnoprstuxd</xsl:when>
+    	                <xsl:otherwise>abcjqtde4</xsl:otherwise>
+    	            </xsl:choose>
+    	        </xsl:variable>
+    	        <!-- #27193 removed special order for 100/700 -->
+    	        <xsl:variable name="str">
+    	            <xsl:for-each select="marc:subfield[contains($subfields,@code)]">
+    	                <xsl:choose>
+    	                    <xsl:when test="@code='d'">
+    	                        <span class="authordates">
+    	                            <xsl:text> </xsl:text>
+    	                            <xsl:value-of select="."/>
+    	                        </span>
+    	                    </xsl:when>
+    	                    <xsl:when test="@code='e' and not(parent::*[@tag=111])">
+    	                        <span class="relatorcode">
+    	                            <xsl:text> [</xsl:text>
+    	                            <xsl:call-template name="chopPunctuation">
+    	                                <xsl:with-param name="chopString">    
+    	                                    <xsl:value-of select="."/>
+    	                                </xsl:with-param>
+    	                                <xsl:with-param name="punctuation">
+    	                                    <xsl:text>:,;/ </xsl:text>
+    	                                </xsl:with-param>
+    	                            </xsl:call-template>
+    	                            <xsl:text>]</xsl:text>
+    	                        </span>
+    	                    </xsl:when>
+    	                    <xsl:when test="@code=4 and not(preceding-sibling::*[@code='e'])">
+    	                        <xsl:if test="not(preceding-sibling::marc:subfield[@code='j'][. != ''])">
+    	                            <span class="relatorcode">
+    	                                <xsl:text> [</xsl:text>
+    	                                <xsl:call-template name="chopPunctuation">
+    	                                    <xsl:with-param name="chopString">    
+    	                                        <xsl:value-of select="."/>
+    	                                    </xsl:with-param>
+    	                                    <xsl:with-param name="punctuation">
+    	                                        <xsl:text>:,;/ </xsl:text>
+    	                                    </xsl:with-param>
+    	                                </xsl:call-template>
+    	                                <xsl:text>]</xsl:text>
+    	                            </span>
+    	                        </xsl:if>
+    	                    </xsl:when>
+    	                    <xsl:when test="/@code='j' and . != '' and parent::*[@tag=111]">
+    	                        <xsl:if test="not(preceding-sibling::marc:subfield[@code='j'][. != ''])">
+    	                            <span class="relatorcode">
+    	                                <xsl:text> [</xsl:text>
+    	                                <xsl:call-template name="chopPunctuation">
+    	                                    <xsl:with-param name="chopString">    
+    	                                        <xsl:value-of select="."/>
+    	                                    </xsl:with-param>
+    	                                    <xsl:with-param name="punctuation">
+    	                                        <xsl:text>:,;/ </xsl:text>
+    	                                    </xsl:with-param>
+    	                                </xsl:call-template>
+    	                                <xsl:text>]</xsl:text>
+    	                            </span>
+    	                        </xsl:if>
+    	                    </xsl:when>
+    	                    <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+    	                </xsl:choose>
+    	            </xsl:for-each>
+    	        </xsl:variable>
     	        <xsl:call-template name="chopPunctuation">
-    	            <xsl:with-param name="chopString">
-    	                <xsl:call-template name="subfieldSelect">
-    	                    <xsl:with-param name="codes">
-    	                        <xsl:choose>
-    	                            <!-- #13383 include subfield e for field 111  -->
-    	                            <xsl:when test="@tag=111">abceqtd</xsl:when>
-    	                            <!-- #27193 removed special order for 100/700 -->
-    	                            <xsl:when test="@tag=100">abcdefgjklnpqtu</xsl:when>
-    	                            <xsl:otherwise>abcjqtd</xsl:otherwise>
-    	                        </xsl:choose>
-    	                    </xsl:with-param>
-    	                </xsl:call-template>
+    	            <xsl:with-param name="chopString">    
+    	                <xsl:value-of select="$str"/>
     	            </xsl:with-param>
     	            <xsl:with-param name="punctuation">
     	                <xsl:text>:,;/ </xsl:text>
     	            </xsl:with-param>
     	        </xsl:call-template>
     	    </xsl:when>
-    	    <!-- #13382 excludes 700$i and ind2=2, displayed as Related Works -->
-    	    <!--#13382 Added all relevant subfields 4, e, and d are handled separately -->
-    	    <xsl:when test="@tag=700 or @tag=710 or @tag=711">
-    	        <xsl:variable name="str">
-    	            <xsl:call-template name="subfieldSelect">    	                
-    	                <xsl:with-param name="codes">
-    	                    <xsl:choose>
-    	                        <!-- #27193 removed special order for 100/700 -->
-    	                        <xsl:when test="@tag=700">abcfghiklmnoprstuxde</xsl:when>
-    	                        <xsl:otherwise>abcfghiklmnoprstuxd</xsl:otherwise>
-    	                    </xsl:choose>
-    	                </xsl:with-param>
-    	            </xsl:call-template>
-    	        </xsl:variable>
-    	        <xsl:call-template name="chopPunctuation">
-    	            <xsl:with-param name="chopString">
-    	                <xsl:value-of select="$str"/>
-    	            </xsl:with-param>
-    	            <xsl:with-param name="punctuation">
-    	                <xsl:text>:,;/. </xsl:text>
-    	            </xsl:with-param>
-    	        </xsl:call-template>
-    	    </xsl:when>
     	</xsl:choose>
-            <!-- #27193 removed special order for 100/700 -->
-            <xsl:if test="marc:subfield[@code='d']">
-                <xsl:choose>
-                    <xsl:when test="@tag=700 or @tag=100"/>
-                    <xsl:otherwise>
-                        <span class="authordates">
-                            <xsl:text> </xsl:text>
-                            <xsl:value-of select="marc:subfield[@code='d']"/>
-                        </span>
-                    </xsl:otherwise>
-                </xsl:choose>
-        </xsl:if>
-	<!-- add relator code too between brackets-->
-    <!-- #13383 include relator code j for field 111 -->
-            <!-- #27193 removed special order for 100/700 -->
-            <xsl:if test="marc:subfield[@code='4' or @code='e'][not(parent::*[@tag=111])] or (self::*[@tag=111] and marc:subfield[@code='4' or @code='j'][. != ''])">
-                <xsl:choose>
-                    <xsl:when test="@tag=700 or @tag=100"/>
-                    <xsl:otherwise>
-                        <span class="relatorcode">
-                            <xsl:text> [</xsl:text>
-                            <xsl:choose>
-                                <xsl:when test="@tag=111">
-                                    <xsl:choose>
-                                        <!-- Prefer j over 4 -->
-                                        <xsl:when test="marc:subfield[@code='j']">
-                                            <xsl:for-each select="marc:subfield[@code='j']">
-                                                <xsl:value-of select="."/>
-                                                <xsl:if test="position() != last()">, </xsl:if>
-                                            </xsl:for-each>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <xsl:for-each select="marc:subfield[@code=4]">
-                                                <xsl:value-of select="."/>
-                                                <xsl:if test="position() != last()">, </xsl:if>
-                                            </xsl:for-each>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
-                                </xsl:when>
-                                <!-- Prefer e over 4 -->
-                                <xsl:when test="marc:subfield[@code='e']">
-                                    <xsl:for-each select="marc:subfield[@code='e']">
-                                        <xsl:value-of select="."/>
-                                        <xsl:if test="position() != last()">, </xsl:if>
-                                    </xsl:for-each>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:for-each select="marc:subfield[@code=4]">
-                                        <xsl:value-of select="."/>
-                                        <xsl:if test="position() != last()">, </xsl:if>
-                                    </xsl:for-each>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                            <xsl:text>]</xsl:text>
-                        </span>
-                    </xsl:otherwise>
-                </xsl:choose>
-           </xsl:if>
 	</a>
         <xsl:choose>
             <xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><span class="separator"><xsl:text> | </xsl:text></span></xsl:otherwise>
