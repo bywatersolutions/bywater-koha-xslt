@@ -93,7 +93,7 @@
 
         <!-- Indicate if record is suppressed in OPAC -->
         <!-- #27193 Add bibl number and OCLC # -->
-        <span class="results_summary" style="float:right; clear:both;">
+        <span class="results_summary bib-no" style="float:right; clear:both;">
             <xsl:choose>
                 <xsl:when test="$OpacSuppression = 1">
                     <xsl:choose>
@@ -1065,14 +1065,14 @@
                 <xsl:when test="$UseControlNumber = '1' and marc:subfield[@code='w']">
                     <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=Control-number:<xsl:call-template name="extractControlNumber"><xsl:with-param name="subfieldW" select="marc:subfield[@code='w']"/></xsl:call-template></xsl:attribute>
                         <xsl:call-template name="subfieldSelect">
-                            <xsl:with-param name="codes">a_x</xsl:with-param>
+                            <xsl:with-param name="codes">axt</xsl:with-param>
                         </xsl:call-template>
                     </a>
                 </xsl:when>
                 <xsl:otherwise>
                     <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=ti,phr:<xsl:value-of select="translate($f780, '()', '')"/></xsl:attribute>
                         <xsl:call-template name="subfieldSelect">
-                            <xsl:with-param name="codes">a_x</xsl:with-param>
+                            <xsl:with-param name="codes">axt</xsl:with-param>
                         </xsl:call-template>
                     </a>
                 </xsl:otherwise>
@@ -1131,15 +1131,15 @@
             <xsl:choose>
                 <xsl:when test="$UseControlNumber = '1' and marc:subfield[@code='w']">
                     <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=Control-number:<xsl:call-template name="extractControlNumber"><xsl:with-param name="subfieldW" select="marc:subfield[@code='w']"/></xsl:call-template></xsl:attribute>
-                        <xsl:call-template name="subfieldSelect">
-                            <xsl:with-param name="codes">a_x</xsl:with-param>
+                        <xsl:call-template name="subfieldSelectSpan">
+                            <xsl:with-param name="codes">axt</xsl:with-param>
                         </xsl:call-template>
                     </a>
                 </xsl:when>
                 <xsl:otherwise>
                     <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=ti,phr:<xsl:value-of select="translate($f785, '()', '')"/></xsl:attribute>
                         <xsl:call-template name="subfieldSelect">
-                            <xsl:with-param name="codes">a_x</xsl:with-param>
+                            <xsl:with-param name="codes">axt</xsl:with-param>
                         </xsl:call-template>
                     </a>
                 </xsl:otherwise>

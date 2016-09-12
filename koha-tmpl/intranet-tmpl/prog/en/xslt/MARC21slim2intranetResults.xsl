@@ -284,7 +284,7 @@
 
         <!-- Indicate if record is suppressed in OPAC -->
         <!-- #27193 Add bibl number and OCLC # -->
-        <span class="results_summary" style="float:right; font-weight:bold;">
+        <span class="results_summary bib-no" style="float:right; font-weight:bold;">
             <xsl:choose>
                 <xsl:when test="$OpacSuppression = 1">
                     <xsl:choose>
@@ -977,6 +977,18 @@
             </xsl:for-each>
 	</span>
     </xsl:if>
+        <!-- #27193 add 866 -->
+        <!-- 866 textual holdings -->
+        <xsl:if test="marc:datafield[@tag=866]">
+            <span class="results_summary holdings_note"><span class="label">Holdings note: </span>
+                <xsl:for-each select="marc:datafield[@tag=866]">
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">axz</xsl:with-param>
+                    </xsl:call-template>
+                    <xsl:choose><xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                </xsl:for-each>
+            </span>
+        </xsl:if>
         <!-- 780 -->
         <!-- #27193 additional subfields -->
         <xsl:if test="marc:datafield[@tag=780]">
@@ -1011,7 +1023,7 @@
                         </xsl:choose>
                         <xsl:text> </xsl:text>
                         <xsl:call-template name="subfieldSelect">
-                            <xsl:with-param name="codes">a_x</xsl:with-param>
+                            <xsl:with-param name="codes">axt</xsl:with-param>
                         </xsl:call-template>
                     </span>
                 </xsl:if>
@@ -1054,7 +1066,7 @@
                     </xsl:choose>
                     <xsl:text> </xsl:text>
                     <xsl:call-template name="subfieldSelect">
-                        <xsl:with-param name="codes">a_x</xsl:with-param>
+                        <xsl:with-param name="codes">axt</xsl:with-param>
                     </xsl:call-template>
                 </span>
             </xsl:for-each>
