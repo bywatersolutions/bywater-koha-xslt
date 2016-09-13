@@ -93,12 +93,16 @@
 
         <!-- Indicate if record is suppressed in OPAC -->
         <!-- #27193 Add bibl number and OCLC # -->
-        <span class="results_summary bib-no" style="float:right; clear:both;">
+        <span class="results_summary bib-no" style="float:right; font-weight:bold;">
             <xsl:choose>
                 <xsl:when test="$OpacSuppression = 1">
                     <xsl:choose>
                         <xsl:when test="marc:datafield[@tag=942][marc:subfield[@code='n'] = '1']">
-                            <span class="results_summary" style="color:red;"> <span class="label">Bib No: </span><xsl:value-of select="concat('#',marc:datafield[@tag=999]/marc:subfield[@code='c'])"/> Suppress</span>    
+                            <span class="results_summary suppressed_opac"> <span class="label">Bib No: </span>
+                                <span class="suppressed_opac_text">
+                                    <xsl:value-of select="concat('#',marc:datafield[@tag=999]/marc:subfield[@code='c'])"/> Suppress
+                                </span>    
+                            </span>    
                         </xsl:when>
                         <xsl:otherwise>
                             <span class="results_summary">
@@ -116,7 +120,7 @@
                 </xsl:otherwise>
             </xsl:choose>
             <xsl:if test="marc:controlfield[@tag=001]">
-                <span class="results_summary">
+                <span class="results_summary oclc_num">
                     <span class="label">OCLC: </span>
                     <xsl:for-each select="marc:controlfield[@tag=001]">
                         <xsl:value-of select="."/> 
