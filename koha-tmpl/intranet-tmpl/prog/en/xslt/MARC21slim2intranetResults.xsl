@@ -981,18 +981,6 @@
             </xsl:for-each>
 	</span>
     </xsl:if>
-        <!-- #27193 add 866 -->
-        <!-- 866 textual holdings -->
-        <xsl:if test="marc:datafield[@tag=866]">
-            <span class="results_summary holdings_note"><span class="label">Holdings note: </span>
-                <xsl:for-each select="marc:datafield[@tag=866]">
-                    <xsl:call-template name="subfieldSelect">
-                        <xsl:with-param name="codes">axz</xsl:with-param>
-                    </xsl:call-template>
-                    <xsl:choose><xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
-                </xsl:for-each>
-            </span>
-        </xsl:if>
         <!-- 780 -->
         <!-- #27193 additional subfields -->
         <xsl:if test="marc:datafield[@tag=780]">
@@ -1110,6 +1098,18 @@
                             </xsl:for-each>
                             </span>
                         </xsl:if>
+        <!-- #27193 add 866 -->
+        <!-- 866 textual holdings -->
+        <xsl:if test="marc:datafield[@tag=866]">
+            <span class="results_summary holdings_note"><span class="label">Holdings note: </span>
+                <xsl:for-each select="marc:datafield[@tag=866]">
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">axz</xsl:with-param>
+                    </xsl:call-template>
+                    <xsl:choose><xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                </xsl:for-each>
+            </span>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template name="nameABCQ">
