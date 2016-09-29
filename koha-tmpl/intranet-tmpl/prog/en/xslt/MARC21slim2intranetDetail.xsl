@@ -981,7 +981,7 @@
 
         <!-- 866 textual holdings -->
         <xsl:if test="marc:datafield[@tag=866]">
-            <span class="results_summary holdings_note"><span class="label">Holdings note: </span>
+            <span class="results_summary holdings_note"><span class="label">Print holdings: </span>
                 <xsl:for-each select="marc:datafield[@tag=866]">
                     <xsl:call-template name="subfieldSelect">
                         <xsl:with-param name="codes">axz</xsl:with-param>

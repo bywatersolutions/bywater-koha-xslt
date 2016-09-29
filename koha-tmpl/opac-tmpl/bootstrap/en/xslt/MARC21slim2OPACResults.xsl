@@ -396,9 +396,10 @@
         </xsl:variable>
 
         <!-- Title Statement: Alternate Graphic Representation (MARC 880) -->
+        <!-- #27193 Add 240 -->
         <xsl:if test="$display880">
            <xsl:call-template name="m880Select">
-              <xsl:with-param name="basetags">245</xsl:with-param>
+              <xsl:with-param name="basetags">245, 240</xsl:with-param>
               <xsl:with-param name="codes">abhfgknps</xsl:with-param>
               <xsl:with-param name="bibno"><xsl:value-of  select="$biblionumber"/></xsl:with-param>
            </xsl:call-template>
@@ -415,31 +416,59 @@
         </xsl:attribute>
         <xsl:attribute name="class">title</xsl:attribute>
 
-        <xsl:if test="marc:datafield[@tag=245]">
-            <xsl:for-each select="marc:datafield[@tag=245]">
-                <xsl:call-template name="subfieldSelect">
-                    <xsl:with-param name="codes">a</xsl:with-param>
-                </xsl:call-template>
-                <xsl:text> </xsl:text>
-                <!-- 13381 add additional subfields-->
-                <xsl:for-each select="marc:subfield[contains('bchknps', @code)]">
-                    <xsl:choose>
-                        <xsl:when test="@code='h'">
-                            <!--  13381 Span class around subfield h so it can be suppressed via css -->
-                            <span class="title_medium"><xsl:apply-templates/> </span>
-                        </xsl:when>
-                        <xsl:when test="@code='c'">
-                            <!--  13381 Span class around subfield c so it can be suppressed via css -->
-                            <span class="title_resp_stmt"><xsl:apply-templates/> </span>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:apply-templates/>
-                            <xsl:text> </xsl:text>
-                        </xsl:otherwise>
-                    </xsl:choose>
+        <!-- #27193 Add 240 -->
+        <xsl:choose>
+            <xsl:when test="marc:datafield[@tag=245]">
+                <xsl:for-each select="marc:datafield[@tag=245]">
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">a</xsl:with-param>
+                    </xsl:call-template>
+                    <xsl:text> </xsl:text>
+                    <!-- 13381 add additional subfields-->
+                    <xsl:for-each select="marc:subfield[contains('bchknps', @code)]">
+                        <xsl:choose>
+                            <xsl:when test="@code='h'">
+                                <!--  13381 Span class around subfield h so it can be suppressed via css -->
+                                <span class="title_medium"><xsl:apply-templates/> </span>
+                            </xsl:when>
+                            <xsl:when test="@code='c'">
+                                <!--  13381 Span class around subfield c so it can be suppressed via css -->
+                                <span class="title_resp_stmt"><xsl:apply-templates/> </span>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:apply-templates/>
+                                <xsl:text> </xsl:text>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:for-each>
                 </xsl:for-each>
-            </xsl:for-each>
-        </xsl:if>
+            </xsl:when>
+            <xsl:when test="marc:datafield[@tag=240]">
+                <xsl:for-each select="marc:datafield[@tag=240]">
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">a</xsl:with-param>
+                    </xsl:call-template>
+                    <xsl:text> </xsl:text>
+                    <!-- 13381 add additional subfields-->
+                    <xsl:for-each select="marc:subfield[contains('bchknps', @code)]">
+                        <xsl:choose>
+                            <xsl:when test="@code='h'">
+                                <!--  13381 Span class around subfield h so it can be suppressed via css -->
+                                <span class="title_medium"><xsl:apply-templates/> </span>
+                            </xsl:when>
+                            <xsl:when test="@code='c'">
+                                <!--  13381 Span class around subfield c so it can be suppressed via css -->
+                                <span class="title_resp_stmt"><xsl:apply-templates/> </span>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:apply-templates/>
+                                <xsl:text> </xsl:text>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:for-each>
+                </xsl:for-each>
+            </xsl:when>
+        </xsl:choose>
     </a>
     <p>
 
@@ -1094,7 +1123,20 @@
                             </xsl:for-each>
                             </span>
                         </xsl:if>
-                        <span class="results_summary availability">
+        <!-- #27193 add 866 -->
+        <!-- 866 textual holdings -->
+        <xsl:if test="marc:datafield[@tag=866]">
+            <span class="results_summary holdings_note"><span class="label">Print holdings: </span>
+                <xsl:for-each select="marc:datafield[@tag=866]">
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">axz</xsl:with-param>
+                    </xsl:call-template>
+                    <xsl:choose><xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                </xsl:for-each>
+            </span>
+        </xsl:if>
+        
+        <span class="results_summary availability">
                         <span class="label">Availability: </span>
                         <xsl:choose>
 				   <xsl:when test="count(key('item-by-status', 'available'))=0 and count(key('item-by-status', 'reference'))=0">
@@ -1114,11 +1156,14 @@
 				   </xsl:when>
                    <xsl:when test="count(key('item-by-status', 'available'))>0">
                    <span class="available">
-                       <b><xsl:text>Items available for loan: </xsl:text></b>
+                       <!-- #27193 Changed wording -->
+                       <b><xsl:text>Items available at: </xsl:text></b>
                        <xsl:variable name="available_items"
                            select="key('item-by-status', 'available')"/>
                <xsl:choose>
                <xsl:when test="$singleBranchMode=1">
+                   <!-- #27193 Removed call number -->  
+                   <!--
                    <xsl:for-each select="$available_items[generate-id() = generate-id(key('item-by-status-and-branch', concat(items:status, ' ', items:homebranch))[1])]">
                        <span class="ItemSummary">
                            <xsl:if test="items:itemcallnumber != '' and items:itemcallnumber"> [<span class="LabelCallNumber">Call number: </span><xsl:value-of select="items:itemcallnumber"/>]</xsl:if>
@@ -1131,11 +1176,13 @@
                            </xsl:choose>
                         </span>
                    </xsl:for-each>
+                   -->
                </xsl:when>
                <xsl:otherwise>
                    <xsl:for-each select="$available_items[generate-id() = generate-id(key('item-by-status-and-branch', concat(items:status, ' ', items:homebranch))[1])]">
-                       <span class="ItemSummary">
+                       <span class="ItemSummary branch-name">
                            <xsl:value-of select="items:homebranch"/>
+                           <!--
                            <xsl:if test="items:itemcallnumber != '' and items:itemcallnumber and $OPACItemLocation='callnum'"> [<span class="LabelCallNumber">Call number: </span><xsl:value-of select="items:itemcallnumber"/>]</xsl:if>
                            <xsl:text> (</xsl:text>
                                <xsl:value-of select="count(key('item-by-status-and-branch', concat(items:status, ' ', items:homebranch)))"/>
@@ -1144,6 +1191,7 @@
                                <xsl:when test="position()=last()"><xsl:text>. </xsl:text></xsl:when>
                                <xsl:otherwise><xsl:text>, </xsl:text></xsl:otherwise>
                            </xsl:choose>
+                           -->
                        </span>
                    </xsl:for-each>
                </xsl:otherwise>
