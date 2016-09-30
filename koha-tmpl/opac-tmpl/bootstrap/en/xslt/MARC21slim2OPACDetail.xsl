@@ -715,6 +715,18 @@
                 </span>
             </xsl:if>
 
+            <!-- #37471 Add 500$a -->
+            <xsl:if test="marc:datafield[@tag=500]">
+                <span class="results_summary notes"><span class="label">General Note(s): </span></span>
+                    <xsl:for-each select="marc:datafield[@tag=500]">
+                        <span class="results_summary notes">
+                        <xsl:call-template name="subfieldSelect">
+                            <xsl:with-param name="codes">a</xsl:with-param>
+                        </xsl:call-template>
+                        </span>
+                    </xsl:for-each>
+            </xsl:if>
+            
             <xsl:if test="marc:datafield[substring(@tag, 1, 1) = '6' and not(@tag=655)]">
             <span class="results_summary subjects"><span class="label">Subject(s): </span>
                 <xsl:for-each select="marc:datafield[substring(@tag, 1, 1) = '6'][not(@tag=655)]">
