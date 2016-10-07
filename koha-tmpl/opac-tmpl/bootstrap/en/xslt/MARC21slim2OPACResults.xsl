@@ -1163,7 +1163,6 @@
                <xsl:choose>
                <xsl:when test="$singleBranchMode=1">
                    <!-- #27193 Removed call number -->  
-                   <!--
                    <xsl:for-each select="$available_items[generate-id() = generate-id(key('item-by-status-and-branch', concat(items:status, ' ', items:homebranch))[1])]">
                        <span class="ItemSummary">
                            <xsl:if test="items:itemcallnumber != '' and items:itemcallnumber"> [<span class="LabelCallNumber">Call number: </span><xsl:value-of select="items:itemcallnumber"/>]</xsl:if>
@@ -1176,13 +1175,11 @@
                            </xsl:choose>
                         </span>
                    </xsl:for-each>
-                   -->
                </xsl:when>
                <xsl:otherwise>
                    <xsl:for-each select="$available_items[generate-id() = generate-id(key('item-by-status-and-branch', concat(items:status, ' ', items:homebranch))[1])]">
                        <span class="ItemSummary branch-name">
                            <xsl:value-of select="items:homebranch"/>
-                           <!--
                            <xsl:if test="items:itemcallnumber != '' and items:itemcallnumber and $OPACItemLocation='callnum'"> [<span class="LabelCallNumber">Call number: </span><xsl:value-of select="items:itemcallnumber"/>]</xsl:if>
                            <xsl:text> (</xsl:text>
                                <xsl:value-of select="count(key('item-by-status-and-branch', concat(items:status, ' ', items:homebranch)))"/>
@@ -1191,7 +1188,6 @@
                                <xsl:when test="position()=last()"><xsl:text>. </xsl:text></xsl:when>
                                <xsl:otherwise><xsl:text>, </xsl:text></xsl:otherwise>
                            </xsl:choose>
-                           -->
                        </span>
                    </xsl:for-each>
                </xsl:otherwise>
