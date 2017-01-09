@@ -432,8 +432,40 @@
             </xsl:for-each>
         </span>
        </xsl:if>
-
-
+        
+        <!-- Add 310 and 362  #-->
+            <xsl:if test="marc:datafield[@tag=310]">
+                <span class="results_summary pub_freq"><span class="label">Current Publication Frequency: </span>
+                    <xsl:for-each select="marc:datafield[@tag=310]">
+                        <span property="description">
+                            <xsl:call-template name="chopPunctuation">
+                                <xsl:with-param name="chopString">
+                                    <xsl:call-template name="subfieldSelect">
+                                        <xsl:with-param name="codes">ab</xsl:with-param>
+                                    </xsl:call-template>
+                                </xsl:with-param>
+                            </xsl:call-template>
+                        </span>
+                        <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                    </xsl:for-each>
+                </span> 
+            </xsl:if>
+            <xsl:if test="marc:datafield[@tag=362]">
+                <span class="results_summary pub_freq"><span class="label">Dates of Publication: </span>
+                    <xsl:for-each select="marc:datafield[@tag=362]">
+                        <span property="description">
+                            <xsl:call-template name="chopPunctuation">
+                                <xsl:with-param name="chopString">
+                                    <xsl:call-template name="subfieldSelect">
+                                        <xsl:with-param name="codes">a</xsl:with-param>
+                                    </xsl:call-template>
+                                </xsl:with-param>
+                            </xsl:call-template>
+                        </span>
+                        <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                    </xsl:for-each>
+                </span> 
+            </xsl:if>
             <!-- Content Type -->
             <xsl:if test="marc:datafield[@tag=336] or marc:datafield[@tag=337] or marc:datafield[@tag=338]">
                 <span class="results_summary" id="content_type">

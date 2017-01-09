@@ -595,13 +595,17 @@
 	</span>
     </xsl:if>
 
+        <!-- Add $g to 773 #38521--> 
     <xsl:if test="marc:datafield[@tag=773]">
         <xsl:for-each select="marc:datafield[@tag=773]">
             <xsl:if test="marc:subfield[@code='t']">
-    <span class="results_summary source">
-    <span class="label">Source: </span>
-            <xsl:value-of select="marc:subfield[@code='t']"/>
-    </span>
+            <span class="results_summary source">
+            <span class="label">Source: </span>
+                <xsl:call-template name="subfieldSelect">
+                    <xsl:with-param name="codes">tg</xsl:with-param>
+                </xsl:call-template>
+                    <!-- <xsl:value-of select="marc:subfield[@code='t']"/> -->
+            </span>
             </xsl:if>
         </xsl:for-each>
     </xsl:if>
