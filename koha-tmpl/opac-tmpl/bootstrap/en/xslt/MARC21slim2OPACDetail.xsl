@@ -1087,6 +1087,138 @@
         </span>
         </xsl:for-each>
 
+
+            <!-- Add notes for #38927  -->
+            <xsl:if test="marc:datafield[substring(@tag, 1, 1) = '5' 
+                and not(@tag=520) 
+                and not(@tag=505) 
+                and not(@tag=530) 
+                and not(@tag=583) 
+                and not(@tag=508)
+                and not(@tag=586)
+                and not(@tag=511)
+                and not(@tag=502)]">
+                <div class="notesTab">
+                    <xsl:for-each select="marc:datafield[substring(@tag, 1, 1) = '5' 
+                        and not(@tag=520) 
+                        and not(@tag=505) 
+                        and not(@tag=530) 
+                        and not(@tag=583) 
+                        and not(@tag=508)
+                        and not(@tag=586)
+                        and not(@tag=511)
+                        and not(@tag=502)]">
+                        <xsl:choose>
+                            <xsl:when test="@tag=501">
+                                <span class="results_summary accomp_mat_note">
+                                    <span class="label">Accompanying material: </span>
+                                    <xsl:call-template name="subfieldSelect">
+                                        <xsl:with-param name="codes">a</xsl:with-param>
+                                    </xsl:call-template>
+                                </span>
+                            </xsl:when>
+                            <xsl:when test="@tag=506">
+                                <span class="results_summary restrictions_note">
+                                    <span class="label">Restrictions on access: </span>
+                                    <xsl:call-template name="subfieldSelect">
+                                        <xsl:with-param name="codes">abcdef</xsl:with-param>
+                                    </xsl:call-template>
+                                </span>
+                            </xsl:when>
+                            
+                            <xsl:when test="@tag=510">
+                                <span class="results_summary standard_bib_note">
+                                    <span class="label">Standard bibliographies: </span>
+                                    <xsl:call-template name="subfieldSelect">
+                                        <xsl:with-param name="codes">abc</xsl:with-param>
+                                    </xsl:call-template>
+                                </span>
+                            </xsl:when>
+                            <xsl:when test="@tag=533">
+                                <span class="results_summary reproduction_note">
+                                    <span class="label">Reproduction note: </span>
+                                    <xsl:call-template name="subfieldSelect">
+                                        <xsl:with-param name="codes">abcdefmn</xsl:with-param>
+                                    </xsl:call-template>
+                                </span>
+                            </xsl:when>
+                            <xsl:when test="@tag=541">
+                                <span class="results_summary source_note">
+                                    <span class="label">Source of acquisition: </span>
+                                    <xsl:call-template name="subfieldSelect">
+                                        <xsl:with-param name="codes">abcdefhn</xsl:with-param>
+                                    </xsl:call-template>
+                                </span>
+                            </xsl:when>
+                            <xsl:when test="@tag=544">
+                                <span class="results_summary location_note">
+                                    <span class="label">Location of other archival materials: </span>
+                                    <xsl:call-template name="subfieldSelect">
+                                        <xsl:with-param name="codes">abcden</xsl:with-param>
+                                    </xsl:call-template>
+                                </span>
+                            </xsl:when>
+                            <xsl:when test="@tag=545">
+                                <span class="results_summary location_note">
+                                    <span class="label">Biographical or historical note: </span>
+                                    <xsl:call-template name="subfieldSelect">
+                                        <xsl:with-param name="codes">abu</xsl:with-param>
+                                    </xsl:call-template>
+                                </span>
+                            </xsl:when> 
+                            <xsl:when test="@tag=546">
+                                <span class="results_summary language_note">
+                                    <span class="label">Language: </span>
+                                    <xsl:call-template name="subfieldSelect">
+                                        <xsl:with-param name="codes">ab</xsl:with-param>
+                                    </xsl:call-template>
+                                </span>
+                            </xsl:when>
+                            <xsl:when test="@tag=561">
+                                <span class="results_summary provenance_note">
+                                    <span class="label">Provenance: </span>
+                                    <xsl:call-template name="subfieldSelect">
+                                        <xsl:with-param name="codes">a</xsl:with-param>
+                                    </xsl:call-template>
+                                </span>
+                            </xsl:when>
+                            <xsl:when test="@tag=562">
+                                <span class="results_summary inscriptions_note">
+                                    <span class="label">Inscriptions and markings: </span>
+                                    <xsl:call-template name="subfieldSelect">
+                                        <xsl:with-param name="codes">abcde</xsl:with-param>
+                                    </xsl:call-template>
+                                </span>
+                            </xsl:when>
+                            <xsl:when test="@tag=563">
+                                <span class="results_summary binding_note">
+                                    <span class="label">Binding: </span>
+                                    <xsl:call-template name="subfieldSelect">
+                                        <xsl:with-param name="codes">a</xsl:with-param>
+                                    </xsl:call-template>
+                                </span>
+                            </xsl:when> 
+                            <xsl:when test="@tag=581">
+                                <span class="results_summary publications_on_note">
+                                    <span class="label">Publications on: </span>
+                                    <xsl:call-template name="subfieldSelect">
+                                        <xsl:with-param name="codes">a</xsl:with-param>
+                                    </xsl:call-template>
+                                </span>
+                            </xsl:when>      
+                            <xsl:otherwise>
+                                <span class="results_summary note">
+                                    <span class="label">Note: </span>
+                                    <xsl:call-template name="subfieldSelect">
+                                        <xsl:with-param name="codes">a</xsl:with-param>
+                                    </xsl:call-template>
+                                </span>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:for-each>
+                </div>                
+            </xsl:if>
+            
         <!-- 866 textual holdings -->
         <xsl:if test="marc:datafield[@tag=866]">
             <span class="results_summary holdings_note"><span class="label">Holdings note: </span>
