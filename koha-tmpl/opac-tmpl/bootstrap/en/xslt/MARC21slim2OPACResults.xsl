@@ -596,19 +596,20 @@
     </xsl:if>
 
         <!-- Add $g to 773 #38521--> 
-    <xsl:if test="marc:datafield[@tag=773]">
-        <xsl:for-each select="marc:datafield[@tag=773]">
-            <xsl:if test="marc:subfield[@code='t']">
-            <span class="results_summary source">
-            <span class="label">Source: </span>
-                <xsl:call-template name="subfieldSelect">
-                    <xsl:with-param name="codes">tg</xsl:with-param>
-                </xsl:call-template>
-                    <!-- <xsl:value-of select="marc:subfield[@code='t']"/> -->
-            </span>
-            </xsl:if>
-        </xsl:for-each>
-    </xsl:if>
+        <xsl:if test="marc:datafield[@tag=773]">
+            <xsl:for-each select="marc:datafield[@tag=773]">
+                <xsl:if test="marc:subfield[@code='t']">
+                    <span class="results_summary source">
+                        <span class="label">Source: </span>
+                        <xsl:call-template name="chopPunctuation"><xsl:with-param name="chopString"><xsl:call-template name="subfieldSelect">
+                            <xsl:with-param name="codes">a_t</xsl:with-param>
+                        </xsl:call-template></xsl:with-param></xsl:call-template>
+                        <xsl:if test="marc:subfield[@code='g']"><xsl:text> </xsl:text><xsl:value-of select="marc:subfield[@code='g']"/></xsl:if>
+                        <!-- <xsl:value-of select="marc:subfield[@code='t']"/> -->
+                    </span>
+                </xsl:if>
+            </xsl:for-each>
+        </xsl:if>
 
 <xsl:if test="$DisplayOPACiconsXSLT!='0'">
     <span class="results_summary type">
