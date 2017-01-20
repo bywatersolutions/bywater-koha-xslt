@@ -215,6 +215,7 @@
                             </xsl:with-param>
                         </xsl:call-template>
             </a>
+            <xsl:text> </xsl:text>
             <xsl:call-template name="part"/>
             <xsl:choose><xsl:when test="position()=last()"><xsl:text>. </xsl:text></xsl:when><xsl:otherwise><xsl:text> ; </xsl:text></xsl:otherwise></xsl:choose>
         </xsl:for-each>
@@ -230,6 +231,7 @@
                             </xsl:with-param>
                         </xsl:call-template>
             </a>
+            <xsl:text> </xsl:text>
                     <xsl:call-template name="part"/>
         <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
         </xsl:for-each>
@@ -258,6 +260,7 @@
                                 </xsl:with-param>
                             </xsl:call-template>
                         </a>
+                        <xsl:text> </xsl:text>
                         <xsl:call-template name="part"/>
                     </xsl:otherwise>
                 </xsl:choose>
