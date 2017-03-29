@@ -110,7 +110,7 @@
                     </xsl:call-template>
                     <xsl:text> </xsl:text>
                     <!-- 13381 add additional subfields-->
-                    <xsl:for-each select="marc:subfield[contains('bchknps', @code)]">
+                    <xsl:for-each select="marc:subfield[contains('fbchknps', @code)]">
                         <xsl:choose>
                             <xsl:when test="@code='h'">
                                 <!--  13381 Span class around subfield h so it can be suppressed via css -->
