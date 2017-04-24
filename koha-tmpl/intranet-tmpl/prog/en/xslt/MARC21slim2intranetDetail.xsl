@@ -17,6 +17,7 @@
 
     <xsl:template match="marc:record">
 
+
         <!-- Option: Display Alternate Graphic Representation (MARC 880)  -->
         <xsl:variable name="display880" select="boolean(marc:datafield[@tag=880])"/>
         <xsl:variable name="UseControlNumber" select="marc:sysprefs/marc:syspref[@name='UseControlNumber']"/>
@@ -91,6 +92,15 @@
             </xsl:choose>
         </xsl:variable>
 
+<!-- OCLC Control Number EV -->
+<xsl:if test="marc:controlfield[@tag=001]">
+   <span class="results_summary oclc">
+       <li class="label">OCLC Control number:
+              <xsl:value-of select="marc:controlfield[@tag=001]"/>
+                   </li>
+                       </span>
+                          </xsl:if>
+                          <!-- End OCLC Control Number EV -->
         <!-- Indicate if record is suppressed in OPAC -->
         <xsl:if test="$OpacSuppression = 1">
             <xsl:if test="marc:datafield[@tag=942][marc:subfield[@code='n'] = '1']">
