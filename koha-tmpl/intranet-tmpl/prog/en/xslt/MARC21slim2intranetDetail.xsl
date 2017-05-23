@@ -118,8 +118,10 @@
                     </xsl:call-template>
                     <xsl:text> </xsl:text>
                     <!-- 13381 add additional subfields-->
-                    <xsl:for-each select="marc:subfield[contains('bchknps', @code)]">
-                        <xsl:choose>
+                    <xsl:for-each select="marc:subfield[contains('bcfhknps', @code)]">
+                    <!--#42221 add subfield F to 245 -->
+                    <span id="subfieldf"> <xsl:value-of select="marc:subfield[@code='f']"/></span>
+                    <xsl:choose>
                             <xsl:when test="@code='h'">
                                 <!--  13381 Span class around subfield h so it can be suppressed via css -->
                                 <span class="title_medium"><xsl:apply-templates/> <xsl:text> </xsl:text> </span>
