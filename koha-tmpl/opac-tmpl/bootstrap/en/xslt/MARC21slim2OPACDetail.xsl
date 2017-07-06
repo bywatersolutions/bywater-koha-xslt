@@ -132,12 +132,16 @@
                         </xsl:call-template>
                         <xsl:text> </xsl:text>
                         <!-- 13381 add additional subfields-->
-                        <xsl:for-each select="marc:subfield[contains('bchknps', @code)]">
+                        <xsl:for-each select="marc:subfield[contains('bfchknps', @code)]">
                             <xsl:choose>
                                 <xsl:when test="@code='h'">
                                     <!--  13381 Span class around subfield h so it can be suppressed via css -->
                                     <span class="title_medium"><xsl:apply-templates/> <xsl:text> </xsl:text> </span>
                                 </xsl:when>
+<xsl:when test="@code='f'">
+<!--   Add subfield f #38116: Subject indexing and $f visibility -->
+<span class="subfield_f"><xsl:apply-templates/> <xsl:text> </xsl:text></span>
+                                    </xsl:when>
                                 <xsl:when test="@code='c'">
                                     <!--  13381 Span class around subfield c so it can be suppressed via css -->
                                     <span class="title_resp_stmt"><xsl:apply-templates/> <xsl:text> </xsl:text> </span>
@@ -425,11 +429,11 @@
                 <xsl:call-template name="chopPunctuation">
                   <xsl:with-param name="chopString">
                     <xsl:call-template name="subfieldSelect">
-                        <xsl:with-param name="codes">abceg</xsl:with-param>
+                        <xsl:with-param name="codes">abcfeg</xsl:with-param>
                     </xsl:call-template>
                    </xsl:with-param>
                </xsl:call-template>
-                </span>
+               </span>
                     <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
             </xsl:for-each>
         </span>

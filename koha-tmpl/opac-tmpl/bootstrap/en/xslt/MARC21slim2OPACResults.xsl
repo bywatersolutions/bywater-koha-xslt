@@ -385,16 +385,19 @@
             <xsl:if test="marc:controlfield[@tag=007][substring(text(),1,1)='v'][substring(text(),2,1)='r']">
                 videoreel
             </xsl:if>
-<!--
-            <xsl:for-each select="marc:datafield[@tag=856]/marc:subfield[@code='q'][string-length(.)>1]">
+
+<!--            <xsl:for-each select="marc:datafield[@tag=856]/marc:subfield[@code='q'][string-length(.)>1]">
                     <xsl:value-of select="."></xsl:value-of>
-            </xsl:for-each>
+            </xsl:for-each>-->
+    <!--#38116: Subject indexing and $f visibility-->
             <xsl:for-each select="marc:datafield[@tag=300]">
-                    <xsl:call-template name="subfieldSelect">
-                        <xsl:with-param name="codes">abce</xsl:with-param>
+ <xsl:if test="marc:subfield[@code='f']">
+            <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">af</xsl:with-param>
                     </xsl:call-template>
+                </xsl:if>
             </xsl:for-each>
--->
+
         </xsl:variable>
 
         <!-- Title Statement: Alternate Graphic Representation (MARC 880) -->
@@ -424,7 +427,7 @@
                 </xsl:call-template>
                 <xsl:text> </xsl:text>
                 <!-- 13381 add additional subfields-->
-                <xsl:for-each select="marc:subfield[contains('bchknps', @code)]">
+                <xsl:for-each select="marc:subfield[contains('bcfhknps', @code)]">
                     <xsl:choose>
                         <xsl:when test="@code='h'">
                             <!--  13381 Span class around subfield h so it can be suppressed via css -->
@@ -434,6 +437,9 @@
                             <!--  13381 Span class around subfield c so it can be suppressed via css -->
                             <span class="title_resp_stmt"><xsl:apply-templates/> <xsl:text> </xsl:text> </span>
                         </xsl:when>
+<xsl:when test="@code='f'">
+ <!--   Add subfield f #38116: Subject indexing and $f visibility -->
+  <span class="subfield_f"><xsl:apply-templates/> <xsl:text> </xsl:text></span></xsl:when>
                         <xsl:otherwise>
                             <xsl:apply-templates/>
                             <xsl:text> </xsl:text>
