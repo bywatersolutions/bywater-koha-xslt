@@ -417,7 +417,22 @@
                 </span>
             </xsl:when>
         </xsl:choose>
-
+<!-- #21761 added 752$d -->    
+       <xsl:if test="marc:datafield[@tag=752][marc:subfield[@code='d']]">
+            <span class="results_summary publisher"><span class="label">Place: </span>
+                <xsl:for-each select="marc:datafield[@tag=752]">
+                    <span property="location">
+                        <xsl:call-template name="chopPunctuation">
+                            <xsl:with-param name="chopString">
+                                <xsl:call-template name="subfieldSelect">
+                                    <xsl:with-param name="codes">d</xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:with-param>
+                        </xsl:call-template>
+                    </span>
+                </xsl:for-each>
+            </span>
+        </xsl:if>
         <!-- Edition Statement: Alternate Graphic Representation (MARC 880) -->
         <xsl:if test="$display880">
             <xsl:call-template name="m880Select">
@@ -427,7 +442,7 @@
                 <xsl:with-param name="label">Edition: </xsl:with-param>
             </xsl:call-template>
         </xsl:if>
-        
+
         <xsl:if test="marc:datafield[@tag=250]">
         <span class="results_summary edition"><span class="label">Edition: </span>
             <xsl:for-each select="marc:datafield[@tag=250]">
@@ -510,6 +525,59 @@
 
 
         <xsl:call-template name="showISBNISSN"/>
+<!-- 900a Library has: data added by EV per ticket 19957 -->
+        <xsl:if test="marc:datafield[@tag=900]">
+            <span class="results_summary series"><span class="label">Library has: </span>
+                <xsl:for-each select="marc:datafield[@tag=900]">
+                    <xsl:call-template name="chopPunctuation">
+                        <xsl:with-param name="chopString">
+                            <xsl:call-template name="subfieldSelect">
+                                <xsl:with-param name="codes">ab</xsl:with-param>
+                            </xsl:call-template>
+                        </xsl:with-param>
+                   </xsl:call-template>
+                    <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                </xsl:for-each>
+            </span>
+       </xsl:if>
+        <!-- End 900a data -->
+        <!-- Build ISBN -->
+        <xsl:if test="marc:datafield[@tag=020]/marc:subfield[@code='a']">
+          <span class="results_summary isbn"><span class="label">ISBN: </span>
+            <xsl:for-each select="marc:datafield[@tag=020]/marc:subfield[@code='a']">
+              <span property="isbn">
+                <xsl:value-of select="."/>
+                <xsl:choose>
+                  <xsl:when test="position()=last()">
+                    <xsl:text>.</xsl:text>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:text>; </xsl:text>
+                  </xsl:otherwise>
+                </xsl:choose>
+              </span>
+            </xsl:for-each>
+          </span>
+        </xsl:if>
+
+        <!-- Build ISSN -->
+        <xsl:if test="marc:datafield[@tag=022]/marc:subfield[@code='a']">
+          <span class="results_summary issn"><span class="label">ISSN: </span>
+            <xsl:for-each select="marc:datafield[@tag=022]/marc:subfield[@code='a']">
+              <span property="issn">
+                <xsl:value-of select="."/>
+                <xsl:choose>
+                  <xsl:when test="position()=last()">
+                    <xsl:text>.</xsl:text>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:text>; </xsl:text>
+                  </xsl:otherwise>
+                </xsl:choose>
+              </span>
+            </xsl:for-each>
+          </span>
+        </xsl:if>
 
         <xsl:if test="marc:datafield[@tag=013]">
             <span class="results_summary patent_info">

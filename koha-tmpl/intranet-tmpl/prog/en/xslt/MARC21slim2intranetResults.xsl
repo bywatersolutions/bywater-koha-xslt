@@ -320,6 +320,10 @@
                 <!-- bz 17625 adding subfields f and g -->
                 <xsl:for-each select="marc:subfield[contains('bcfghknps', @code)]">
                     <xsl:choose>
+                        <xsl:when test="@code='f'">
+                            <!--  13381 Span class around subfield h so it can be suppressed via css -->
+                            <span class="subfieldf"><xsl:apply-templates/> <xsl:text> </xsl:text> </span>
+                        </xsl:when>
                         <xsl:when test="@code='h'">
                             <!--  13381 Span class around subfield h so it can be suppressed via css -->
                             <span class="title_medium"><xsl:apply-templates/> <xsl:text> </xsl:text> </span>
