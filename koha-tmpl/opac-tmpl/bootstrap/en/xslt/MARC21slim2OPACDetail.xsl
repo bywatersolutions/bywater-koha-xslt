@@ -1123,7 +1123,19 @@
         </xsl:for-each>
         </span>
         </xsl:if>
-
+       <xsl:if test="marc:datafield[@tag=776]">
+        <span class="results_summary other_forms"><span class="label">Additional Physical Formats: </span>
+        <xsl:for-each select="marc:datafield[@tag=776]">
+<xsl:call-template name="chopPunctuation">
+                  <xsl:with-param name="chopString">
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">atdw</xsl:with-param>
+                    </xsl:call-template>
+                   </xsl:with-param>
+               </xsl:call-template>
+</xsl:for-each>
+</span>
+     </xsl:if>
         <!-- 780 -->
         <xsl:if test="marc:datafield[@tag=780]">
         <xsl:for-each select="marc:datafield[@tag=780]">
