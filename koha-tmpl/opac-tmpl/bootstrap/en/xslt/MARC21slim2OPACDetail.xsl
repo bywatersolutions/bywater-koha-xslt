@@ -425,7 +425,8 @@
                 <xsl:call-template name="chopPunctuation">
                   <xsl:with-param name="chopString">
                     <xsl:call-template name="subfieldSelect">
-                        <xsl:with-param name="codes">abceg</xsl:with-param>
+                    <!-- Ticket 29359 add $f-->
+                        <xsl:with-param name="codes">abcfeg</xsl:with-param>
                     </xsl:call-template>
                    </xsl:with-param>
                </xsl:call-template>
@@ -1035,7 +1036,21 @@
         </xsl:if>
         </xsl:for-each>
         </xsl:if>
-
+ <!-- Ticket #27911 add 351 -->
+        <xsl:if test="marc:datafield[@tag=351]">
+            <span class="results_summary other_title"><span class="label">Organization: </span>
+                <xsl:for-each select="marc:datafield[@tag=351]">
+                    <xsl:call-template name="chopPunctuation">
+                        <xsl:with-param name="chopString">
+                            <xsl:call-template name="subfieldSelect">
+                                <xsl:with-param name="codes">abc</xsl:with-param>
+                            </xsl:call-template>
+                        </xsl:with-param>
+                    </xsl:call-template>
+                    <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                </xsl:for-each>
+            </span>
+</xsl:if>
         <xsl:for-each select="marc:datafield[@tag=511]">
             <span class="results_summary perf_note">
                 <span class="label">
