@@ -717,7 +717,6 @@
                 </span>
             </xsl:if>
 
-            <xsl:if test="marc:datafield[substring(@tag, 1, 1) = '6' and not(@tag=655)]">
             <!-- added 740 anp added EV per ticket 20459-->
             <xsl:if test="marc:datafield[@tag=740]">
                 <span class="results_summary description"><span class="label">Related/Analytical: </span>
@@ -750,7 +749,7 @@
                 </span>
             </xsl:if>    
             
-        <xsl:if test="marc:datafield[substring(@tag, 1, 1) = '6']">
+            <xsl:if test="marc:datafield[substring(@tag, 1, 1) = '6' and not(@tag=655)]">
             <span class="results_summary subjects"><span class="label">Subject(s): </span>
                 <xsl:for-each select="marc:datafield[substring(@tag, 1, 1) = '6'][not(@tag=655)]">
             <span property="keywords">
