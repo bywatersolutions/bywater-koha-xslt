@@ -1016,7 +1016,7 @@
                 <!-- 853 Captions and Pattern data -->
 <!--CUSTOM FOR VATECH - adding  display of 853 854 855 -->
         <xsl:if test="marc:datafield[@tag=853]">
-            <span class="results_summary holdings_note"><span class="label">Holdings: </span> <br />
+            <span class="results_summary holdings_note"><span class="label">Captions and Pattern Information: </span> <br />
                 <xsl:for-each select="marc:datafield[@tag=853]">
                     <xsl:call-template name="subfieldSelect">
                         <xsl:with-param name="codes">abcdefghijklmnpuvwxyzot23</xsl:with-param>
@@ -1035,7 +1035,7 @@
          </xsl:if>
         
         <xsl:if test="marc:datafield[@tag=854]">
-            <span class="results_summary holdings_note"><span class="label">Holdings: </span> <br />
+            <span class="results_summary holdings_note"><span class="label">Captions and Pattern Information (Supplements): </span> <br />
                 <xsl:for-each select="marc:datafield[@tag=854]">
                     <xsl:call-template name="subfieldSelect">
                         <xsl:with-param name="codes">abcdefghijklmnpuvwxyzot23</xsl:with-param>
@@ -1054,7 +1054,7 @@
         </xsl:if> 
         
         <xsl:if test="marc:datafield[@tag=855]">
-            <span class="results_summary holdings_note"><span class="label">Holdings: </span> <br />
+            <span class="results_summary holdings_note"><span class="label">Captions and Pattern Information (Indexes): </span> <br />
                 <xsl:for-each select="marc:datafield[@tag=855]">
                     <xsl:call-template name="subfieldSelect">
                         <xsl:with-param name="codes">abcdefghijklmnpuvwxyzot23</xsl:with-param>
