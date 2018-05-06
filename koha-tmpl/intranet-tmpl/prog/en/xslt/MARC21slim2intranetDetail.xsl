@@ -252,7 +252,6 @@
         </span>
         </xsl:if>
 
-        <!--  CUSTOM FOR VIRGINIA TECH - HIDING THIS "FUNCTIONALITY" AS IT IS INCORRECT CATALOGING
         <!-- Analytics -->
         <xsl:if test="$leader7='s'">
         <span class="results_summary analytics"><span class="label">Analytics: </span>
@@ -269,7 +268,6 @@
             </a>
         </span>
         </xsl:if>
-        END HIDING HERE -->
         
         <!-- Volumes of sets and traced series -->
         <xsl:if test="$materialTypeCode='ST' or substring($controlField008,22,1)='m'">
