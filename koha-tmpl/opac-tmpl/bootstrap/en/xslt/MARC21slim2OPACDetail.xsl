@@ -270,6 +270,7 @@
         </xsl:if>
 
         <!-- Analytics -->
+         <!-- Hiding faux analytics feature joy 5/8/2018
         <xsl:if test="$leader7='s'">
         <span class="results_summary analytics"><span class="label">Analytics: </span>
             <a>
@@ -285,6 +286,7 @@
             </a>
         </span>
         </xsl:if>
+        -->
 
         <!-- Volumes of sets and traced series -->
         <xsl:if test="$materialTypeCode='ST' or substring($controlField008,22,1)='m'">
