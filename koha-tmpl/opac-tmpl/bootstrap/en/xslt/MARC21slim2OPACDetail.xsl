@@ -1127,9 +1127,9 @@
         </span>
         </xsl:for-each>
 
-<!-- CUSTOM FOR VIRGINIA TECH - add line breaks and additional subfields -->
+<!-- CUSTOM FOR VIRGINIA TECH - add line breaks and additional subfields joy 5/8/2018 -->
         <xsl:if test="marc:datafield[@tag=866]">
-            <span class="results_summary holdings_note"><span class="label">Holdings note: </span> <br />
+            <span class="results_summary holdings_note"><span class="label">Holdings: </span> <br />
                 <xsl:for-each select="marc:datafield[@tag=866]">
                     <xsl:call-template name="subfieldSelect">
                         <xsl:with-param name="codes">z</xsl:with-param>
@@ -1150,7 +1150,55 @@
                 </xsl:for-each>
             </span>
         </xsl:if>
-
+            
+        <!-- CUSTOM FOR VATECH -Adding display of 867 tags joy  5/8/2018 -->
+        <xsl:if test="marc:datafield[@tag=867]">
+            <span class="results_summary holdings_note"><span class="label">Supplements: </span> <br />
+                <xsl:for-each select="marc:datafield[@tag=867]">
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">z</xsl:with-param>
+                    </xsl:call-template>
+                    <xsl:text>: </xsl:text>
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">a</xsl:with-param>
+                    </xsl:call-template>
+                    <xsl:choose>
+                        <xsl:when test="position()=last()">
+                           <xsl:text></xsl:text>
+                        </xsl:when>
+                        <xsl:otherwise>
+                           <xsl:text>; </xsl:text>
+                           <br />
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:for-each>
+            </span>
+          </xsl:if>
+            
+           <!-- CUSTOM FOR VATECH -Adding display of 868 tags joy  5/8/2018 -->
+           <xsl:if test="marc:datafield[@tag=868]">
+            <span class="results_summary holdings_note"><span class="label">Indexes: </span> <br />
+                <xsl:for-each select="marc:datafield[@tag=868]">
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">z</xsl:with-param>
+                    </xsl:call-template>
+                    <xsl:text>: </xsl:text>
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">a</xsl:with-param>
+                    </xsl:call-template>
+                    <xsl:choose>
+                        <xsl:when test="position()=last()">
+                           <xsl:text></xsl:text>
+                        </xsl:when>
+                        <xsl:otherwise>
+                           <xsl:text>; </xsl:text>
+                           <br />
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:for-each>
+            </span>
+         </xsl:if>
+            
         <!--  775 Other Edition  -->
         <xsl:if test="marc:datafield[@tag=775]">
         <span class="results_summary other_editions"><span class="label">Other editions: </span>
