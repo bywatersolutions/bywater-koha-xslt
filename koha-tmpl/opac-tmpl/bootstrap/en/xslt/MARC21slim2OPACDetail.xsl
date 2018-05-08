@@ -1076,14 +1076,27 @@
         </span>
         </xsl:for-each>
 
+        <!--  CUSTOM FOR VSC - break 866 into separate lines-->
         <!-- 866 textual holdings -->
         <xsl:if test="marc:datafield[@tag=866]">
-            <span class="results_summary holdings_note"><span class="label">Holdings note: </span>
+            <span class="results_summary holdings_note"><span class="label">Holdings note: </span> <br />
                 <xsl:for-each select="marc:datafield[@tag=866]">
                     <xsl:call-template name="subfieldSelect">
-                        <xsl:with-param name="codes">az</xsl:with-param>
+                        <xsl:with-param name="codes">z</xsl:with-param>
                     </xsl:call-template>
-                    <xsl:choose><xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                                     <xsl:text>: </xsl:text>
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">a</xsl:with-param>
+                    </xsl:call-template>
+                    <xsl:choose>
+                        <xsl:when test="position()=last()">
+                           <xsl:text></xsl:text>
+                        </xsl:when>
+                        <xsl:otherwise>
+                           <xsl:text>; </xsl:text>
+                           <br />
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </xsl:for-each>
             </span>
         </xsl:if>
