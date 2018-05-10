@@ -576,7 +576,7 @@
             </xsl:if>
             <xsl:choose>
     <!--CUSTOM FOR VATECH remove trailing period on author -->
-                <xsl:when test="position()=last()"><xsl:text> </xsl:text></xsl:when><xsl:otherwise><span class="separator"><xsl:text> | </xsl:text></span></xsl:otherwise>
+                <xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><span class="separator"><xsl:text> | </xsl:text></span></xsl:otherwise>
             </xsl:choose>
         </xsl:for-each>
 
