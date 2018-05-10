@@ -1425,7 +1425,8 @@
                     <span class="titleportion">
                     <xsl:choose>
                         <xsl:when test="marc:subfield[@code='c' or @code='d' or @code='n'][not(marc:subfield[@code='t'])]"><xsl:text> </xsl:text></xsl:when>
-                        <xsl:otherwise><xsl:text>. </xsl:text></xsl:otherwise>
+                        <!--CUSTOM FOR VATECH change from .space to just space -->
+                        <xsl:otherwise><xsl:text> </xsl:text></xsl:otherwise>
                     </xsl:choose>
                     <xsl:call-template name="chopPunctuation">
                         <xsl:with-param name="chopString">
@@ -1441,7 +1442,8 @@
                     <span class="titleportion">
                     <xsl:choose>
                         <xsl:when test="marc:subfield[@code='c' or @code='d' or @code='g' or @code='n'][not(marc:subfield[@code='t'])]"><xsl:text> </xsl:text></xsl:when>
-                        <xsl:otherwise><xsl:text>. </xsl:text></xsl:otherwise>
+<!--CUSTOM FOR VATECH change from .space to just space -->
+                        <xsl:otherwise><xsl:text> </xsl:text></xsl:otherwise>
                     </xsl:choose>
 
                     <xsl:call-template name="chopPunctuation">
@@ -1493,7 +1495,8 @@
                     <span class="titleportion">
                     <xsl:choose>
                         <xsl:when test="marc:subfield[@code='c' or @code='d' or @code='g' or @code='n'][not(marc:subfield[@code='t'])]"><xsl:text> </xsl:text></xsl:when>
-                        <xsl:otherwise><xsl:text>. </xsl:text></xsl:otherwise>
+      <!--CUSTOM FOR VATECH change from .space to just space -->
+                        <xsl:otherwise><xsl:text> </xsl:text></xsl:otherwise>
                     </xsl:choose>
 
                     <xsl:call-template name="chopPunctuation">
@@ -1510,7 +1513,8 @@
                     <span class="titleportion">
                     <xsl:choose>
                         <xsl:when test="marc:subfield[@code='c' or @code='d' or @code='n'][not(marc:subfield[@code='t'])]"><xsl:text> </xsl:text></xsl:when>
-                        <xsl:otherwise><xsl:text>. </xsl:text></xsl:otherwise>
+   <!--CUSTOM FOR VATECH change from .space to just space -->
+                        <xsl:otherwise><xsl:text> </xsl:text></xsl:otherwise>
                     </xsl:choose>
                     <xsl:call-template name="chopPunctuation">
                         <xsl:with-param name="chopString">
