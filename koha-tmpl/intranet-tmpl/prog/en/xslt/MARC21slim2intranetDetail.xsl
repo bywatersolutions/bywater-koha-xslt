@@ -253,7 +253,7 @@
         </xsl:if>
 
         <!-- Analytics -->
-        <!--  Removing this 'feature' as it is 'faux' analytics' 
+        <!-- CUSTOM for VATECH - removing faux analtyics joy 5/8/2018
         <xsl:if test="$leader7='s'">
         <span class="results_summary analytics"><span class="label">Analytics: </span>
             <a>
@@ -269,7 +269,7 @@
             </a>
         </span>
         </xsl:if>
-       -->
+        -->
         
         <!-- Volumes of sets and traced series -->
         <xsl:if test="$materialTypeCode='ST' or substring($controlField008,22,1)='m'">
@@ -1015,6 +1015,7 @@
 
                 <!-- 853 Captions and Pattern data -->
 <!--CUSTOM FOR VATECH - adding  display of 853 854 855 -->
+        <!-- CUSTOM - REMOVING THIS DISPLAY next three stanzas are commented out.
         <xsl:if test="marc:datafield[@tag=853]">
             <span class="results_summary holdings_note"><span class="label">Captions and Pattern Information: </span> <br />
                 <xsl:for-each select="marc:datafield[@tag=853]">
@@ -1071,7 +1072,8 @@
                </xsl:for-each>
             </span>
          </xsl:if> 
-        
+        -->
+    
         <!-- 866 textual holdings -->
 <!--CUSTOM FOR VATECH - adding line breaks for display of 866 -->
         <xsl:if test="marc:datafield[@tag=866]">
@@ -1606,7 +1608,8 @@
             </xsl:if>
         </a>
         <xsl:choose>
-            <xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><span class="separator"><xsl:text> | </xsl:text></span></xsl:otherwise>
+ <!--Change . to nothing if the last author -->
+            <xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><span class="separator"><xsl:text> | </xsl:text></span></xsl:otherwise>
         </xsl:choose>
         </xsl:for-each>
         </h5>

@@ -270,7 +270,8 @@
         </xsl:if>
 
         <!-- Analytics -->
-         <!-- Hiding faux analytics feature joy 5/8/2018
+        <!-- CUSTOM for VATECH - hiding 'faux analytics' -->
+         <!--
         <xsl:if test="$leader7='s'">
         <span class="results_summary analytics"><span class="label">Analytics: </span>
             <a>
@@ -1127,7 +1128,11 @@
         </span>
         </xsl:for-each>
 
+<<<<<<< HEAD
 <!-- CUSTOM FOR VIRGINIA TECH - add line breaks and additional subfields joy 5/8/2018 -->
+=======
+         <!-- CUSTOM FOR VIRGINIA TECH - add display for 866 with line breaks and additional subfields -->
+>>>>>>> bwsxslt/v17.11/vatech
         <xsl:if test="marc:datafield[@tag=866]">
             <span class="results_summary holdings_note"><span class="label">Holdings: </span> <br />
                 <xsl:for-each select="marc:datafield[@tag=866]">
@@ -1151,7 +1156,11 @@
             </span>
         </xsl:if>
             
+<<<<<<< HEAD
         <!-- CUSTOM FOR VATECH -Adding display of 867 tags joy  5/8/2018 -->
+=======
+<!-- CUSTOM FOR VIRGINIA TECH - add display for 867 add line breaks and additional subfields -->
+>>>>>>> bwsxslt/v17.11/vatech
         <xsl:if test="marc:datafield[@tag=867]">
             <span class="results_summary holdings_note"><span class="label">Supplements: </span> <br />
                 <xsl:for-each select="marc:datafield[@tag=867]">
@@ -1173,10 +1182,17 @@
                     </xsl:choose>
                 </xsl:for-each>
             </span>
+<<<<<<< HEAD
           </xsl:if>
             
            <!-- CUSTOM FOR VATECH -Adding display of 868 tags joy  5/8/2018 -->
            <xsl:if test="marc:datafield[@tag=868]">
+=======
+        </xsl:if>
+
+         <!-- CUSTOM FOR VIRGINIA TECH - display for 868 add line breaks and additional subfields -->
+        <xsl:if test="marc:datafield[@tag=868]">
+>>>>>>> bwsxslt/v17.11/vatech
             <span class="results_summary holdings_note"><span class="label">Indexes: </span> <br />
                 <xsl:for-each select="marc:datafield[@tag=868]">
                     <xsl:call-template name="subfieldSelect">
@@ -1197,7 +1213,11 @@
                     </xsl:choose>
                 </xsl:for-each>
             </span>
+<<<<<<< HEAD
          </xsl:if>
+=======
+       </xsl:if>
+>>>>>>> bwsxslt/v17.11/vatech
             
         <!--  775 Other Edition  -->
         <xsl:if test="marc:datafield[@tag=775]">
@@ -1632,7 +1652,8 @@
                 </a>
             </xsl:if>
                 <xsl:choose>
-                    <xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><span class="separator"><xsl:text> | </xsl:text></span></xsl:otherwise>
+                    <!--CUSTOM FOR VATECH - remove trailing period -->
+                    <xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><span class="separator"><xsl:text> | </xsl:text></span></xsl:otherwise>
                 </xsl:choose>
             </xsl:for-each>
         </h5>
