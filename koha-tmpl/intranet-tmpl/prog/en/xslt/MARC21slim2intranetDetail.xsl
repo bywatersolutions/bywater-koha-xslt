@@ -1015,7 +1015,7 @@
 
                 <!-- 853 Captions and Pattern data -->
 <!--CUSTOM FOR VATECH - adding  display of 853 854 855 -->
-        <-- CUSTOM - REMOVING THIS DISPLAY next three stanzas are commented out.
+        <!-- CUSTOM - REMOVING THIS DISPLAY next three stanzas are commented out.
         <xsl:if test="marc:datafield[@tag=853]">
             <span class="results_summary holdings_note"><span class="label">Captions and Pattern Information: </span> <br />
                 <xsl:for-each select="marc:datafield[@tag=853]">
