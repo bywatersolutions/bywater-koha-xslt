@@ -34,6 +34,7 @@
     <xsl:variable name="singleBranchMode" select="marc:sysprefs/marc:syspref[@name='singleBranchMode']"/>
     <xsl:variable name="OPACTrackClicks" select="marc:sysprefs/marc:syspref[@name='TrackClicks']"/>
     <xsl:variable name="BiblioDefaultView" select="marc:sysprefs/marc:syspref[@name='BiblioDefaultView']"/>
+    <xsl:variable name="UseAuthoritiesForTracings" select="marc:sysprefs/marc:syspref[@name='UseAuthoritiesForTracings']"/>
         <xsl:variable name="leader" select="marc:leader"/>
         <xsl:variable name="leader6" select="substring($leader,7,1)"/>
         <xsl:variable name="leader7" select="substring($leader,8,1)"/>
@@ -593,6 +594,65 @@
                     </xsl:call-template>
             </xsl:for-each>
 	</span>
+    </xsl:if>
+
+
+    <!--Make local 520 summary appear in search results-->
+    <!--for #45197 Caboose-->
+    <xsl:if test="marc:datafield[@tag=520]">
+        <span class="results_summary edition">
+            <span class="label">Summary </span>
+            <xsl:for-each select="marc:datafield[@tag=520]">
+                <xsl:call-template name="subfieldSelect">
+                    <xsl:with-param name="codes">a</xsl:with-param>
+                </xsl:call-template>
+            </xsl:for-each>
+        </span>
+    </xsl:if>
+    <!--Make local 690 subject appear in search results-->
+    <!--for #45197 Caboose-->
+    <xsl:if test="marc:datafield[@tag=690]">
+        <span class="results_summary subjects local_subject ">
+            <span class="label">Subject(s): </span>
+            <xsl:for-each select="marc:datafield[@tag=690]"><a>
+                <xsl:choose>
+                    <!-- #1807 Strip unwanted parenthesis from subjects for searching -->
+                    <xsl:when test="marc:subfield[@code=9] and $UseAuthoritiesForTracings='1'">
+                        <xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=an:<xsl:value-of select="marc:subfield[@code=9]"/></xsl:attribute>
+                    </xsl:when>
+                    <xsl:when test="$TraceSubjectSubdivisions='1'">
+                        <xsl:attribute name="href">/cgi-bin/koha/opac/search.pl?q=<xsl:call-template name="subfieldSelectSubject"><xsl:with-param name="codes">abcdfgklmnopqrstvxyz</xsl:with-param><xsl:with-param name="delimeter"> AND </xsl:with-param><xsl:with-param name="prefix">(su<xsl:value-of select="$SubjectModifier"/>:<xsl:value-of select="$TracingQuotesLeft"/></xsl:with-param><xsl:with-param name="suffix"><xsl:value-of select="$TracingQuotesRight"/>)</xsl:with-param></xsl:call-template> </xsl:attribute>
+                    </xsl:when>
+                    <!-- #1807 Strip unwanted parenthesis from subjects for searching -->
+                    <xsl:otherwise>
+                        <xsl:attribute name="href">/cgi-bin/koha/opac/search.pl?q=su<xsl:value-of select="$SubjectModifier"/>:<xsl:value-of select="$TracingQuotesLeft"/><xsl:value-of select="translate(marc:subfield[@code='a'],'()     ','')"/><xsl:value-of select="$TracingQuotesRight"/></xsl:attribute>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:call-template name="chopPunctuation">
+                    <xsl:with-param name="chopString">
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">abcdfgklmnopqrstvxyz</xsl:with-param>
+                        <xsl:with-param name="subdivCodes">vxyz</xsl:with-param>
+                        <xsl:with-param name="subdivDelimiter">-- </xsl:with-param>
+                    </xsl:call-template>
+                    </xsl:with-param>
+                </xsl:call-template></a>
+                <xsl:choose>
+                    <xsl:when test="position()=last()"/>
+                    <xsl:otherwise> | </xsl:otherwise>
+                </xsl:choose>.
+            </xsl:for-each>
+        </span>
+    </xsl:if>
+    <xsl:if test="marc:datafield[@tag=773]">
+        <xsl:for-each select="marc:datafield[@tag=773]">
+            <xsl:if test="marc:subfield[@code='t']">
+                <span class="results_summary">
+                    <span class="label">Source: </span>
+                    <xsl:value-of select="marc:subfield[@code='t']"/>
+                </span>
+            </xsl:if>
+        </xsl:for-each>
     </xsl:if>
 
     <xsl:if test="marc:datafield[@tag=773]">
