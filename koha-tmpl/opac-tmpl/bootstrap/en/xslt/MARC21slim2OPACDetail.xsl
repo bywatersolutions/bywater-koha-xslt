@@ -854,6 +854,61 @@
         </span>
     </xsl:if>
 
+        <xsl:for-each select="marc:datafield[@tag='024']">
+            <xsl:for-each select="current()/marc:subfield[@code='a']">
+                <span class="results_summary project_num">
+                <span class="label">Project Number: </span>
+                    <xsl:value-of select="current()"/>
+                </span>
+            </xsl:for-each>
+        </xsl:for-each>
+
+        <xsl:for-each select="marc:datafield[@tag='027']">
+            <xsl:for-each select="current()/marc:subfield[@code='a']">
+                <span class="results_summary proposal">
+                <span class="label">Proposal Number: </span>
+                    <xsl:value-of select="current()"/>
+                </span>
+            </xsl:for-each>
+        </xsl:for-each>
+
+        <xsl:for-each select="marc:datafield[@tag='028']">
+            <xsl:for-each select="current()/marc:subfield[@code='a']">
+                <span class="results_summary contract">
+                <span class="label">Contract Number: </span>
+                    <xsl:value-of select="current()"/>
+                </span>
+            </xsl:for-each>
+        </xsl:for-each>
+
+        <xsl:for-each select="marc:datafield[@tag='830']">
+            <xsl:for-each select="current()/marc:subfield[@code='a']">
+                <span class="results_summary project_title">
+                <span class="label">Project title: </span>
+                    <xsl:value-of select="current()"/>
+                </span>
+            </xsl:for-each>
+        </xsl:for-each>
+
+        <xsl:for-each select="marc:datafield[@tag='830']">
+            <xsl:for-each select="current()/marc:subfield[@code='f']">
+                <span class="results_summary contract_date">
+                <span class="label">Exact date: </span>
+                    <xsl:value-of select="current()"/>
+                </span>
+            </xsl:for-each>
+        </xsl:for-each>
+
+        <xsl:for-each select="marc:datafield[@tag='586']">
+            <xsl:for-each select="current()/marc:subfield[@code='a']">
+                <span class="results_summary contract_win_loss">
+                <span class="label">Win/Loss: </span>
+                    <xsl:value-of select="current()"/>
+                </span>
+            </xsl:for-each>
+        </xsl:for-each>
+
+
 <!-- DDC classification -->
     <xsl:if test="marc:datafield[@tag=082]">
         <span class="results_summary ddc">
