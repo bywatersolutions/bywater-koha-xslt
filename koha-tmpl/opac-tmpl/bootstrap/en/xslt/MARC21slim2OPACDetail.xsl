@@ -1296,6 +1296,17 @@
         </xsl:for-each>
         </xsl:if>
 
+        <!-- 852 -->
+        <xsl:for-each select="marc:datafield[@tag='852']">
+            <xsl:for-each select="current()/marc:subfield[@code='b']">
+                <span class="results_summary holdings_note">
+                <span class="label">Holdings note: </span>
+                    <xsl:value-of select="current()"/>
+                </span>
+            </xsl:for-each>
+        </xsl:for-each>
+
+
     </xsl:element>
     </xsl:template>
 
