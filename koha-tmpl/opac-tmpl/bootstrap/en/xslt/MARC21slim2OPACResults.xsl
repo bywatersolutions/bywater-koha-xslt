@@ -972,6 +972,15 @@
 	</span>
 </xsl:if>
 
+<!-- 905 Local Field Indicating College Access Restrictions -->
+<xsl:if test="marc:datafield[@tag=905]">
+	<span class="results_summary"><span class="label">Access Note: </span>
+	<xsl:for-each select="marc:datafield[@tag=905]">
+		<xsl:value-of select="marc:subfield[@code='a']" />
+	</xsl:for-each>
+	</span>
+</xsl:if>
+
     <!-- Publisher Statement: Alternate Graphic Representation (MARC 880) -->
     <xsl:if test="$display880">
       <xsl:call-template name="m880Select">
