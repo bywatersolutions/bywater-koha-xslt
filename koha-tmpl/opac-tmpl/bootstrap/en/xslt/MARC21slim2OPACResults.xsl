@@ -980,6 +980,17 @@
       </xsl:call-template>
     </xsl:if>
 
+        <!--Series: Alternate Graphic Representation (MARC 880) -->
+        <xsl:if test="$display880">
+            <xsl:call-template name="m880Select">
+                <xsl:with-param name="basetags">440,490</xsl:with-param>
+                <xsl:with-param name="codes">av</xsl:with-param>
+                <xsl:with-param name="class">results_summary series</xsl:with-param>
+                <xsl:with-param name="label">Series: </xsl:with-param>
+                <xsl:with-param name="index">se</xsl:with-param>
+            </xsl:call-template>
+        </xsl:if>
+
     <!-- Publisher info and RDA related info from tags 260, 264 -->
     <xsl:choose>
         <xsl:when test="marc:datafield[@tag=264]">
