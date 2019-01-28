@@ -607,6 +607,17 @@
         </xsl:for-each>
     </xsl:if>
 
+<!-- RT 55716: display material type based on the 942c and item:collectioncode values, instead of the leader.
+     Works when DiplayOPACicons is disabled to minimize changes to source XSLT -->
+    <xsl:if test="$DisplayOPACiconsXSLT='0'">
+        <span class="results_summary type">
+            <span class="label">Material type: </span>
+            <xsl:value-of select="marc:datafield[@tag='942']/marc:subfield[@code='c']"/>
+            <xsl:text> </xsl:text>
+            <xsl:value-of select="items:items/items:item[1]/items:ccode"/>
+        </span>
+    </xsl:if><!-- end of RT 55716 modification -->
+
 <xsl:if test="$DisplayOPACiconsXSLT!='0'">
     <span class="results_summary type">
     <xsl:if test="$typeOf008!=''">
