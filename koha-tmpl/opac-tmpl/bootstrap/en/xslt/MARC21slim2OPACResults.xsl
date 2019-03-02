@@ -444,7 +444,7 @@
             </xsl:for-each>
         </xsl:if>
     </a>
-    <p>
+    <div class="authors"><!-- RT55716: turn the p here into a .authors div in order to solve the conflict with the local css -->
 
     <!-- Author Statement: Alternate Graphic Representation (MARC 880) -->
     <xsl:if test="$display880">
@@ -460,6 +460,16 @@
     by <span class="author">
         <!-- #13383 -->
         <xsl:for-each select="marc:datafield[(@tag=100 or @tag=700 or @tag=110 or @tag=710 or @tag=111 or @tag=711) and @ind1!='z']">
+		<!-- RT 55716: add link for searching on the authors as authorities -->
+		<a>
+			<xsl:choose>
+				<xsl:when test="marc:subfield[@code=9]">
+					<xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=an:<xsl:value-of select="str:encode-uri(marc:subfield[@code=9], true())"/></xsl:attribute>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=au:"<xsl:value-of select="str:encode-uri(marc:subfield[@code='a'], true())"/>"</xsl:attribute>
+				</xsl:otherwise>
+			</xsl:choose>
             <xsl:call-template name="chopPunctuation">
                 <xsl:with-param name="chopString">
                     <xsl:call-template name="subfieldSelect">
@@ -535,7 +545,8 @@
                     </xsl:with-param>
                 </xsl:call-template>
                 </span>
-            </xsl:if>
+	</xsl:if>
+</a> <!-- RT 55716: close the a element for searching on authors -->
             <!-- Display relators for 1XX and 7XX fields -->
             <xsl:if test="marc:subfield[@code='4' or @code='e'][not(parent::*[@tag=111])] or (self::*[@tag=111] and marc:subfield[@code='4' or @code='j'][. != ''])">
                 <span class="relatorcode">
@@ -583,7 +594,11 @@
     </span>
     </xsl:when>
     </xsl:choose>
-    </p>
+    <!-- RT55716: display the date from 008 after the authors -->
+    <xsl:text> (</xsl:text>
+    <xsl:value-of select="substring(marc:controlfield[@tag=008],8,4)"/>
+    <xsl:text>)</xsl:text>
+    </div><!-- RT55716: close the .authors div -->
 
     <xsl:if test="marc:datafield[@tag=250]">
     <span class="results_summary edition">
