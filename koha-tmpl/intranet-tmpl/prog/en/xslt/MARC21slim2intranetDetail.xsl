@@ -143,6 +143,12 @@
                         </xsl:choose>
                     </xsl:for-each>
                 </xsl:for-each>
+                <!-- RT 56744: When 490a starts with "video game," display the text after "video game" in the record title -->
+                <xsl:if test="starts-with(marc:datafield[@tag=490]/marc:subfield[@code='a'],'video game,')">
+                    <xsl:text>(</xsl:text>
+                    <xsl:value-of select="normalize-space(substring-after(marc:datafield[@tag=490]/marc:subfield[@code='a'],'video game,'))"/>
+                    <xsl:text>)</xsl:text>
+                </xsl:if><!-- End of RT 56744 modification -->
             </h1>
         </xsl:if>
 
