@@ -1032,6 +1032,24 @@
         </span>
     </xsl:if>
 
+    <!-- RT56827: display the summary (520a) in the search results -->
+    <xsl:for-each select="marc:datafield[@tag=520]">
+        <span class="results_summary summary"><span class="label">
+                <xsl:choose>
+                    <xsl:when test="@ind1=0"><xsl:text>Subject: </xsl:text></xsl:when>
+                    <xsl:when test="@ind1=1"><xsl:text>Review: </xsl:text></xsl:when>
+                    <xsl:when test="@ind1=2"><xsl:text>Scope and content: </xsl:text></xsl:when>
+                    <xsl:when test="@ind1=3"><xsl:text>Abstract: </xsl:text></xsl:when>
+                    <xsl:when test="@ind1=4"><xsl:text>Content advice: </xsl:text></xsl:when>
+                    <xsl:otherwise><xsl:text>Summary: </xsl:text></xsl:otherwise>
+                </xsl:choose>
+            </span>
+            <xsl:call-template name="subfieldSelect">
+                <xsl:with-param name="codes">a</xsl:with-param>
+            </xsl:call-template>
+        </span>
+    </xsl:for-each>
+
     <!-- Other Title  Statement: Alternate Graphic Representation (MARC 880) -->
     <xsl:if test="$display880">
        <xsl:call-template name="m880Select">
