@@ -19,7 +19,7 @@
     <xsl:template match="marc:record">
 
         <!-- Option: Display Alternate Graphic Representation (MARC 880)  -->
-        <xsl:variable name="display880" select="boolean(marc:datafield[@tag=880])"/>
+        <xsl:variable name="display880" select="false()"/><!-- RT 48588: make the display880 variable always false -->
 
     <xsl:variable name="OPACResultsLibrary" select="marc:sysprefs/marc:syspref[@name='OPACResultsLibrary']"/>
     <xsl:variable name="hidelostitems" select="marc:sysprefs/marc:syspref[@name='hidelostitems']"/>
@@ -987,8 +987,8 @@
             <xsl:choose><xsl:when test="position()=last()"><xsl:text>. </xsl:text></xsl:when><xsl:otherwise><xsl:text> ; </xsl:text></xsl:otherwise></xsl:choose>
         </xsl:for-each>
 
-        <!-- 490 Series not traced, Ind1 = 0 -->
-        <xsl:for-each select="marc:datafield[@tag=490][@ind1!=1]">
+        <!-- 490 Series not traced, Ind1 = 0 RT 48588: remove the Ind1=0 condition -->
+        <xsl:for-each select="marc:datafield[@tag=490]">
             <a><xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=se,phr:"<xsl:value-of select="marc:subfield[@code='a']"/>"</xsl:attribute>
                         <xsl:call-template name="chopPunctuation">
                             <xsl:with-param name="chopString">
@@ -1001,8 +1001,8 @@
                     <xsl:call-template name="part"/>
         <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
         </xsl:for-each>
-        <!-- 490 Series traced, Ind1 = 1 -->
-        <xsl:if test="marc:datafield[@tag=490][@ind1=1]">
+        <!-- 490 Series traced, Ind1 = 1 RT 48588: ignore the specific treatment when Ind1 = 1 -->
+        <!--<xsl:if test="marc:datafield[@tag=490][@ind1=1]">
             <xsl:for-each select="marc:datafield[@tag=800 or @tag=810 or @tag=811 or @tag=830]">
                 <xsl:choose>
                     <xsl:when test="$UseControlNumber = '1' and marc:subfield[@code='w']">
@@ -1033,7 +1033,7 @@
                 <xsl:value-of  select="marc:subfield[@code='v']" />
             <xsl:choose><xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
             </xsl:for-each>
-        </xsl:if>
+        </xsl:if>-->
         </span>
         </xsl:if>
     <!-- Publisher Statement: Alternate Graphic Representation (MARC 880) -->
@@ -1489,6 +1489,34 @@
         <xsl:if test="substring($string, 1,1)!='['">
             <xsl:value-of select="$string"></xsl:value-of>
         </xsl:if>
+    </xsl:template>
+
+    <!-- RT 48588 : add the part template to the Results stylesheet, which was using it but didn't define it -->
+    <xsl:template name="part">
+    <xsl:variable name="partNumber">
+        <xsl:call-template name="specialSubfieldSelect">
+            <xsl:with-param name="axis">n</xsl:with-param>
+            <xsl:with-param name="anyCodes">n</xsl:with-param>
+            <xsl:with-param name="afterCodes">fghkdlmor</xsl:with-param>
+        </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable name="partName">
+        <xsl:call-template name="specialSubfieldSelect">
+            <xsl:with-param name="axis">p</xsl:with-param>
+            <xsl:with-param name="anyCodes">p</xsl:with-param>
+            <xsl:with-param name="afterCodes">fghkdlmor</xsl:with-param>
+        </xsl:call-template>
+    </xsl:variable>
+    <xsl:if test="string-length(normalize-space($partNumber))">
+        <xsl:call-template name="chopPunctuation">
+            <xsl:with-param name="chopString" select="$partNumber"/>
+        </xsl:call-template>
+    </xsl:if>
+    <xsl:if test="string-length(normalize-space($partName))">
+        <xsl:call-template name="chopPunctuation">
+            <xsl:with-param name="chopString" select="$partName"/>
+        </xsl:call-template>
+    </xsl:if>
     </xsl:template>
 
 </xsl:stylesheet>
