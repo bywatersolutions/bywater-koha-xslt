@@ -225,6 +225,7 @@
                             </xsl:with-param>
                         </xsl:call-template>
             </a>
+            <xsl:text> </xsl:text>
             <xsl:call-template name="part"/>
             <xsl:choose><xsl:when test="position()=last()"><xsl:text>. </xsl:text></xsl:when><xsl:otherwise><xsl:text> ; </xsl:text></xsl:otherwise></xsl:choose>
         </xsl:for-each>
@@ -240,6 +241,7 @@
                             </xsl:with-param>
                         </xsl:call-template>
             </a>
+            <xsl:text> </xsl:text>
                     <xsl:call-template name="part"/>
         <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
         </xsl:for-each>
@@ -287,6 +289,7 @@
                                 </xsl:with-param>
                             </xsl:call-template>
                         </a>
+                    
                     </xsl:when>
                     <xsl:otherwise>
                         <a><xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=se,phr:"<xsl:value-of select="marc:subfield[@code='a']"/>"</xsl:attribute>
@@ -302,6 +305,7 @@
                         <xsl:call-template name="part"/>
                     </xsl:otherwise>
                 </xsl:choose>
+                <xsl:text>: </xsl:text>
                 <xsl:value-of  select="marc:subfield[@code='v']" />
             <xsl:choose><xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
             </xsl:for-each>
@@ -458,9 +462,6 @@
 </xsl:call-template>
 </xsl:with-param>
 </xsl:call-template>
-</xsl:for-each>
-</span>
-</xsl:if>
         <!-- Description: Alternate Graphic Representation (MARC 880) -->
         <xsl:if test="$display880">
             <xsl:call-template name="m880Select">
