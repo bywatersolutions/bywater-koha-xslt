@@ -1,7 +1,6 @@
 <?xml version='1.0'?>
 <!DOCTYPE stylesheet [<!ENTITY nbsp "&#160;" >]>
 <xsl:stylesheet version="1.0" xmlns:marc="http://www.loc.gov/MARC21/slim" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:str="http://exslt.org/strings" exclude-result-prefixes="marc str">
-    <xsl:variable name="UseControlNumber" select="marc:sysprefs/marc:syspref[@name='UseControlNumber']"/>
 	<xsl:template name="datafield">
 		<xsl:param name="tag"/>
 		<xsl:param name="ind1"><xsl:text> </xsl:text></xsl:param>
@@ -302,6 +301,7 @@
     <xsl:template name="linkingEntryFields">
         <xsl:param name="field"/>
         <xsl:param name="caption"/>
+        <xsl:param name="myUseControlNumber">1</xsl:param>
         <xsl:for-each select="marc:datafield[@tag=$field]">
             <span class="results_summary">
                 <xsl:choose><!-- manage the caption according to indicator 2 if field 780 or 785, otherwise according to the caption parameter-->
@@ -338,7 +338,7 @@
                 </xsl:call-template>
                 <xsl:choose>
                     <!-- if the UseControlNumber syspref is activated and we have a $w subfield, clear up the string to format the link -->
-                    <xsl:when test="$UseControlNumber = '1' and marc:subfield[@code='w']">
+                    <xsl:when test="$myUseControlNumber = '1' and marc:subfield[@code='w']">
                         <xsl:variable name="searchString">
                             <xsl:variable name="cleanString">
                                 <xsl:choose>
