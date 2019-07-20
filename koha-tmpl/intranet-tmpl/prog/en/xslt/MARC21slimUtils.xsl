@@ -339,35 +339,37 @@
                 <xsl:choose>
                     <!-- if the UseControlNumber syspref is activated and we have a $w subfield, clear up the string to format the link -->
                     <xsl:when test="$myUseControlNumber = '1' and marc:subfield[@code='w']">
+			    <xsl:for-each select="marc:subfield[@code='w']">
                         <xsl:variable name="searchString">
                             <xsl:variable name="cleanString">
                                 <xsl:choose>
-                                    <xsl:when test="substring-after(marc:subfield[@code='w'],'(OCoLC)')">
-                                        <xsl:value-of select="substring-after(marc:subfield[@code='w'],'(OCoLC)')" />
+                                    <xsl:when test="substring-after(.,'(OCoLC)')">
+                                        <xsl:value-of select="substring-after(.,'(OCoLC)')" />
                                     </xsl:when>
                                     <xsl:otherwise>
-                                        <xsl:value-of select="marc:subfield[@code='w']"/>
+                                        <xsl:value-of select="."/>
                                     </xsl:otherwise>
                                 </xsl:choose>
                             </xsl:variable>
                             <xsl:choose>
-                                <xsl:when test="starts-with(marc:subfield[@code='w'],'(OCoLC)') and (string-length($cleanString) &lt; 9)">
+                                <xsl:when test="starts-with(.,'(OCoLC)') and (string-length($cleanString) &lt; 9)">
                                     <xsl:value-of select="concat('ocm',format-number($cleanString,'00000000'))"/>
                                 </xsl:when>
-                                <xsl:when test="starts-with(marc:subfield[@code='w'],'(OCoLC)') and (string-length($cleanString) = 9)">
+                                <xsl:when test="starts-with(.,'(OCoLC)') and (string-length($cleanString) = 9)">
                                     <xsl:value-of select="concat('ocn',$cleanString)"/>
                                 </xsl:when>
-                                <xsl:when test="starts-with(marc:subfield[@code='w'],'(OCoLC)')">
+                                <xsl:when test="starts-with(.,'(OCoLC)')">
                                     <xsl:value-of select="concat('on',$cleanString)"/>
                                 </xsl:when>
                                 <xsl:otherwise>
-                                    <xsl:value-of select="marc:subfield[@code='w']"/>
+                                    <xsl:value-of select="."/>
                                 </xsl:otherwise>
                             </xsl:choose>
                         </xsl:variable>
                         <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=Control-number:<xsl:value-of select="$searchString"/></xsl:attribute>
-                            <xsl:text> </xsl:text><xsl:value-of select="marc:subfield[@code='w']"/>
-                        </a>
+                            <xsl:text> </xsl:text><xsl:value-of select="."/>
+		    </a>
+	    </xsl:for-each>
                     </xsl:when>
                     <!-- otherwise use $0 if it exists, and if it doesn't search on $a and $t in the title -->
                     <xsl:when test="marc:subfield[@code='0']">
