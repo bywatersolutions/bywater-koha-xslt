@@ -340,6 +340,7 @@
                     <!-- if the UseControlNumber syspref is activated and we have a $w subfield, clear up the string to format the link -->
                     <xsl:when test="$myUseControlNumber = '1' and marc:subfield[@code='w']">
 			    <xsl:for-each select="marc:subfield[@code='w']">
+                    <xsl:if test="starts-with(.,'(OCoLC)')">
                         <xsl:variable name="searchString">
                             <xsl:variable name="cleanString">
                                 <xsl:choose>
@@ -368,7 +369,8 @@
                         </xsl:variable>
                         <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=Control-number:<xsl:value-of select="$searchString"/></xsl:attribute>
                             <xsl:text> </xsl:text><xsl:value-of select="."/>
-		    </a>
+                        </a>
+                    </xsl:if>
 	    </xsl:for-each>
                     </xsl:when>
                     <!-- otherwise use $0 if it exists, and if it doesn't search on $a and $t in the title -->
