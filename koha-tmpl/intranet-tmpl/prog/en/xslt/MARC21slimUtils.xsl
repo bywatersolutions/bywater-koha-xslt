@@ -305,30 +305,57 @@
         <xsl:for-each select="marc:datafield[@tag=$field]">
             <span class="results_summary">
                 <xsl:choose><!-- manage the caption according to indicator 2 if field 780 or 785, otherwise according to the caption parameter-->
-                    <xsl:when test="(@tag='780' or @tag='785') and @ind2=0">
-                        <span class="label">Continues:</span>
-                    </xsl:when>
-                    <xsl:when test="(@tag='780' or @tag='785') and @ind2=1">
-                        <span class="label">Continues in part:</span>
-                    </xsl:when>
-                    <xsl:when test="(@tag='780' or @tag='785') and @ind2=2">
-                        <span class="label">Supersedes:</span>
-                    </xsl:when>
-                    <xsl:when test="(@tag='780' or @tag='785') and @ind2=3">
-                        <span class="label">Supersedes in part:</span>
-                    </xsl:when>
-                    <xsl:when test="(@tag='780' or @tag='785') and @ind2=4">
-                        <span class="label">Formed by the union: ... and: ...</span>
-                    </xsl:when>
-                    <xsl:when test="(@tag='780' or @tag='785') and @ind2=5">
-                        <span class="label">Absorbed:</span>
-                    </xsl:when>
-                    <xsl:when test="(@tag='780' or @tag='785') and @ind2=6">
-                        <span class="label">Absorbed in part:</span>
-                    </xsl:when>
-                    <xsl:when test="(@tag='780' or @tag='785') and @ind2=7">
-                        <span class="label">Separated from:</span>
-                    </xsl:when>
+        <xsl:when test="@tag='785' and @ind2=0">
+            <span class="label">Continued by:</span>
+        </xsl:when>
+        <xsl:when test="@tag='785' and @ind2=1">
+            <span class="label">Continued in part by:</span>
+        </xsl:when>
+        <xsl:when test="@tag='785' and @ind2=2">
+            <span class="label">Superseded by:</span>
+        </xsl:when>
+        <xsl:when test="@tag='785' and @ind2=3">
+            <span class="label">Superseded in part by:</span>
+        </xsl:when>
+        <xsl:when test="@tag='785' and @ind2=4">
+            <span class="label">Absorbed by:</span>
+        </xsl:when>
+        <xsl:when test="@tag='785' and @ind2=5">
+            <span class="label">Absorbed in part by:</span>
+        </xsl:when>
+        <xsl:when test="@tag='785' and @ind2=6">
+            <span class="label">Split into .. and ...:</span>
+        </xsl:when>
+        <xsl:when test="@tag='785' and @ind2=7">
+            <span class="label">Merged with ... to form ...</span>
+        </xsl:when>
+        <xsl:when test="@tag='785' and @ind2=8">
+            <span class="label">Changed back to:</span>
+        </xsl:when>
+        <xsl:when test="@tag='780' and @ind2=0">
+            <span class="label">Continues:</span>
+        </xsl:when>
+        <xsl:when test="@tag='780' and @ind2=1">
+            <span class="label">Continues in part:</span>
+        </xsl:when>
+        <xsl:when test="@tag='780' and @ind2=2">
+            <span class="label">Supersedes:</span>
+        </xsl:when>
+        <xsl:when test="@tag='780' and @ind2=3">
+            <span class="label">Supersedes in part:</span>
+        </xsl:when>
+        <xsl:when test="@tag='780' and @ind2=4">
+            <span class="label">Formed by the union: ... and: ...</span>
+        </xsl:when>
+        <xsl:when test="@tag='780' and @ind2=5">
+            <span class="label">Absorbed:</span>
+        </xsl:when>
+        <xsl:when test="@tag='780' and @ind2=6">
+            <span class="label">Absorbed in part:</span>
+        </xsl:when>
+        <xsl:when test="@tag='780' and @ind2=7">
+            <span class="label">Separated from:</span>
+        </xsl:when>
                     <xsl:otherwise>
                         <span class="label"><xsl:value-of select="$caption"/>&nbsp;</span>
                     </xsl:otherwise>
@@ -370,7 +397,7 @@
                         <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=Control-number:<xsl:value-of select="$searchString"/></xsl:attribute>
                             <xsl:text> </xsl:text><xsl:value-of select="."/>
                         </a>
-                    </xsl:if>
+                        </xsl:if>
 	    </xsl:for-each>
                     </xsl:when>
                     <!-- otherwise use $0 if it exists, and if it doesn't search on $a and $t in the title -->
