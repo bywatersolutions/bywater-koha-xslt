@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <!DOCTYPE stylesheet [<!ENTITY nbsp "&#160;" >]>
-<xsl:stylesheet version="1.0" xmlns:marc="http://www.loc.gov/MARC21/slim" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" exclude-result-prefixes="marc">
+<xsl:stylesheet version="1.0" xmlns:marc="http://www.loc.gov/MARC21/slim" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:str="http://exslt.org/strings" exclude-result-prefixes="marc">
 	<xsl:template name="datafield">
 		<xsl:param name="tag"/>
 		<xsl:param name="ind1"><xsl:text> </xsl:text></xsl:param>
@@ -295,6 +295,125 @@
 
         </span>
     </xsl:template>
+
+    <xsl:template name="linkingEntryFields">
+        <xsl:param name="field"/>
+        <xsl:param name="caption"/>
+        <xsl:param name="myUseControlNumber">1</xsl:param>
+        <xsl:for-each select="marc:datafield[@tag=$field]">
+            <span class="results_summary">
+                <xsl:choose><!-- manage the caption according to indicator 2 if field 780 or 785, otherwise according to the caption parameter-->
+        <xsl:when test="@tag='785' and @ind2=0">
+            <span class="label">Continued by:</span>
+        </xsl:when>
+        <xsl:when test="@tag='785' and @ind2=1">
+            <span class="label">Continued in part by:</span>
+        </xsl:when>
+        <xsl:when test="@tag='785' and @ind2=2">
+            <span class="label">Superseded by:</span>
+        </xsl:when>
+        <xsl:when test="@tag='785' and @ind2=3">
+            <span class="label">Superseded in part by:</span>
+        </xsl:when>
+        <xsl:when test="@tag='785' and @ind2=4">
+            <span class="label">Absorbed by:</span>
+        </xsl:when>
+        <xsl:when test="@tag='785' and @ind2=5">
+            <span class="label">Absorbed in part by:</span>
+        </xsl:when>
+        <xsl:when test="@tag='785' and @ind2=6">
+            <span class="label">Split into .. and ...:</span>
+        </xsl:when>
+        <xsl:when test="@tag='785' and @ind2=7">
+            <span class="label">Merged with ... to form ...</span>
+        </xsl:when>
+        <xsl:when test="@tag='785' and @ind2=8">
+            <span class="label">Changed back to:</span>
+        </xsl:when>
+        <xsl:when test="@tag='780' and @ind2=0">
+            <span class="label">Continues:</span>
+        </xsl:when>
+        <xsl:when test="@tag='780' and @ind2=1">
+            <span class="label">Continues in part:</span>
+        </xsl:when>
+        <xsl:when test="@tag='780' and @ind2=2">
+            <span class="label">Supersedes:</span>
+        </xsl:when>
+        <xsl:when test="@tag='780' and @ind2=3">
+            <span class="label">Supersedes in part:</span>
+        </xsl:when>
+        <xsl:when test="@tag='780' and @ind2=4">
+            <span class="label">Formed by the union: ... and: ...</span>
+        </xsl:when>
+        <xsl:when test="@tag='780' and @ind2=5">
+            <span class="label">Absorbed:</span>
+        </xsl:when>
+        <xsl:when test="@tag='780' and @ind2=6">
+            <span class="label">Absorbed in part:</span>
+        </xsl:when>
+        <xsl:when test="@tag='780' and @ind2=7">
+            <span class="label">Separated from:</span>
+        </xsl:when>
+                    <xsl:otherwise>
+                        <span class="label"><xsl:value-of select="$caption"/>&nbsp;</span>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:call-template name="subfieldSelect">
+                    <xsl:with-param name="codes">abcdefghijklmnopqrstuvxyz</xsl:with-param>
+                </xsl:call-template>
+                <xsl:choose>
+                    <!-- if the UseControlNumber syspref is activated and we have a $w subfield, clear up the string to format the link -->
+                    <xsl:when test="$myUseControlNumber = '1' and marc:subfield[@code='w']">
+			    <xsl:for-each select="marc:subfield[@code='w']">
+                    <xsl:if test="starts-with(.,'(OCoLC)')">
+                        <xsl:variable name="searchString">
+                            <xsl:variable name="cleanString">
+                                <xsl:choose>
+                                    <xsl:when test="substring-after(.,'(OCoLC)')">
+                                        <xsl:value-of select="substring-after(.,'(OCoLC)')" />
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <xsl:value-of select="."/>
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                            </xsl:variable>
+                            <xsl:choose>
+                                <xsl:when test="starts-with(.,'(OCoLC)') and (string-length($cleanString) &lt; 9)">
+                                    <xsl:value-of select="concat('ocm',format-number($cleanString,'00000000'))"/>
+                                </xsl:when>
+                                <xsl:when test="starts-with(.,'(OCoLC)') and (string-length($cleanString) = 9)">
+                                    <xsl:value-of select="concat('ocn',$cleanString)"/>
+                                </xsl:when>
+                                <xsl:when test="starts-with(.,'(OCoLC)')">
+                                    <xsl:value-of select="concat('on',$cleanString)"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:value-of select="."/>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:variable>
+                        <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/opac-search.pl?q=Control-number:<xsl:value-of select="$searchString"/></xsl:attribute>
+                            <xsl:text> </xsl:text><xsl:value-of select="."/>
+                        </a>
+                    </xsl:if>
+	    </xsl:for-each>
+                    </xsl:when>
+                    <!-- otherwise use $0 if it exists, and if it doesn't search on $a and $t in the title -->
+                    <xsl:when test="marc:subfield[@code='0']">
+                        <a><xsl:attribute name="href">/cgi-bin/koha/opac-detail.pl?biblionumber=<xsl:value-of select="str:encode-uri(marc:subfield[@code='0'], true())"/></xsl:attribute>
+                            (access the record)
+                        </a>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <a><xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=ti,phr:<xsl:value-of select="str:encode-uri(concat(marc:subfield[@code='a'],' ',marc:subfield[@code='t']), true())"/></xsl:attribute>
+                            (search the catalog for this title)
+                        </a>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </span>
+        </xsl:for-each>
+    </xsl:template>
+
 </xsl:stylesheet>
 
 <!-- Stylus Studio meta-information - (c)1998-2002 eXcelon Corp.

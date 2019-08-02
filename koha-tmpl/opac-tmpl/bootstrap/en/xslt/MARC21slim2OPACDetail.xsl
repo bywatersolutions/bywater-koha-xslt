@@ -1018,7 +1018,7 @@
             </span>
         </xsl:if>
 
-        <!-- 773 -->
+        <!-- 773 former handling, commented for RT45916
         <xsl:if test="marc:datafield[@tag=773]">
         <xsl:for-each select="marc:datafield[@tag=773]">
         <xsl:if test="@ind1 !=1">
@@ -1068,7 +1068,16 @@
 
         </xsl:if>
         </xsl:for-each>
-        </xsl:if>
+    </xsl:if> -->
+
+    <!-- RT 45916 handling of field 773 -->
+    <xsl:if test="marc:datafield[@tag=773]">
+        <xsl:call-template name="linkingEntryFields">
+            <xsl:with-param name="field">773</xsl:with-param>
+            <xsl:with-param name="caption">In:</xsl:with-param>
+            <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+        </xsl:call-template>
+    </xsl:if>
 
         <xsl:for-each select="marc:datafield[@tag=511]">
             <span class="results_summary perf_note">
@@ -1122,7 +1131,7 @@
             </span>
         </xsl:if>
 
-        <!--  775 Other Edition  -->
+        <!--  775 Other Edition, former handling commented for RT45916
         <xsl:if test="marc:datafield[@tag=775]">
         <span class="results_summary other_editions"><span class="label">Other editions: </span>
         <xsl:for-each select="marc:datafield[@tag=775]">
@@ -1156,8 +1165,18 @@
             </xsl:choose>
         </xsl:for-each>
         </span>
-        </xsl:if>
-<!-- MARC21 776 Additional Physical Form Entry -->
+    </xsl:if>-->
+
+<!-- RT 45916 handling of field 775 -->
+<xsl:if test="marc:datafield[@tag=775]">
+    <xsl:call-template name="linkingEntryFields">
+        <xsl:with-param name="field">775</xsl:with-param>
+        <xsl:with-param name="caption">Other editions:</xsl:with-param>
+        <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+    </xsl:call-template>
+</xsl:if>
+
+<!-- MARC21 776 Additional Physical Form Entry, former handling commented for RT45916
     <xsl:if test="marc:datafield[@tag=776]">
         <span class="results_summary add_physical_form">
             <span class="label">Additional physical formats: </span>
@@ -1202,8 +1221,18 @@
                 </xsl:if>
             </xsl:for-each>
         </span>
-    </xsl:if>
-        <!-- 780 -->
+    </xsl:if> -->
+
+<!-- RT 45916 handling of field 776 -->
+<xsl:if test="marc:datafield[@tag=776]">
+    <xsl:call-template name="linkingEntryFields">
+        <xsl:with-param name="field">776</xsl:with-param>
+        <xsl:with-param name="caption">Available in another form:</xsl:with-param>
+        <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+    </xsl:call-template>
+</xsl:if>
+
+        <!-- 780 former handling commented for RT45916
         <xsl:if test="marc:datafield[@tag=780]">
         <xsl:for-each select="marc:datafield[@tag=780]">
         <xsl:if test="@ind1=0">
@@ -1260,9 +1289,18 @@
 
         </xsl:if>
         </xsl:for-each>
-        </xsl:if>
+    </xsl:if> -->
 
-        <!-- 785 -->
+    <!-- RT 45916 handling of field 780 -->
+    <xsl:if test="marc:datafield[@tag=780]">
+        <xsl:call-template name="linkingEntryFields">
+            <xsl:with-param name="field">780</xsl:with-param>
+            <xsl:with-param name="caption">Preceding entry:</xsl:with-param>
+            <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+        </xsl:call-template>
+    </xsl:if>
+
+        <!-- 785 former handling, commented for RT45916
         <xsl:if test="marc:datafield[@tag=785]">
         <xsl:for-each select="marc:datafield[@tag=785]">
         <xsl:if test="@ind1=0">
@@ -1324,7 +1362,16 @@
 
         </xsl:if>
         </xsl:for-each>
-        </xsl:if>
+    </xsl:if> -->
+
+    <!-- RT 45916 handling of field 785 -->
+    <xsl:if test="marc:datafield[@tag=785]">
+        <xsl:call-template name="linkingEntryFields">
+            <xsl:with-param name="field">785</xsl:with-param>
+            <xsl:with-param name="caption">Suceeding entry:</xsl:with-param>
+            <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+        </xsl:call-template>
+    </xsl:if>
 
     </xsl:element>
     </xsl:template>
@@ -1605,6 +1652,88 @@
             </xsl:for-each>
         </h5>
         </xsl:if>
+
+<!-- RT 45916 handling of linking entry fields that weren't in the stylesheet yet: 760, 762, 765, 767, 770, 772, 773, 774, 775, 777, 786, 787 -->
+        <xsl:if test="marc:datafield[@tag=760]">
+            <xsl:call-template name="linkingEntryFields">
+                <xsl:with-param name="field">760</xsl:with-param>
+                <xsl:with-param name="caption">Main series:</xsl:with-param>
+                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+            </xsl:call-template>
+        </xsl:if>
+
+        <xsl:if test="marc:datafield[@tag=762]">
+            <xsl:call-template name="linkingEntryFields">
+                <xsl:with-param name="field">762</xsl:with-param>
+                <xsl:with-param name="caption">Has subseries:</xsl:with-param>
+                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+            </xsl:call-template>
+        </xsl:if>
+
+        <xsl:if test="marc:datafield[@tag=765]">
+            <xsl:call-template name="linkingEntryFields">
+                <xsl:with-param name="field">765</xsl:with-param>
+                <xsl:with-param name="caption">Translation of:</xsl:with-param>
+                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+            </xsl:call-template>
+        </xsl:if>
+
+        <xsl:if test="marc:datafield[@tag=767]">
+            <xsl:call-template name="linkingEntryFields">
+                <xsl:with-param name="field">767</xsl:with-param>
+                <xsl:with-param name="caption">Translated as:</xsl:with-param>
+                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+            </xsl:call-template>
+        </xsl:if>
+
+        <xsl:if test="marc:datafield[@tag=770]">
+            <xsl:call-template name="linkingEntryFields">
+                <xsl:with-param name="field">770</xsl:with-param>
+                <xsl:with-param name="caption">Has series:</xsl:with-param>
+                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+            </xsl:call-template>
+        </xsl:if>
+
+        <xsl:if test="marc:datafield[@tag=772]">
+            <xsl:call-template name="linkingEntryFields">
+                <xsl:with-param name="field">772</xsl:with-param>
+                <xsl:with-param name="caption">Supplement to:</xsl:with-param>
+                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+            </xsl:call-template>
+        </xsl:if>
+
+        <xsl:if test="marc:datafield[@tag=774]">
+            <xsl:call-template name="linkingEntryFields">
+                <xsl:with-param name="field">774</xsl:with-param>
+                <xsl:with-param name="caption">Constituent unit:</xsl:with-param>
+                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+            </xsl:call-template>
+        </xsl:if>
+
+        <xsl:if test="marc:datafield[@tag=777]">
+            <xsl:call-template name="linkingEntryFields">
+                <xsl:with-param name="field">777</xsl:with-param>
+                <xsl:with-param name="caption">Issued with:</xsl:with-param>
+                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+            </xsl:call-template>
+        </xsl:if>
+
+        <xsl:if test="marc:datafield[@tag=786]">
+            <xsl:call-template name="linkingEntryFields">
+                <xsl:with-param name="field">786</xsl:with-param>
+                <xsl:with-param name="caption">Data source:</xsl:with-param>
+                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+            </xsl:call-template>
+        </xsl:if>
+
+        <xsl:if test="marc:datafield[@tag=787]">
+            <xsl:call-template name="linkingEntryFields">
+                <xsl:with-param name="field">787</xsl:with-param>
+                <xsl:with-param name="caption">Other relationship:</xsl:with-param>
+                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+            </xsl:call-template>
+        </xsl:if>
+
     </xsl:template>
 
     <xsl:template name="nameABCQ">
