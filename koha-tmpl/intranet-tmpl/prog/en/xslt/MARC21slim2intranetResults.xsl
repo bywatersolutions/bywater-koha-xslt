@@ -335,6 +335,12 @@
                     </xsl:choose>
                 </xsl:for-each>
             </xsl:for-each>
+            <!-- RT 56744: When 490a starts with "video game," display the text after "video game" in the record title -->
+            <xsl:if test="starts-with(marc:datafield[@tag=490]/marc:subfield[@code='a'],'video game,')">
+                <xsl:text>(</xsl:text>
+                <xsl:value-of select="normalize-space(substring-after(marc:datafield[@tag=490]/marc:subfield[@code='a'],'video game,'))"/>
+                <xsl:text>)</xsl:text>
+            </xsl:if><!-- End of RT 56744 modification -->
         </xsl:if>
     </a>
 
@@ -483,6 +489,17 @@
     </p>
     </xsl:when>
     </xsl:choose>
+
+    <!-- RT 56744: display material type based on the 942c and item:collectioncode values, instead of the leader.
+         Works when DiplayIconsXSLT is disabled to minimize changes to source XSLT -->
+         <xsl:if test="$DisplayIconsXSLT='0'">
+             <span class="results_summary type">
+                 <span class="label">Material type: </span>
+                 <xsl:value-of select="marc:datafield[@tag='942']/marc:subfield[@code='c']"/>
+                 <xsl:text> </xsl:text>
+                 <xsl:value-of select="items:items/items:item[1]/items:ccode"/>
+             </span>
+         </xsl:if><!-- end of RT 56744 modification -->
 
 <xsl:if test="$DisplayIconsXSLT!='0'">
     <span class="results_summary">

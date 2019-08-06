@@ -66,7 +66,7 @@
                 <xsl:when test="$leader6='g'">VM</xsl:when>
                 <xsl:when test="$leader6='k'">PK</xsl:when>
                 <xsl:when test="$leader6='r'">OB</xsl:when>
-                <xsl:when test="$leader6='i'">SO</xsl:when>
+                <xsl:when test="$leader6='i'">MU</xsl:when>
                 <xsl:when test="$leader6='j'">MU</xsl:when>
                 <xsl:when test="$leader6='c' or $leader6='d'">PR</xsl:when>
             </xsl:choose>
@@ -76,7 +76,7 @@
                 <xsl:when test="$leader19='a'">Set</xsl:when>
                 <xsl:when test="$leader6='a'">
                     <xsl:choose>
-                        <xsl:when test="$leader7='c' or $leader7='d' or $leader7='m'">Text</xsl:when>
+                        <xsl:when test="$leader7='c' or $leader7='d' or $leader7='m'">Book</xsl:when>
                         <xsl:when test="$leader7='i' or $leader7='s'">
                             <xsl:choose>
                                 <xsl:when test="substring($controlField008,22,1)!='m'">Continuing resource</xsl:when>
@@ -86,7 +86,7 @@
                         <xsl:when test="$leader7='a' or $leader7='b'">Article</xsl:when>
                     </xsl:choose>
                 </xsl:when>
-                <xsl:when test="$leader6='t'">Text</xsl:when>
+                <xsl:when test="$leader6='t'">Book</xsl:when>
 				<xsl:when test="$leader6='o'">Kit</xsl:when>
                 <xsl:when test="$leader6='p'">Mixed materials</xsl:when>
                 <xsl:when test="$leader6='m'">Computer file</xsl:when>
