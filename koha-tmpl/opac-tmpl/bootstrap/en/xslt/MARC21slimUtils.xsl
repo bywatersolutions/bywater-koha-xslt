@@ -392,7 +392,7 @@
                                 </xsl:otherwise>
                             </xsl:choose>
                         </xsl:variable>
-                        <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/opac-search.pl?q=Control-number:<xsl:value-of select="$searchString"/></xsl:attribute>
+                        <a><xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=Control-number:<xsl:value-of select="$searchString"/></xsl:attribute>
                             <xsl:text> </xsl:text><xsl:value-of select="."/>
                         </a>
                     </xsl:if>
