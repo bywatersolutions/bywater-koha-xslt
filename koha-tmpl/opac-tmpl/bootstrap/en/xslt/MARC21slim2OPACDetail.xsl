@@ -896,11 +896,14 @@
         </span>
     </xsl:if>
 
+<!-- RT 57663 change 082 to 092 -->
 <!-- DDC classification -->
-    <xsl:if test="marc:datafield[@tag=082]">
+<!--    <xsl:if test="marc:datafield[@tag=082]"> -->
+    <xsl:if test="marc:datafield[@tag=092]">
         <span class="results_summary ddc">
             <span class="label">DDC classification: </span>
-            <xsl:for-each select="marc:datafield[@tag=082]">
+<!--            <xsl:for-each select="marc:datafield[@tag=082]"> -->
+            <xsl:for-each select="marc:datafield[@tag=092]">
                 <xsl:call-template name="subfieldSelect">
                     <xsl:with-param name="codes">a</xsl:with-param>
                     <xsl:with-param name="delimeter"><xsl:text> | </xsl:text></xsl:with-param>
