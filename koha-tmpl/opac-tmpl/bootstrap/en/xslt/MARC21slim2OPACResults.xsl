@@ -22,6 +22,7 @@
         <xsl:variable name="display880" select="boolean(marc:datafield[@tag=880])"/>
 
     <xsl:variable name="OPACResultsLibrary" select="marc:sysprefs/marc:syspref[@name='OPACResultsLibrary']"/>
+    <xsl:variable name="UseControlNumber" select="marc:sysprefs/marc:syspref[@name='UseControlNumber']"/>
     <xsl:variable name="hidelostitems" select="marc:sysprefs/marc:syspref[@name='hidelostitems']"/>
     <xsl:variable name="DisplayOPACiconsXSLT" select="marc:sysprefs/marc:syspref[@name='DisplayOPACiconsXSLT']"/>
     <xsl:variable name="OPACURLOpenInNewWindow" select="marc:sysprefs/marc:syspref[@name='OPACURLOpenInNewWindow']"/>
@@ -1162,6 +1163,75 @@
                             </xsl:for-each>
                             </span>
                         </xsl:if>
+
+        <!-- Series, pulled from MARC21slim2OPACDetail.xsl as requested in RT 58563 -->
+        <xsl:if test="marc:datafield[@tag=440 or @tag=490]">
+        <span class="results_summary series"><span class="label">Series: </span>
+        <!-- 440 -->
+        <xsl:for-each select="marc:datafield[@tag=440]">
+            <a><xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=se,phr:"<xsl:value-of select="str:encode-uri(marc:subfield[@code='a'], true())"/>"</xsl:attribute>
+            <xsl:call-template name="chopPunctuation">
+                            <xsl:with-param name="chopString">
+                                <xsl:call-template name="subfieldSelect">
+                                    <xsl:with-param name="codes">av</xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:with-param>
+                        </xsl:call-template>
+            </a>
+            <xsl:call-template name="part"/>
+            <xsl:choose><xsl:when test="position()=last()"><xsl:text>. </xsl:text></xsl:when><xsl:otherwise><xsl:text> ; </xsl:text></xsl:otherwise></xsl:choose>
+        </xsl:for-each>
+
+        <!-- 490 Series not traced, Ind1 = 0 -->
+        <xsl:for-each select="marc:datafield[@tag=490][@ind1!=1]">
+            <a><xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=se,phr:"<xsl:value-of select="str:encode-uri(marc:subfield[@code='a'], true())"/>"</xsl:attribute>
+                        <xsl:call-template name="chopPunctuation">
+                            <xsl:with-param name="chopString">
+                                <xsl:call-template name="subfieldSelect">
+                                    <xsl:with-param name="codes">av</xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:with-param>
+                        </xsl:call-template>
+            </a>
+                    <xsl:call-template name="part"/>
+        <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+        </xsl:for-each>
+        <!-- 490 Series traced, Ind1 = 1 -->
+        <xsl:if test="marc:datafield[@tag=490][@ind1=1]">
+            <xsl:for-each select="marc:datafield[@tag=800 or @tag=810 or @tag=811 or @tag=830]">
+                <xsl:choose>
+                    <xsl:when test="$UseControlNumber = '1' and marc:subfield[@code='w']">
+                        <a><xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=rcn:<xsl:value-of select="str:encode-uri(marc:subfield[@code='w'], true())"/></xsl:attribute>
+                            <xsl:call-template name="chopPunctuation">
+                                <xsl:with-param name="chopString">
+                                    <xsl:call-template name="subfieldSelect">
+                                        <xsl:with-param name="codes">a_t</xsl:with-param>
+                                    </xsl:call-template>
+                                </xsl:with-param>
+                            </xsl:call-template>
+                        </a>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <a><xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=se,phr:"<xsl:value-of select="str:encode-uri(marc:subfield[@code='t'], true())"/>"&amp;q=au:"<xsl:value-of select="str:encode-uri(marc:subfield[@code='a'], true())"/>"</xsl:attribute>
+                            <xsl:call-template name="chopPunctuation">
+                                <xsl:with-param name="chopString">
+                                    <xsl:call-template name="subfieldSelect">
+                                        <xsl:with-param name="codes">a_t</xsl:with-param>
+                                    </xsl:call-template>
+                                </xsl:with-param>
+                            </xsl:call-template>
+                        </a>
+                        <xsl:call-template name="part"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:text>: </xsl:text>
+                <xsl:value-of  select="marc:subfield[@code='v']" />
+            <xsl:choose><xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+            </xsl:for-each>
+        </xsl:if>
+        </span>
+        </xsl:if>
+
                         <span class="results_summary availability">
                         <span class="label">Availability: </span>
                         <xsl:choose>
@@ -1461,6 +1531,33 @@
         </xsl:if>
         <xsl:if test="substring($string, 1,1)!='['">
             <xsl:value-of select="$string"></xsl:value-of>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template name="part">
+        <xsl:variable name="partNumber">
+            <xsl:call-template name="specialSubfieldSelect">
+                <xsl:with-param name="axis">n</xsl:with-param>
+                <xsl:with-param name="anyCodes">n</xsl:with-param>
+                <xsl:with-param name="afterCodes">fghkdlmor</xsl:with-param>
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:variable name="partName">
+            <xsl:call-template name="specialSubfieldSelect">
+                <xsl:with-param name="axis">p</xsl:with-param>
+                <xsl:with-param name="anyCodes">p</xsl:with-param>
+                <xsl:with-param name="afterCodes">fghkdlmor</xsl:with-param>
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:if test="string-length(normalize-space($partNumber))">
+                <xsl:call-template name="chopPunctuation">
+                    <xsl:with-param name="chopString" select="$partNumber"/>
+                </xsl:call-template>
+        </xsl:if>
+        <xsl:if test="string-length(normalize-space($partName))">
+                <xsl:call-template name="chopPunctuation">
+                    <xsl:with-param name="chopString" select="$partName"/>
+                </xsl:call-template>
         </xsl:if>
     </xsl:template>
 
