@@ -594,10 +594,6 @@
     </span>
     </xsl:when>
     </xsl:choose>
-    <!-- RT55716: display the date from 008 after the authors -->
-    <xsl:text> (</xsl:text>
-    <xsl:value-of select="substring(marc:controlfield[@tag=008],8,4)"/>
-    <xsl:text>)</xsl:text>
     </div><!-- RT55716: close the .authors div -->
 
     <xsl:if test="marc:datafield[@tag=250]">
