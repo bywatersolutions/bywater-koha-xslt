@@ -67,7 +67,7 @@
                 <xsl:when test="$leader6='k'">PK</xsl:when>
                 <xsl:when test="$leader6='r'">OB</xsl:when>
                 <xsl:when test="$leader6='i'">MU</xsl:when>
-                <xsl:when test="$leader6='j'">MU</xsl:when>
+                <xsl:when test="$leader6='j'">PR</xsl:when>
                 <xsl:when test="$leader6='c' or $leader6='d'">PR</xsl:when>
             </xsl:choose>
         </xsl:variable>
