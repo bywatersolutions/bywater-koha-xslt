@@ -674,12 +674,12 @@
                 <xsl:when test="$leader19='a'"><img src="/opac-tmpl/lib/famfamfam/ST.png" alt="Set" class="materialtype mt_icon_ST"/> Set</xsl:when>
                 <xsl:when test="$leader6='a'">
                     <xsl:choose>
-                        <xsl:when test="$leader7='c' or $leader7='d' or $leader7='m'"><img src="/opac-tmpl/lib/famfamfam/BK.png" alt="Text" class="materialtype mt_icon_BK"/> Text</xsl:when>
+                        <xsl:when test="$leader7='c' or $leader7='d' or $leader7='m'"><img src="/opac-tmpl/lib/famfamfam/BK.png" alt="Text" class="materialtype mt_icon_BK"/> Book</xsl:when>
                         <xsl:when test="$leader7='i' or $leader7='s'"><img src="/opac-tmpl/lib/famfamfam/SE.png" alt="Continuing resource" class="materialtype mt_icon_SE"/> Continuing resource</xsl:when>
                         <xsl:when test="$leader7='a' or $leader7='b'"><img src="/opac-tmpl/lib/famfamfam/AR.png" alt="Article" class="materialtype mt_icon_AR"/> Article</xsl:when>
                     </xsl:choose>
                 </xsl:when>
-                <xsl:when test="$leader6='t'"><img src="/opac-tmpl/lib/famfamfam/BK.png" alt="Text" class="materialtype mt_icon_BK"/> Text</xsl:when>
+                <xsl:when test="$leader6='t'"><img src="/opac-tmpl/lib/famfamfam/BK.png" alt="Text" class="materialtype mt_icon_BK"/> Book</xsl:when>
                 <xsl:when test="$leader6='o'"><img src="/opac-tmpl/lib/famfamfam/MM.png" alt="Kit" class="materialtype mt_icon_MM"/> Kit</xsl:when>
                 <xsl:when test="$leader6='p'"><img src="/opac-tmpl/lib/famfamfam/MM.png" alt="Mixed materials" class="materialtype mt_icon_MM"/>Mixed materials</xsl:when>
                 <xsl:when test="$leader6='m'"><img src="/opac-tmpl/lib/famfamfam/CF.png" alt="Computer file" class="materialtype mt_icon_CF"/> Computer file</xsl:when>
