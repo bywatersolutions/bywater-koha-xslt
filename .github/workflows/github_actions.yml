@@ -1,0 +1,41 @@
+name: Repository Dispatch
+on:
+  repository_dispatch:
+    types: ['bywater-koha-rebased']
+jobs:
+  rebase-xslt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 0
+      
+      - name: Print name of Koha branch to rebase to
+        run: |
+          echo "ref: ${{ github.event.client_payload.ref }}"
+          echo "sha: ${{ github.event.client_payload.sha }}"
+
+      - name: Get first and last commits of custom XSLT
+        id: extracted_variables
+        run: |
+          FIRST_COMMIT=$(git log --all --grep='BWS-XSLT' --pretty=format:"%H" | tail -1)
+          echo "FIRST COMMIT: $FIRST_COMMIT"
+          echo ::set-output name=FIRST_COMMIT::$FIRST_COMMIT
+          LAST_COMMIT=$(git log --all --grep='BWS-XSLT' --pretty=format:"%H" | head -1)
+          echo "LAST COMMIT: $LAST_COMMIT"
+          echo ::set-output name=LAST_COMMIT::$LAST_COMMIT
+
+      - name: Add bywater-koha remote
+        run: git remote add bywater-koha https://github.com/bywatersolutions/bywater-koha.git
+
+      - name: Fetch bywater-koha
+        run: git fetch --all
+
+      - name: Check out the branch to rebase XSLT commits to
+        run: git checkout ${{ github.event.client_payload.REF } 
+
+      - name: Cherry pick the commits
+        run: git cherry-pick ${{ steps.extracted_variables.outputs.LAST_COMMIT }}^..${{ steps.extracted_variables.outputs.FIRST_COMMIT }}
+
+      - name: Push the rebased branch back
+        run: git push -f bywater-koha-xslt HEAD:${{ github.ref }}
