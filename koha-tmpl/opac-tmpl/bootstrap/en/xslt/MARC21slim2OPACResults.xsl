@@ -1074,9 +1074,11 @@
 	<span class="label">Audience: </span>
 			<xsl:for-each select="marc:datafield[@tag=521]">
             <xsl:if test="@ind1=8">
+            <span class="audience521">
 					<xsl:call-template name="subfieldSelect">
 						<xsl:with-param name="codes">a</xsl:with-param>
 					</xsl:call-template>
+            </span>
             </xsl:if>
 			</xsl:for-each>
 	</span>
