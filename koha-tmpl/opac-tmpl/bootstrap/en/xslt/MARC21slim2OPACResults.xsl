@@ -1069,12 +1069,12 @@
     </xsl:choose>
 
 	<!--Audience -->
-	<xsl:if test="marc:datafield[@tag=521]">
-	<span class="results_summary audience">
+	<xsl:if test="marc:datafield[@tag=521] and $leader6='g'">
+	<span class="results_summary audience521">
 	<span class="label">Audience: </span>
 			<xsl:for-each select="marc:datafield[@tag=521]">
-            <xsl:if test="@ind1=8">
-            <span class="audience521">
+            <xsl:if test="@ind1=8 and $leader6='g'">
+            <span class="eachAudience521">
 					<xsl:call-template name="subfieldSelect">
 						<xsl:with-param name="codes">a</xsl:with-param>
 					</xsl:call-template>
