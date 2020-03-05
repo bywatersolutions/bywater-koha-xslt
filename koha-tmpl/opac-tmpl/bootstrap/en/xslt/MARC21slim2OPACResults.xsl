@@ -637,7 +637,7 @@
 <!-- 490 Series traced, Ind1 = 1 -->
 <xsl:if test="marc:datafield[@tag=490][@ind1=1]">
     <xsl:for-each select="marc:datafield[@tag=800 or @tag=810 or @tag=811]">
-        <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=se,phr:"<xsl:value-of select="marc:subfield[@code='t']"/>"&amp;q=au:"<xsl:value-of select="marc:subfield[@code='a']"/>"</xsl:attribute>
+        <a><xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=se,phr:"<xsl:value-of select="marc:subfield[@code='t']"/>"&amp;q=au:"<xsl:value-of select="marc:subfield[@code='a']"/>"</xsl:attribute>
         <xsl:call-template name="chopPunctuation">
          <xsl:with-param name="chopString">
            <xsl:call-template name="subfieldSelect">
