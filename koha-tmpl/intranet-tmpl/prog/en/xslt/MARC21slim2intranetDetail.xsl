@@ -956,6 +956,30 @@
         </span>
     </xsl:if>
 
+    <!-- Show 310 Frequency -->
+    <xsl:if test="marc:datafield[@tag=310]">
+        <span class="results_summary frequency">
+            <span class="label">Frequency: </span>
+            <xsl:for-each select="marc:datafield[@tag=310]">
+                <xsl:call-template name="subfieldSelect">
+                    <xsl:with-param name="codes">a</xsl:with-param>
+                </xsl:call-template>
+            </xsl:for-each>
+        </span>
+    </xsl:if>
+
+    <!-- Show 362 Volume -->
+    <xsl:if test="marc:datafield[@tag=362]">
+        <span class="results_summary volume362">
+            <span class="label">Volume: </span>
+            <xsl:for-each select="marc:datafield[@tag=362]">
+                <xsl:call-template name="subfieldSelect">
+                    <xsl:with-param name="codes">a</xsl:with-param>
+                </xsl:call-template>
+            </xsl:for-each>
+        </span>
+    </xsl:if>
+
         <xsl:if test="marc:datafield[@tag=505]">
             <div class="results_summary contents">
             <xsl:choose>
