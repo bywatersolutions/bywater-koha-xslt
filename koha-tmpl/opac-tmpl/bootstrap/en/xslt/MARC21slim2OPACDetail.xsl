@@ -1334,6 +1334,33 @@
         </span>
         </xsl:if>
 
+        <!--add 775 bdw as publication info-->
+		<xsl:if test="marc:datafield[@tag=775]">
+			<span class="results_summary other_editions_more"><span class="label">Publication information: </span>
+				<xsl:for-each select="marc:datafield[@tag=775]">
+					<span class="holdings_note_data">
+						<xsl:call-template name="subfieldSelect">
+						<xsl:with-param name="codes">bdw</xsl:with-param>
+						</xsl:call-template>
+						<xsl:choose><xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text><br /></xsl:otherwise></xsl:choose>
+					</span>
+				</xsl:for-each>
+			</span>
+		</xsl:if>
+        <!--add 775 z as ISBN-->
+		<xsl:if test="marc:datafield[@tag=775]">
+			<span class="results_summary other_editions_isbn"><span class="label">ISBN: </span>
+				<xsl:for-each select="marc:datafield[@tag=775]">
+					<span class="holdings_note_data">
+						<xsl:call-template name="subfieldSelect">
+						<xsl:with-param name="codes">z</xsl:with-param>
+						</xsl:call-template>
+						<xsl:choose><xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text><br /></xsl:otherwise></xsl:choose>
+					</span>
+				</xsl:for-each>
+			</span>
+		</xsl:if>
+
         <!-- 780 -->
         <xsl:if test="marc:datafield[@tag=780]">
         <xsl:for-each select="marc:datafield[@tag=780]">
