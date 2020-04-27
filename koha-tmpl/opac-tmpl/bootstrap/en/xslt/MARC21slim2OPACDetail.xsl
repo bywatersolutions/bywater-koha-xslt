@@ -1336,7 +1336,7 @@
 
         <!--add 775 bdw as publication info-->
 		<xsl:if test="marc:datafield[@tag=775]">
-			<span class="results_summary other_editions_more"><span class="label">Publication information: </span>
+			<span class="results_summary other_editions_more"><span class="label">Other editions details: </span>
 				<xsl:for-each select="marc:datafield[@tag=775]">
 					<span class="holdings_note_data">
 						<xsl:call-template name="subfieldSelect">
@@ -1349,7 +1349,7 @@
 		</xsl:if>
         <!--add 775 z as ISBN-->
 		<xsl:if test="marc:datafield[@tag=775]">
-			<span class="results_summary other_editions_isbn"><span class="label">ISBN: </span>
+			<span class="results_summary other_editions_isbn"><span class="label">Other edition ISBN: </span>
 				<xsl:for-each select="marc:datafield[@tag=775]">
 					<span class="holdings_note_data">
 						<xsl:call-template name="subfieldSelect">
