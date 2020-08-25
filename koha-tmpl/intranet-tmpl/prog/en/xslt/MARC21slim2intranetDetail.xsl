@@ -627,7 +627,7 @@
         </xsl:if>-->
 
         <!-- RT 45916 handling of field 787 -->
-        <xsl:if test="marc:datafield[@tag=787][@ind1 != 1]">
+        <xsl:if test="marc:datafield[@tag=787]">
             <xsl:call-template name="linkingEntryFields">
                 <xsl:with-param name="field">787</xsl:with-param>
                 <xsl:with-param name="caption">Other relationship:</xsl:with-param>
