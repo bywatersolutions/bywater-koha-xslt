@@ -626,14 +626,6 @@
             </span>
         </xsl:if>-->
 
-        <!-- RT 45916 handling of field 787 -->
-        <xsl:if test="marc:datafield[@tag=787]">
-            <xsl:call-template name="linkingEntryFields">
-                <xsl:with-param name="field">787</xsl:with-param>
-                <xsl:with-param name="caption">Other relationship:</xsl:with-param>
-                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
-            </xsl:call-template>
-        </xsl:if>
 
         <!-- #13382 Added Related works 700$i -->
         <xsl:if test="marc:datafield[@tag=700][marc:subfield[@code='i']] or marc:datafield[@tag=710][marc:subfield[@code='i']] or marc:datafield[@tag=711][marc:subfield[@code='i']]">
@@ -761,6 +753,7 @@
             </xsl:for-each>
             </span>
         </xsl:if>
+
 
         <!-- Genre/Form -->
         <xsl:if test="marc:datafield[@tag=655]">
@@ -1026,6 +1019,13 @@
             </span>
         </xsl:if>
 
+
+        <xsl:if test="$OPACBaseURL!=''">
+        <span class="results_summary"><span class="label">OPAC view: </span>
+            <a><xsl:attribute name="href"><xsl:value-of select="$OPACBaseURL"/>/cgi-bin/koha/opac-detail.pl?biblionumber=<xsl:value-of select="marc:datafield[@tag=999]/marc:subfield[@code='c']"/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute>Open in new window</a>.
+        </span>
+        </xsl:if>
+
         <!--  775 Other Edition  -->
         <!-- old way of managing field 775 superseded by RT 45916
         <xsl:if test="marc:datafield[@tag=775]">
@@ -1132,14 +1132,6 @@
         </xsl:for-each>
     </xsl:if>-->
 
-<!-- RT 45916 handling of field 780 -->
-        <xsl:if test="marc:datafield[@tag=780]">
-            <xsl:call-template name="linkingEntryFields">
-                <xsl:with-param name="field">780</xsl:with-param>
-                <xsl:with-param name="caption">Preceding entry:</xsl:with-param>
-                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
-            </xsl:call-template>
-        </xsl:if>
 
         <!-- 785 -->
         <!-- old way of handling field 785 superseded by RT 45916
@@ -1199,10 +1191,23 @@
         </xsl:for-each>
         </xsl:if>-->
         <!-- xsl was commented out until after the following block, I moved the end of the comment to just above this block.  SFkeys wanted the OPAC view link to be visible on their detail page RT 58782 joy-->
-        <xsl:if test="$OPACBaseURL!=''">
-        <span class="results_summary"><span class="label">OPAC view: </span>
-            <a><xsl:attribute name="href"><xsl:value-of select="$OPACBaseURL"/>/cgi-bin/koha/opac-detail.pl?biblionumber=<xsl:value-of select="marc:datafield[@tag=999]/marc:subfield[@code='c']"/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute>Open in new window</a>.
-        </span>
+
+<!-- RT 45916 handling of field 780 -->
+        <xsl:if test="marc:datafield[@tag=780]">
+            <xsl:call-template name="linkingEntryFields">
+                <xsl:with-param name="field">780</xsl:with-param>
+                <xsl:with-param name="caption">Preceding entry:</xsl:with-param>
+                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+            </xsl:call-template>
+        </xsl:if>
+
+        <!-- RT 45916 handling of field 787 -->
+        <xsl:if test="marc:datafield[@tag=787]">
+            <xsl:call-template name="linkingEntryFields">
+                <xsl:with-param name="field">787</xsl:with-param>
+                <xsl:with-param name="caption">Other relationship:</xsl:with-param>
+                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+            </xsl:call-template>
         </xsl:if>
 
 <!-- RT 45916 handling of field 785 -->
@@ -1607,6 +1612,7 @@
 
 	</xsl:if>
     </xsl:template>
+
 
     <!-- #1807 Strip unwanted parenthesis from subjects for searching -->
     <xsl:template name="subfieldSelectSubject">
