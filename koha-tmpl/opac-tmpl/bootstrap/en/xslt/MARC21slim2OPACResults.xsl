@@ -628,6 +628,7 @@
 <!-- 490 Series traced, Ind1 = 1 -->
 <xsl:if test="marc:datafield[@tag=490][@ind1=1]">
     <xsl:for-each select="marc:datafield[@tag=800 or @tag=810 or @tag=811]">
+        <span class="490ind1">
         <a><xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=se,phr:"<xsl:value-of select="str:encode-uri(marc:subfield[@code='t'], true())"/>"&amp;q=au:"<xsl:value-of select="str:encode-uri(marc:subfield[@code='a'], true())"/>"</xsl:attribute>
         <xsl:call-template name="chopPunctuation">
          <xsl:with-param name="chopString">
@@ -641,9 +642,11 @@
 
  <xsl:value-of  select="marc:subfield[@code='v']" />
                           <xsl:choose><xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+ </span>
   </xsl:for-each>
 
 <xsl:for-each select="marc:datafield[@tag=830]">
+            <span class="490ind1">
             <a><xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=se,phr:"<xsl:value-of select="str:encode-uri(marc:subfield[@code='a'], true())"/>"</xsl:attribute>
                 <xsl:call-template name="chopPunctuation">
                     <xsl:with-param name="chopString">
@@ -656,6 +659,7 @@
     <xsl:text>: </xsl:text>
     <xsl:value-of  select="marc:subfield[@code='v']" />
 <xsl:choose><xsl:when test="position()=last()"><xsl:text></xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+    </span>
 </xsl:for-each>
 
                   </xsl:if>
