@@ -1201,20 +1201,21 @@
             </xsl:call-template>
         </xsl:if>
 
-        <!-- RT 45916 handling of field 787 -->
-        <xsl:if test="marc:datafield[@tag=787]">
-            <xsl:call-template name="linkingEntryFields">
-                <xsl:with-param name="field">787</xsl:with-param>
-                <xsl:with-param name="caption">Other relationship:</xsl:with-param>
-                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
-            </xsl:call-template>
-        </xsl:if>
 
 <!-- RT 45916 handling of field 785 -->
         <xsl:if test="marc:datafield[@tag=785]">
             <xsl:call-template name="linkingEntryFields">
                 <xsl:with-param name="field">785</xsl:with-param>
                 <xsl:with-param name="caption">Succeeding entry:</xsl:with-param>
+                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+            </xsl:call-template>
+        </xsl:if>
+
+        <!-- RT 45916 handling of field 787 -->
+        <xsl:if test="marc:datafield[@tag=787]">
+            <xsl:call-template name="linkingEntryFields">
+                <xsl:with-param name="field">787</xsl:with-param>
+                <xsl:with-param name="caption">Other relationship:</xsl:with-param>
                 <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
             </xsl:call-template>
         </xsl:if>
