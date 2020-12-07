@@ -935,65 +935,6 @@
             </div>
         </xsl:if>
 
-        <!-- 773 -->
-        <!-- old way of managing field 773 superseded by RT 45916
-        <xsl:if test="marc:datafield[@tag=773]">
-        <xsl:for-each select="marc:datafield[@tag=773]">
-        <xsl:if test="@ind1 !=1">
-        <span class="results_summary in"><span class="label">
-        <xsl:choose>
-        <xsl:when test="@ind2=' '">
-            In:
-        </xsl:when>
-        <xsl:when test="@ind2=8">
-            <xsl:if test="marc:subfield[@code='i']">
-                <xsl:value-of select="marc:subfield[@code='i']"/>
-            </xsl:if>
-        </xsl:when>
-        </xsl:choose>
-        </span>
-                <xsl:variable name="f773">
-                    <xsl:call-template name="chopPunctuation"><xsl:with-param name="chopString"><xsl:call-template name="subfieldSelect">
-                        <xsl:with-param name="codes">a_t</xsl:with-param>
-                    </xsl:call-template></xsl:with-param></xsl:call-template>
-                </xsl:variable>
-            <xsl:choose>
-                <xsl:when test="$UseControlNumber = '1' and marc:subfield[@code='w']">
-                    <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=Control-number:<xsl:call-template name="extractControlNumber"><xsl:with-param name="subfieldW" select="marc:subfield[@code='w']"/></xsl:call-template></xsl:attribute>
-                        <xsl:value-of select="translate($f773, '()', '')"/>
-                    </a>
-                    <xsl:if test="marc:subfield[@code='g']"><xsl:text> </xsl:text><xsl:value-of select="marc:subfield[@code='g']"/></xsl:if>
-                </xsl:when>
-                <xsl:when test="marc:subfield[@code='0']">
-                    <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/detail.pl?biblionumber=<xsl:value-of select="marc:subfield[@code='0']"/></xsl:attribute>
-                        <xsl:value-of select="$f773"/>
-                    </a>
-                </xsl:when>
-                <xsl:otherwise>
-                    <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=ti,phr:<xsl:value-of select="translate($f773, '()', '')"/></xsl:attribute>
-                        <xsl:value-of select="$f773"/>
-                    </a>
-                    <xsl:if test="marc:subfield[@code='g']"><xsl:text> </xsl:text><xsl:value-of select="marc:subfield[@code='g']"/></xsl:if>
-                </xsl:otherwise>
-            </xsl:choose>
-        </span>
-
-        <xsl:if test="marc:subfield[@code='n']">
-            <span class="results_summary"><xsl:value-of select="marc:subfield[@code='n']"/></span>
-        </xsl:if>
-
-        </xsl:if>
-        </xsl:for-each>
-    </xsl:if>-->
-
-<!-- RT 45916 handling of field 773 -->
-        <xsl:if test="marc:datafield[@tag=773]">
-            <xsl:call-template name="linkingEntryFields">
-                <xsl:with-param name="field">773</xsl:with-param>
-                <xsl:with-param name="caption">In:</xsl:with-param>
-                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
-            </xsl:call-template>
-        </xsl:if>
 
         <xsl:if test="marc:datafield[@tag=502]">
             <span class="results_summary diss_note">
@@ -1026,199 +967,6 @@
         </span>
         </xsl:if>
 
-        <!--  775 Other Edition  -->
-        <!-- old way of managing field 775 superseded by RT 45916
-        <xsl:if test="marc:datafield[@tag=775]">
-        <span class="results_summary other_editions"><span class="label">Other editions: </span>
-        <xsl:for-each select="marc:datafield[@tag=775]">
-            <xsl:variable name="f775">
-                <xsl:call-template name="chopPunctuation"><xsl:with-param name="chopString"><xsl:call-template name="subfieldSelect">
-                <xsl:with-param name="codes">a_t</xsl:with-param>
-                </xsl:call-template></xsl:with-param></xsl:call-template>
-            </xsl:variable>
-            <xsl:if test="marc:subfield[@code='i']">
-                <xsl:call-template name="subfieldSelect">
-                    <xsl:with-param name="codes">i</xsl:with-param>
-                </xsl:call-template>
-                <xsl:text>: </xsl:text>
-            </xsl:if>
-            <a>
-            <xsl:choose>
-            <xsl:when test="$UseControlNumber = '1' and marc:subfield[@code='w']">
-                <xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=Control-number:<xsl:call-template name="extractControlNumber"><xsl:with-param name="subfieldW" select="marc:subfield[@code='w']"/></xsl:call-template></xsl:attribute>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=ti,phr:<xsl:value-of select="translate($f775, '()', '')"/></xsl:attribute>
-            </xsl:otherwise>
-            </xsl:choose>
-            <xsl:call-template name="subfieldSelect">
-                <xsl:with-param name="codes">a_t</xsl:with-param>
-            </xsl:call-template>
-            </a>
-            <xsl:choose>
-                <xsl:when test="position()=last()"></xsl:when>
-                <xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise>
-            </xsl:choose>
-        </xsl:for-each>
-        </span>
-    </xsl:if>-->
-
-<!-- RT 45916 handling of field 775-->
-        <xsl:if test="marc:datafield[@tag=775]">
-            <xsl:call-template name="linkingEntryFields">
-                <xsl:with-param name="field">775</xsl:with-param>
-                <xsl:with-param name="caption">Other editions:</xsl:with-param>
-                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
-            </xsl:call-template>
-        </xsl:if>
-
-        <!-- 780 -->
-        <!-- old way of managing field 780, superseded by RT 45916
-        <xsl:if test="marc:datafield[@tag=780]">
-        <xsl:for-each select="marc:datafield[@tag=780]">
-        <xsl:if test="@ind1=0">
-        <span class="results_summary preceeding_entry">
-        <xsl:choose>
-        <xsl:when test="@ind2=0">
-            <span class="label">Continues:</span>
-        </xsl:when>
-        <xsl:when test="@ind2=1">
-            <span class="label">Continues in part:</span>
-        </xsl:when>
-        <xsl:when test="@ind2=2">
-            <span class="label">Supersedes:</span>
-        </xsl:when>
-        <xsl:when test="@ind2=3">
-            <span class="label">Supersedes in part:</span>
-        </xsl:when>
-        <xsl:when test="@ind2=4">
-            <span class="label">Formed by the union: ... and: ...</span>
-        </xsl:when>
-        <xsl:when test="@ind2=5">
-            <span class="label">Absorbed:</span>
-        </xsl:when>
-        <xsl:when test="@ind2=6">
-            <span class="label">Absorbed in part:</span>
-        </xsl:when>
-        <xsl:when test="@ind2=7">
-            <span class="label">Separated from:</span>
-        </xsl:when>
-        </xsl:choose>
-        <xsl:text> </xsl:text>
-                <xsl:variable name="f780">
-                    <xsl:call-template name="subfieldSelect">
-                        <xsl:with-param name="codes">a_t</xsl:with-param>
-                    </xsl:call-template>
-                </xsl:variable>
-            <xsl:choose>
-                <xsl:when test="$UseControlNumber = '1' and marc:subfield[@code='w']">
-                    <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=Control-number:<xsl:call-template name="extractControlNumber"><xsl:with-param name="subfieldW" select="marc:subfield[@code='w']"/></xsl:call-template></xsl:attribute>
-                        <xsl:value-of select="translate($f780, '()', '')"/>
-                    </a>
-                </xsl:when>
-                <xsl:otherwise>
-                    <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=ti,phr:<xsl:value-of select="translate($f780, '()', '')"/></xsl:attribute>
-                        <xsl:value-of select="translate($f780, '()', '')"/>
-                    </a>
-                </xsl:otherwise>
-            </xsl:choose>
-        </span>
- 
-        <xsl:if test="marc:subfield[@code='n']">
-            <span class="results_summary"><xsl:value-of select="marc:subfield[@code='n']"/></span>
-        </xsl:if>
-
-        </xsl:if>
-        </xsl:for-each>
-    </xsl:if>-->
-
-
-        <!-- 785 -->
-        <!-- old way of handling field 785 superseded by RT 45916
-        <xsl:if test="marc:datafield[@tag=785]">
-        <xsl:for-each select="marc:datafield[@tag=785]">
-        <span class="results_summary succeeding_entry">
-        <xsl:choose>
-        <xsl:when test="@ind2=0">
-            <span class="label">Continued by:</span>
-        </xsl:when>
-        <xsl:when test="@ind2=1">
-            <span class="label">Continued in part by:</span>
-        </xsl:when>
-        <xsl:when test="@ind2=2">
-            <span class="label">Superseded by:</span>
-        </xsl:when>
-        <xsl:when test="@ind2=3">
-            <span class="label">Superseded in part by:</span>
-        </xsl:when>
-        <xsl:when test="@ind2=4">
-            <span class="label">Absorbed by:</span>
-        </xsl:when>
-        <xsl:when test="@ind2=5">
-            <span class="label">Absorbed in part by:</span>
-        </xsl:when>
-        <xsl:when test="@ind2=6">
-            <span class="label">Split into .. and ...:</span>
-        </xsl:when>
-        <xsl:when test="@ind2=7">
-            <span class="label">Merged with ... to form ...</span>
-        </xsl:when>
-        <xsl:when test="@ind2=8">
-            <span class="label">Changed back to:</span>
-        </xsl:when>
-        </xsl:choose>
-        <xsl:text> </xsl:text>
-                   <xsl:variable name="f785">
-                    <xsl:call-template name="subfieldSelect">
-                        <xsl:with-param name="codes">a_t</xsl:with-param>
-                    </xsl:call-template>
-                </xsl:variable>
-
-            <xsl:choose>
-                <xsl:when test="$UseControlNumber = '1' and marc:subfield[@code='w']">
-                    <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=Control-number:<xsl:call-template name="extractControlNumber"><xsl:with-param name="subfieldW" select="marc:subfield[@code='w']"/></xsl:call-template></xsl:attribute>
-                        <xsl:value-of select="translate($f785, '()', '')"/>
-                    </a>
-                </xsl:when>
-                <xsl:otherwise>
-                    <a><xsl:attribute name="href">/cgi-bin/koha/catalogue/search.pl?q=ti,phr:<xsl:value-of select="translate($f785, '()', '')"/></xsl:attribute>
-                        <xsl:value-of select="translate($f785, '()', '')"/>
-                    </a>
-                </xsl:otherwise>
-            </xsl:choose>
-
-        </span>
-        </xsl:for-each>
-        </xsl:if>-->
-        <!-- xsl was commented out until after the following block, I moved the end of the comment to just above this block.  SFkeys wanted the OPAC view link to be visible on their detail page RT 58782 joy-->
-
-<!-- RT 45916 handling of field 780 -->
-        <xsl:if test="marc:datafield[@tag=780]">
-            <xsl:call-template name="linkingEntryFields">
-                <xsl:with-param name="field">780</xsl:with-param>
-                <xsl:with-param name="caption">Preceding entry:</xsl:with-param>
-                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
-            </xsl:call-template>
-        </xsl:if>
-
-
-<!-- RT 45916 handling of field 785 -->
-        <xsl:if test="marc:datafield[@tag=785]">
-            <xsl:call-template name="linkingEntryFields">
-                <xsl:with-param name="field">785</xsl:with-param>
-                <xsl:with-param name="caption">Succeeding entry:</xsl:with-param>
-                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
-            </xsl:call-template>
-        </xsl:if>
-
-        <!-- RT 45916 handling of field 787 -->
-        <xsl:if test="marc:datafield[@tag=787]">
-            <xsl:call-template name="linkingEntryFields">
-                <xsl:with-param name="field">787</xsl:with-param>
-                <xsl:with-param name="caption">Other relationship:</xsl:with-param>
-                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
-            </xsl:call-template>
-        </xsl:if>
 
 <!-- RT 45916 handling of linking entry fields that weren't in the stylesheet yet: 760, 762, 765, 767, 770, 772, 773, 774, 775, 776, 777, 786 -->
         <xsl:if test="marc:datafield[@tag=760]">
@@ -1269,10 +1017,28 @@
             </xsl:call-template>
         </xsl:if>
 
+        <!-- RT 45916 handling of field 773 -->
+        <xsl:if test="marc:datafield[@tag=773]">
+            <xsl:call-template name="linkingEntryFields">
+                <xsl:with-param name="field">773</xsl:with-param>
+                <xsl:with-param name="caption">In:</xsl:with-param>
+                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+            </xsl:call-template>
+        </xsl:if>
+
         <xsl:if test="marc:datafield[@tag=774]">
             <xsl:call-template name="linkingEntryFields">
                 <xsl:with-param name="field">774</xsl:with-param>
                 <xsl:with-param name="caption">Constituent unit:</xsl:with-param>
+                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+            </xsl:call-template>
+        </xsl:if>
+
+        <!-- RT 45916 handling of field 775-->
+        <xsl:if test="marc:datafield[@tag=775]">
+            <xsl:call-template name="linkingEntryFields">
+                <xsl:with-param name="field">775</xsl:with-param>
+                <xsl:with-param name="caption">Other editions:</xsl:with-param>
                 <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
             </xsl:call-template>
         </xsl:if>
@@ -1293,6 +1059,24 @@
             </xsl:call-template>
         </xsl:if>
 
+        <!-- RT 45916 handling of field 780 -->
+        <xsl:if test="marc:datafield[@tag=780]">
+            <xsl:call-template name="linkingEntryFields">
+                <xsl:with-param name="field">780</xsl:with-param>
+                <xsl:with-param name="caption">Preceding entry:</xsl:with-param>
+                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+            </xsl:call-template>
+        </xsl:if>
+
+        <!-- RT 45916 handling of field 785 -->
+        <xsl:if test="marc:datafield[@tag=785]">
+            <xsl:call-template name="linkingEntryFields">
+                <xsl:with-param name="field">785</xsl:with-param>
+                <xsl:with-param name="caption">Succeeding entry:</xsl:with-param>
+                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+            </xsl:call-template>
+        </xsl:if>
+
         <xsl:if test="marc:datafield[@tag=786]">
             <xsl:call-template name="linkingEntryFields">
                 <xsl:with-param name="field">786</xsl:with-param>
@@ -1301,6 +1085,15 @@
             </xsl:call-template>
         </xsl:if>
 
+
+        <!-- RT 45916 handling of field 787 -->
+        <xsl:if test="marc:datafield[@tag=787]">
+            <xsl:call-template name="linkingEntryFields">
+                <xsl:with-param name="field">787</xsl:with-param>
+                <xsl:with-param name="caption">Other relationship:</xsl:with-param>
+                <xsl:with-param name="MyUseControlNumber">$UseControlNumber</xsl:with-param>
+            </xsl:call-template>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template name="nameABCQ">
