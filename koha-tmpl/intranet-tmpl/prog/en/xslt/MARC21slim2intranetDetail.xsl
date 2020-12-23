@@ -163,6 +163,22 @@
         </span>
     </xsl:if>
 
+        <!-- Adding the 351b tag per ticket #6266 -->
+        <xsl:if test="marc:datafield[@tag=351]">
+            <span class="results_summary description"><span class="label">Organization and Arrangement of Materials: </span>
+                <xsl:for-each select="marc:datafield[@tag=351]">
+                    <xsl:call-template name="chopPunctuation">
+                        <xsl:with-param name="chopString">
+                            <xsl:call-template name="subfieldSelect">
+                                <xsl:with-param name="codes">b</xsl:with-param>
+                            </xsl:call-template>
+                        </xsl:with-param>
+                    </xsl:call-template>
+                    <xsl:choose><xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when><xsl:otherwise><xsl:text>; </xsl:text></xsl:otherwise></xsl:choose>
+                </xsl:for-each>
+            </span>
+        </xsl:if>
+        <!-- Closing 351b -->
 
         <!--Series: Alternate Graphic Representation (MARC 880) -->
         <xsl:if test="$display880">
